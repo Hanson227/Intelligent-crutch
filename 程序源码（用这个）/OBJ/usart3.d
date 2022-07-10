@@ -1,5 +1,4 @@
 ..\obj\usart3.o: ..\HARDWARE\usart3\usart3.c
-..\obj\usart3.o: ..\HARDWARE\./usart3/usart3.h
 ..\obj\usart3.o: ..\USER\stm32f4xx.h
 ..\obj\usart3.o: ..\CORE\core_cm4.h
 ..\obj\usart3.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -35,6 +34,8 @@
 ..\obj\usart3.o: ..\FWLIB\inc\stm32f4xx_dac.h
 ..\obj\usart3.o: ..\FWLIB\inc\stm32f4xx_dcmi.h
 ..\obj\usart3.o: ..\FWLIB\inc\stm32f4xx_fsmc.h
+..\obj\usart3.o: ..\HARDWARE\./usart3/usart3.h
 ..\obj\usart3.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\usart3.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 ..\obj\usart3.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\obj\usart3.o: ..\HARDWARE\./tim/timer4.h

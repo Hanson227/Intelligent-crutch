@@ -289,12 +289,6 @@
             "path": "../HARDWARE/sim800/bsp_sim800.h"
           },
           {
-            "path": "../HARDWARE/usart3/usart3.c"
-          },
-          {
-            "path": "../HARDWARE/usart3/usart3.h"
-          },
-          {
             "path": "../HARDWARE/tim/timer4.c"
           },
           {
@@ -305,6 +299,12 @@
           },
           {
             "path": "../HARDWARE/tim/timer6.h"
+          },
+          {
+            "path": "../HARDWARE/usart3/usart3.c"
+          },
+          {
+            "path": "../HARDWARE/usart3/usart3.h"
           }
         ],
         "folders": []

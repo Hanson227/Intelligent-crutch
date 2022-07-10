@@ -15,62 +15,62 @@
 #include "delay.h"
 #include "./mqtt/mqtt.h"
 
- /**
-  * @brief  初始化SIM800C开关的GPIO
-  * @param  无
-  * @retval 无
-  */
+// /**
+//  * @brief  初始化SIM800C开关的GPIO
+//  * @param  无
+//  * @retval 无
+//  */
 
-void SIM800C_GPIO_Init(void)
-{
-	GPIO_InitTypeDef GPIO_InitStructure;                      //定义一个设置IO端口参数的结构体
-	RCC_AHB1PeriphClockCmd( RCC_AHB1Periph_GPIOC , ENABLE);   //使能PC端口时钟
-	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;                 //准备设置PC0
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;         //速率50Mhz
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;   		  //输出方式
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;			  //推免模式
-	GPIO_Init(GPIOC, &GPIO_InitStructure);            		  //设置PC0
-	
-	GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_1;                //准备设置PC1
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;         //速率50Mhz
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;   		  	  //输入模式
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;				  //下拉模式
-	GPIO_Init(GPIOC, &GPIO_InitStructure);            		  //设置PC1
-}
+//void SIM800C_GPIO_Init(void)
+//{
+//	GPIO_InitTypeDef GPIO_InitStructure;                      //定义一个设置IO端口参数的结构体
+//	RCC_AHB1PeriphClockCmd( RCC_AHB1Periph_GPIOC , ENABLE);   //使能PC端口时钟
+//	
+//	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;                 //准备设置PC0
+//	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;         //速率50Mhz
+//	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;   		  //输出方式
+//	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;			  //推免模式
+//	GPIO_Init(GPIOC, &GPIO_InitStructure);            		  //设置PC0
+//	
+//	GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_1;                //准备设置PC1
+//	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;         //速率50Mhz
+//	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;   		  	  //输入模式
+//	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;				  //下拉模式
+//	GPIO_Init(GPIOC, &GPIO_InitStructure);            		  //设置PC1
+//}
 
- /**
-  * @brief  SIM800C开机
-  * @param  无
-  * @retval 0:开机成功
-			1:开机失败
-  */
-char SIM800C_Power(void)
-{
-	if(POWER_STA==0){   							           //如果PC1是低电平，表示目前处于关机状态		
-		printf("\r\n目前处于关机状态，准备开机\r\n");       //串口输出信息
-		POWER_KEY(1);                                          //先拉高PC0
-		delay_ms(1500);										   //延时
-		POWER_KEY(0);										   //再拉低PC0，开机
-	}else{                                                     //反之PC1是高电平，表示目前处于开机状态
-		printf("\r\n目前处于开机状态，准备重启\r\n");       //串口输出信息		
-		POWER_KEY(1);                                          //先拉高PC0
-		delay_ms(1500);										   //延时
-		POWER_KEY(0);										   //再拉低PC0，关机
-		delay_ms(1200);                                        //间隔
-		POWER_KEY(1);                                          //先拉高PC0
-		delay_ms(1500);										   //延时
-		POWER_KEY(0);										   //再拉低PC0，开机，完成重启
-	}	
-	delay_ms(2000);			                                   //延时，等待状态稳定
-	if(POWER_STA){                                             //如果PC1是低电平，表示开机或是重启成功
-		printf("开机成功\r\n");                             //串口输出信息
-	}else{												       //反之PC1是高电平，表示开始或是重启失败
-		printf("开机失败\r\n"); 							   //串口输出信息
-		return 1;                                              //返回1，表示失败
-	}	
-	return 0;                                                  //返回0，表示成功
-}
+// /**
+//  * @brief  SIM800C开机
+//  * @param  无
+//  * @retval 0:开机成功
+//			1:开机失败
+//  */
+//char SIM800C_Power(void)
+//{
+//	if(POWER_STA==0){   							           //如果PC1是低电平，表示目前处于关机状态		
+//		printf("\r\n目前处于关机状态，准备开机\r\n");       //串口输出信息
+//		POWER_KEY(1);                                          //先拉高PC0
+//		delay_ms(1500);										   //延时
+//		POWER_KEY(0);										   //再拉低PC0，开机
+//	}else{                                                     //反之PC1是高电平，表示目前处于开机状态
+//		printf("\r\n目前处于开机状态，准备重启\r\n");       //串口输出信息		
+//		POWER_KEY(1);                                          //先拉高PC0
+//		delay_ms(1500);										   //延时
+//		POWER_KEY(0);										   //再拉低PC0，关机
+//		delay_ms(1200);                                        //间隔
+//		POWER_KEY(1);                                          //先拉高PC0
+//		delay_ms(1500);										   //延时
+//		POWER_KEY(0);										   //再拉低PC0，开机，完成重启
+//	}	
+//	delay_ms(2000);			                                   //延时，等待状态稳定
+//	if(POWER_STA){                                             //如果PC1是低电平，表示开机或是重启成功
+//		printf("开机成功\r\n");                             //串口输出信息
+//	}else{												       //反之PC1是高电平，表示开始或是重启失败
+//		printf("开机失败\r\n"); 							   //串口输出信息
+//		return 1;                                              //返回1，表示失败
+//	}	
+//	return 0;                                                  //返回0，表示成功
+//}
 
  /**
   * @brief  发送设置指令
@@ -248,10 +248,10 @@ char SIM800C_Connect_IoTServer(void)
 {
 	char i;                         //定义一个变量，用于for循环
 	
-	SIM800C_GPIO_Init();            //控制800C的IO初始化
-	if(SIM800C_Power()){            //控制800C开机或重启,如果返回1，说明开机重启失败，准备重启
-		return 1;                   //返回1
-	}
+	//SIM800C_GPIO_Init();            //控制800C的IO初始化
+	//if(SIM800C_Power()){            //控制800C开机或重启,如果返回1，说明开机重启失败，准备重启
+	//	return 1;                   //返回1
+	//}
 
 	printf("请等待注册上网络... ...\r\n");        //串口输出信息
 	if(SIM800C_CREG(30)){                            //等待注册上网络，超时单位1s，超时时间30s

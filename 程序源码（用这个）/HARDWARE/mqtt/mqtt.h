@@ -1,11 +1,6 @@
 #ifndef __MQTT_H
 #define __MQTT_H
 
-#include "stm32f4xx.h" 
-#include "string.h"
-#include "stdio.h"
-#include "usart.h"
-
 #define  R_NUM               5     //接收缓冲区个数
 #define  RBUFF_UNIT          300   //接收缓冲区长度
 

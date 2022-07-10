@@ -38,10 +38,10 @@
 ..\obj\main.o: ..\SYSTEM\sys\sys.h
 ..\obj\main.o: ..\SYSTEM\usart\usart.h
 ..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-..\obj\main.o: ..\HARDWARE\./sim800/bsp_sim800.h
 ..\obj\main.o: ..\HARDWARE\./usart3/usart3.h
 ..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 ..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\main.o: ..\HARDWARE\./mqtt/mqtt.h
-..\obj\main.o: ..\HARDWARE\./tim/timer6.h
 ..\obj\main.o: ..\HARDWARE\./tim/timer4.h
+..\obj\main.o: ..\HARDWARE\./tim/timer6.h
+..\obj\main.o: ..\HARDWARE\./sim800/bsp_sim800.h

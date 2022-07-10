@@ -40,7 +40,5 @@
 ..\obj\stm32f4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 ..\obj\stm32f4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\stm32f4xx_it.o: ..\HARDWARE\./mqtt/mqtt.h
-..\obj\stm32f4xx_it.o: ..\SYSTEM\usart\usart.h
-..\obj\stm32f4xx_it.o: ..\SYSTEM\sys\sys.h
 ..\obj\stm32f4xx_it.o: ..\HARDWARE\./tim/timer6.h
 ..\obj\stm32f4xx_it.o: ..\HARDWARE\./tim/timer4.h

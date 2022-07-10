@@ -1,5 +1,4 @@
 ..\obj\mqtt.o: ..\HARDWARE\mqtt\mqtt.c
-..\obj\mqtt.o: ..\HARDWARE\./mqtt/mqtt.h
 ..\obj\mqtt.o: ..\USER\stm32f4xx.h
 ..\obj\mqtt.o: ..\CORE\core_cm4.h
 ..\obj\mqtt.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -35,7 +34,11 @@
 ..\obj\mqtt.o: ..\FWLIB\inc\stm32f4xx_dac.h
 ..\obj\mqtt.o: ..\FWLIB\inc\stm32f4xx_dcmi.h
 ..\obj\mqtt.o: ..\FWLIB\inc\stm32f4xx_fsmc.h
+..\obj\mqtt.o: ..\HARDWARE\./mqtt/mqtt.h
 ..\obj\mqtt.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\mqtt.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\mqtt.o: ..\SYSTEM\usart\usart.h
 ..\obj\mqtt.o: ..\SYSTEM\sys\sys.h
+..\obj\mqtt.o: ..\HARDWARE\./sim800/bsp_sim800.h
+..\obj\mqtt.o: ..\HARDWARE\./usart3/usart3.h
+..\obj\mqtt.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

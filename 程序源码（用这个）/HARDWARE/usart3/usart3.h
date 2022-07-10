@@ -1,7 +1,6 @@
 #ifndef __USART3_H
 #define	__USART3_H
 
-#include "stm32f4xx.h"
 #include "stdio.h"
 #include "stdarg.h"	     
 #include "string.h"     
@@ -16,6 +15,7 @@ extern char Usart3_RxBuff[USART3_RXBUFF_SIZE]; //Íâ²¿ÉùÃ÷£¬ÆäËûÎÄ¼ş¿ÉÒÔµ÷ÓÃ¸Ã±äÁ
 /*º¯ÊıÉùÃ÷*/
 void Usart3_Init(u32 bound);
 void u3_printf(char*,...) ;
+void u3_TxData(unsigned char *data);
 
 #endif /* __USART3_H */
 

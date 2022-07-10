@@ -145,7 +145,7 @@
     },
     "options": "null"
   },
-  "uploader": "JLink",
+  "uploader": "STLink",
   "srcDirs": [
     "./.eide/deps"
   ],
@@ -153,57 +153,6 @@
     "name": "<virtual_root>",
     "files": [],
     "folders": [
-      {
-        "name": "USER",
-        "files": [
-          {
-            "path": "main.c"
-          },
-          {
-            "path": "stm32f4xx_it.c"
-          },
-          {
-            "path": "system_stm32f4xx.c"
-          }
-        ],
-        "folders": []
-      },
-      {
-        "name": "HARDWARE",
-        "files": [
-          {
-            "path": "../HARDWARE/mqtt/mqtt.c"
-          },
-          {
-            "path": "../HARDWARE/mqtt/mqtt.h"
-          },
-          {
-            "path": "../HARDWARE/sim800/bsp_sim800.c"
-          },
-          {
-            "path": "../HARDWARE/sim800/bsp_sim800.h"
-          },
-          {
-            "path": "../HARDWARE/usart3/usart3.c"
-          },
-          {
-            "path": "../HARDWARE/usart3/usart3.h"
-          },
-          {
-            "path": "../HARDWARE/tim/timer4.c"
-          },
-          {
-            "path": "../HARDWARE/tim/timer4.h"
-          },
-          {
-            "path": "../HARDWARE/tim/timer6.c"
-          },
-          {
-            "path": "../HARDWARE/tim/timer6.h"
-          }
-        ],
-        "folders": []
-      },
       {
         "name": "CORE",
         "files": [
@@ -325,6 +274,47 @@
         "folders": []
       },
       {
+        "name": "HARDWARE",
+        "files": [
+          {
+            "path": "../HARDWARE/mqtt/mqtt.c"
+          },
+          {
+            "path": "../HARDWARE/mqtt/mqtt.h"
+          },
+          {
+            "path": "../HARDWARE/sim800/bsp_sim800.c"
+          },
+          {
+            "path": "../HARDWARE/sim800/bsp_sim800.h"
+          },
+          {
+            "path": "../HARDWARE/usart3/usart3.c"
+          },
+          {
+            "path": "../HARDWARE/usart3/usart3.h"
+          },
+          {
+            "path": "../HARDWARE/tim/timer4.c"
+          },
+          {
+            "path": "../HARDWARE/tim/timer4.h"
+          },
+          {
+            "path": "../HARDWARE/tim/timer6.c"
+          },
+          {
+            "path": "../HARDWARE/tim/timer6.h"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "README",
+        "files": [],
+        "folders": []
+      },
+      {
         "name": "SYSTEM",
         "files": [
           {
@@ -340,8 +330,18 @@
         "folders": []
       },
       {
-        "name": "README",
-        "files": [],
+        "name": "USER",
+        "files": [
+          {
+            "path": "main.c"
+          },
+          {
+            "path": "stm32f4xx_it.c"
+          },
+          {
+            "path": "system_stm32f4xx.c"
+          }
+        ],
         "folders": []
       }
     ]
@@ -352,16 +352,28 @@
   "packDir": null,
   "uploadConfig": {
     "bin": "",
-    "baseAddr": "0x08000000",
-    "cpuInfo": {
-      "vendor": "ST",
-      "cpuName": "STM32F103C8"
-    },
-    "proType": 1,
-    "speed": 8000,
+    "proType": "SWD",
+    "resetMode": "default",
+    "runAfterProgram": true,
+    "speed": 4000,
+    "address": "0x8000000",
+    "elFile": "None",
+    "optionBytes": ".eide/template.st.option.bytes.ini",
     "otherCmds": ""
   },
-  "uploadConfigMap": {},
+  "uploadConfigMap": {
+    "JLink": {
+      "bin": "",
+      "baseAddr": "0x08000000",
+      "cpuInfo": {
+        "vendor": "ST",
+        "cpuName": "STM32F103C8"
+      },
+      "proType": 1,
+      "speed": 8000,
+      "otherCmds": ""
+    }
+  },
   "miscInfo": {
     "uid": "dd8b8d84e8751ef743736bb9251e2586"
   },

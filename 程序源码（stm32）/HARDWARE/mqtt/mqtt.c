@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    mqtt.c
-  * @author  Baochi
+  * @author  chen
   * @version V1.0
   * @date    2022
   * @brief   mqtt协议实现数据传输
@@ -14,9 +14,9 @@
 #include "string.h"
 #include "stdio.h"
 #include "usart.h"
-#include "./sim800/bsp_sim800.h"
+#include "./sim800a/bsp_sim800a.h"
 
-
+/*缓冲区及其他变量定义*/
 unsigned char  MQTT_RxDataBuf[R_NUM][RBUFF_UNIT];           //数据的接收缓冲区,所有服务器发来的数据，存放在该缓冲区,缓冲区第一个字节存放数据长度
 unsigned char *MQTT_RxDataInPtr;                            //指向接收缓冲区存放数据的位置
 unsigned char *MQTT_RxDataOutPtr;                           //指向接收缓冲区读取数据的位置
@@ -324,3 +324,4 @@ void CMDBuf_Deal(unsigned char *data, int size)
 	if(MQTT_CMDInPtr==MQTT_CMDEndPtr)         //如果指针到缓冲区尾部了
 		MQTT_CMDInPtr = MQTT_CMDBuf[0];       //指针归位到缓冲区开头
 }
+/*********************************************END OF FILE**********************/

@@ -411,16 +411,6 @@
               <FilePath>..\HARDWARE\mqtt\mqtt.h</FilePath>
             </File>
             <File>
-              <FileName>bsp_sim800.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\sim800\bsp_sim800.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_sim800.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\HARDWARE\sim800\bsp_sim800.h</FilePath>
-            </File>
-            <File>
               <FileName>usart3.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\usart3\usart3.c</FilePath>
@@ -433,22 +423,42 @@
             <File>
               <FileName>timer4.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\HARDWARE\tim\timer4.c</FilePath>
+              <FilePath>..\HARDWARE\timer\timer4.c</FilePath>
             </File>
             <File>
               <FileName>timer4.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\HARDWARE\tim\timer4.h</FilePath>
+              <FilePath>..\HARDWARE\timer\timer4.h</FilePath>
             </File>
             <File>
               <FileName>timer6.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\HARDWARE\tim\timer6.c</FilePath>
+              <FilePath>..\HARDWARE\timer\timer6.c</FilePath>
             </File>
             <File>
               <FileName>timer6.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\HARDWARE\tim\timer6.h</FilePath>
+              <FilePath>..\HARDWARE\timer\timer6.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_hcsr04.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\hcsr04\bsp_hcsr04.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_hcsr04.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\HARDWARE\hcsr04\bsp_hcsr04.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_sim800a.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\sim800a\bsp_sim800a.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_sim800a.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\HARDWARE\sim800a\bsp_sim800a.h</FilePath>
             </File>
           </Files>
         </Group>

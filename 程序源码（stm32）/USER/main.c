@@ -1,14 +1,29 @@
+/**
+  ******************************************************************************
+  * @file    bsp_led.c
+  * @author  chen
+  * @version V1.0
+  * @date    2022-07-9
+  * @brief   智能拐杖主函数文件
+  ******************************************************************************
+  */
+  
 #include "stm32f4xx.h"
 #include "delay.h"
 #include "usart.h"
 #include "./usart3/usart3.h"
 #include "./mqtt/mqtt.h"
-#include "./tim/timer4.h"
-#include "./tim/timer6.h"
-#include "./sim800/bsp_sim800.h"
+#include "./timer/timer4.h"
+#include "./timer/timer6.h"
+#include "./sim800a/bsp_sim800a.h"
+#include "./hcsr04/bsp_hcsr04.h"
 
-
-
+#if 1
+ /**
+  * @brief  主函数
+  * @param  无
+  * @retval int
+  */
 int main(void)
 {
 	uart_init(115200);//USART1功能初始化，波特率115200				
@@ -178,6 +193,40 @@ int main(void)
 	}
 }
 
+#endif 
 
 
+#if 0
+ /**
+  * @brief  超声波测试函数
+  * @param  无
+  * @retval int
+  */
+int main(void)
+{	
+	uint32_t a=0;
+	//串口1波特率:115200bps
+	delay_init(84);//延时函数初始化，84M
+	uart_init(115200);	
+	sr04_init();//初始化超声波模块
+	printf("OK");
+	while(1)
+	{
+		
+		a=sr04_get_distance();
+		if(a>0)
+		{
+			if(a>=20&&a<=4000)
+			{
+				
+			}
+		}
+		printf("%d cm\r\n",a/10);
+		delay_ms(1000);
+	}
+}
+
+#endif
+
+/*********************************************END OF FILE**********************/
 

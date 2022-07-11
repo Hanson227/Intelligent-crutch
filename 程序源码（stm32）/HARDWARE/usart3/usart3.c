@@ -8,12 +8,9 @@
   ******************************************************************************
   */ 
 
-
-
-/*头文件包含*/
 #include "stm32f4xx.h"
 #include "./usart3/usart3.h"
-#include "./tim/timer4.h"
+#include "./timer/timer4.h"
 
 
 /*全局变量定义*/

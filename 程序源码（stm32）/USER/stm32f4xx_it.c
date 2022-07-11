@@ -31,8 +31,8 @@
 #include "stm32f4xx_it.h"
 #include "usart3/usart3.h"     //包含需要的头文件
 #include "./mqtt/mqtt.h"
-#include "./tim/timer6.h"
-#include "./tim/timer4.h"
+#include "./timer/timer6.h"
+#include "./timer/timer4.h"
 
 /** @addtogroup Template_Project
   * @{
@@ -192,11 +192,11 @@ void USART3_IRQHandler(void)
 	}
 } 
 
-/*-------------------------------------------------*/
-/*函数名：定时器4中断服务函数                      */
-/*参  数：无                                       */
-/*返回值：无                                       */
-/*-------------------------------------------------*/
+ /**
+  * @brief  定时器4中断服务函数 
+  * @param  无
+  * @retval 无
+  */
 void TIM4_IRQHandler(void)
 {
 	if(TIM_GetITStatus(TIM4, TIM_IT_Update) != RESET){                //如果TIM_IT_Update置位，表示TIM4溢出中断，进入if	
@@ -214,11 +214,12 @@ void TIM4_IRQHandler(void)
 		TIM_ClearITPendingBit(TIM4, TIM_IT_Update);     			  //清除TIM4溢出中断标志 	
 	}
 }
-/*-------------------------------------------------*/
-/*函数名：定时器6中断服务函数                      */
-/*参  数：无                                       */
-/*返回值：无                                       */
-/*-------------------------------------------------*/
+
+ /**
+  * @brief  定时器6中断服务函数
+  * @param  无  
+  * @retval 无
+  */
 void TIM6_IRQHandler(void)
 {
 	if(TIM_GetITStatus(TIM6, TIM_IT_Update) != RESET){   //如果TIM_IT_Update置位，表示TIM6溢出中断，进入if	

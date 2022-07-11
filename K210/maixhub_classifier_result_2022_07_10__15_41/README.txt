@@ -1,3 +1,12 @@
+# 基于IOT的智能语音拐杖（K210部分）
+
+## 作品简介
+
+在本项目中，K210承担着对于路面上的斑马线，手扶电梯以及楼梯的识别任务，
+并通过串口将数据发送道stm32中，实现对盲人的路面实时状态感知。在识别中，
+使用Google的tensflow人工智能框架对模型进行训练，实现对路面状态的实时
+感知，实现对于盲人的提醒功能。
+
 ------------------------------------------
 
       Maixhub 目标分类训练结果 使用说明
@@ -34,53 +43,6 @@
 * 如果以上的步骤您不理解,那么应该先完整按照 maixpy.sipeed.com 的文档学习一遍使用方法就会了
 
 
-问题反馈: 
-   https://github.com/sipeed/train_scripts/issues:
-        标题: [BUG/feature/question] 标题内容,简洁描述问题 而 不是 "我需要帮助" "为什么用不了了" 这样的问题
-        内容: 如果是出现使用问题或者bug,为了更快更好的帮您解决问题, 请务必写好 错误现象, 详细 的复现过程
-   也可以到 bbs.sipeed.com 进行讨论
-
-------------------------------------------
-
-Maixhub Object classification Training Results Instructions for Use
-
-------------------------------------------
-
-File Description:
-
-* boot.py: code to run on maixpy
-* *.kmodel or *.smodel: training model file (smodel is an encrypted model)
-* labels.txt: category labels
-* startup.jpg: startup icon
-* report.jpg: training report, including loss and accuracy reports, etc.
-* warning.txt: training warning message, if you have this file, be sure to read it as it may cause training loss!
-
-Usage :
-
-0. Follow the documentation(maixpy.sipeed.com) to update to the latest firmware
-   If the new firmware is buggy, you can use this firmware to test it (choose minimum_with_ide_support.bin): 
-   https://dl.sipeed.com/MAIX/MaixPy/release/master/maixpy_v0.5.1_124_ga3f708c
-1) Prepare an SD card, copy the files from this directory to the root of the SD card.
-2. insert SD card into development board
-3. Development board power-up
-4. Aim the camera at the training object,
-       The top left corner of the screen will show Object labels and probability.
-       The bottom left corner of the screen shows the time in milliseconds it takes to run the model.
-
-If you do not have an SD card:
-
-* Burn the model to flash as described in the documentation（maixpy.sipeed.com）
-* Modify the parameters of the main boot.py call: model's address in flash.
-* Other resource files, such as startup.jpg can be sent to the development board through the tool file system, or no matter, no will automatically skip the display
-* Run boot.py
-* If you don't understand the above steps, then you should follow the maixpy.sipeed.com documentation to learn how to use it!
-
-
-Question Feedback: 
-   https://github.com/sipeed/train_scripts/issues:
-        Subject: [BUG/feature/question] The subject of the message, a concise description of the problem, not a question like "I need help" or "Why is it not working".
-        content: If there is a problem or bug, please make sure to include the error phenomenon and a detailed reproduction process in order to help you solve the problem faster and better.
-   You can also discuss at bbs.sipeed.com
 
 
 

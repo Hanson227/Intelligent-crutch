@@ -18,7 +18,7 @@
 
 ## 使用方法:
   
-### 如果没有 SD 卡:
+### 如果1有 SD 卡:
 0. 按照文档(maixpy.sipeed.com)更新到最新的固件
    如果新固件出现bug,可以使用这个固件测试(选择minimum_with_ide_support.bin): 
    https://dl.sipeed.com/MAIX/MaixPy/release/master/maixpy_v0.5.1_124_ga3f708c

@@ -4,6 +4,8 @@
 import sensor, image, lcd, time
 import KPU as kpu
 import gc, sys
+from machine import UART
+from fpioa_manager import fm
 
 #屏幕显示
 def lcd_show_except(e):
@@ -30,6 +32,11 @@ def main(labels = None, model_addr="/sd/m.kmodel", sensor_window=(224, 224), lcd
     lcd.init(type=1)
     lcd.rotation(lcd_rotation)
     lcd.clear(lcd.WHITE)
+
+    #串口初始化
+    fm.register(10,fm.fpioa.UART1_TX,force=True)
+    fm.register(11,fm.fpioa.UART1_RX,force=True)
+    uart_A=UART(UART.UART1,115200,8,1,0,timeout=1000,read_buf_len=4096)
 
     if not labels:
         with open('labels.txt','r') as f:
@@ -63,12 +70,13 @@ def main(labels = None, model_addr="/sd/m.kmodel", sensor_window=(224, 224), lcd
             img.draw_string(0,0, "%.2f : %s" %(pmax, labels[max_index].strip()), scale=2)
             img.draw_string(0, 200, "t:%dms" %(t), scale=2)
             lcd.display(img)
+            uart_A.write(labels[max_index]+'\r\n')
     except Exception as e:
         raise e
     finally:
-        kpu.deinit(task)
+        kpu.deinit(task)#删除模型释放内存
 
-
+#命令行模式调试专用函数
 if __name__ == "__main__":
     try:
         labels = ["left", "staircase", "zebra"]

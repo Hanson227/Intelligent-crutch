@@ -1,9 +1,9 @@
 /**
   ******************************************************************************
-  * @file    bsp_led.c
+  * @file    main.c
   * @author  chen
   * @version V1.0
-  * @date    2022-07-9
+  * @date    2022-07-08
   * @brief   智能拐杖主函数文件
   ******************************************************************************
   */
@@ -12,13 +12,15 @@
 #include "delay.h"
 #include "usart.h"
 #include "./usart3/usart3.h"
+#include "./uart4/uart4.h"
 #include "./mqtt/mqtt.h"
 #include "./timer/timer4.h"
 #include "./timer/timer6.h"
 #include "./sim800a/bsp_sim800a.h"
 #include "./hcsr04/bsp_hcsr04.h"
+#include "./gps/bsp_atgm336h.h"
 
-#if 1
+#if 0
  /**
   * @brief  主函数
   * @param  无
@@ -209,7 +211,7 @@ int main(void)
 	delay_init(84);//延时函数初始化，84M
 	uart_init(115200);	
 	sr04_init();//初始化超声波模块
-	printf("OK");
+	printf("超声波模块测试");
 	while(1)
 	{
 		
@@ -223,6 +225,26 @@ int main(void)
 		}
 		printf("%d cm\r\n",a/10);
 		delay_ms(1000);
+	}
+}
+
+#endif
+
+#if 1
+
+int main(void)
+{	
+	delay_init(84);
+	uart_init(9600);	 //串口初始化
+	UART4_Init(9600);
+		
+	clrStruct();
+	
+	printf("GPS模块测试");
+	while(1)
+	{
+		parseGpsBuffer();
+		printGpsBuffer();   
 	}
 }
 

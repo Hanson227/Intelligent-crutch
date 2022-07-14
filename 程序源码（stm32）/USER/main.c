@@ -30,6 +30,7 @@ int main(void)
 {
 	uart_init(115200);//USART1功能初始化，波特率115200				
 	Usart3_Init(115200);//USART3功能初始化，波特率115200
+	UART4_Init(9600);
 	TIM4_Init(300,7200);//TIM4初始化，定时时间300*7200*1000/72000000 = 30ms	
 	delay_init(84);//延时函数初始化，84M
 	IoT_Parameter_Init();//初始化云IoT平台MQTT服务器的参数
@@ -38,17 +39,17 @@ int main(void)
 	{
 		if(Connect_flag==1)
 		{
-			//解析gps数据
-			parseGpsBuffer();
-			
-			//生成gps消息
-			if((SubcribePack_flag==1)&&(Save_Data.isParseData))
-			{
-				GPS_data_Buff();
-				printf(gps_data);
-				MQTT_PublishQs0(P_TOPIC_NAME,gps_data,strlen(gps_data));
-			}
-			
+//			//解析gps数据
+//			parseGpsBuffer();
+//			
+//			//生成gps消息
+//			if((SubcribePack_flag==1)&&(Save_Data.isParseData))
+//			{
+//				GPS_data_Buff();
+//				printf(gps_data);
+//				MQTT_PublishQs0(P_TOPIC_NAME,gps_data,strlen(gps_data));
+//			}
+//			
 			//if成立的话，说明发送缓冲区有数据了
 			if(MQTT_TxDataOutPtr != MQTT_TxDataInPtr)
 			{                
@@ -241,8 +242,7 @@ int main(void)
 	printf("GPS模块测试");
 	while(1)
 	{
-		parseGpsBuffer();
-		//printGpsBuffer();  
+		parseGpsBuffer();  
 		GPS_data_Buff();
 		printf(gps_data);
 	}

@@ -406,19 +406,9 @@
               <FilePath>..\HARDWARE\mqtt\mqtt.c</FilePath>
             </File>
             <File>
-              <FileName>mqtt.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\HARDWARE\mqtt\mqtt.h</FilePath>
-            </File>
-            <File>
               <FileName>usart2.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\usart2\usart2.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart2.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\HARDWARE\usart2\usart2.h</FilePath>
             </File>
             <File>
               <FileName>usart3.c</FileName>
@@ -426,19 +416,9 @@
               <FilePath>..\HARDWARE\usart3\usart3.c</FilePath>
             </File>
             <File>
-              <FileName>usart3.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\HARDWARE\usart3\usart3.h</FilePath>
-            </File>
-            <File>
               <FileName>uart4.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\uart4\uart4.c</FilePath>
-            </File>
-            <File>
-              <FileName>uart4.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\HARDWARE\uart4\uart4.h</FilePath>
             </File>
             <File>
               <FileName>timer4.c</FileName>
@@ -446,19 +426,9 @@
               <FilePath>..\HARDWARE\timer\timer4.c</FilePath>
             </File>
             <File>
-              <FileName>timer4.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\HARDWARE\timer\timer4.h</FilePath>
-            </File>
-            <File>
               <FileName>timer6.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\timer\timer6.c</FilePath>
-            </File>
-            <File>
-              <FileName>timer6.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\HARDWARE\timer\timer6.h</FilePath>
             </File>
             <File>
               <FileName>bsp_hcsr04.c</FileName>
@@ -466,29 +436,14 @@
               <FilePath>..\HARDWARE\hcsr04\bsp_hcsr04.c</FilePath>
             </File>
             <File>
-              <FileName>bsp_hcsr04.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\HARDWARE\hcsr04\bsp_hcsr04.h</FilePath>
-            </File>
-            <File>
               <FileName>bsp_sim800a.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\sim800a\bsp_sim800a.c</FilePath>
             </File>
             <File>
-              <FileName>bsp_sim800a.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\HARDWARE\sim800a\bsp_sim800a.h</FilePath>
-            </File>
-            <File>
               <FileName>bsp_atgm336h.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\gps\bsp_atgm336h.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_atgm336h.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\HARDWARE\gps\bsp_atgm336h.h</FilePath>
             </File>
           </Files>
         </Group>

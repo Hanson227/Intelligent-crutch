@@ -89,62 +89,10 @@ void parseGpsBuffer(void)
 }
 
  /**
-  * @brief  GPS数据分析打印函数
+  * @brief  mqtt发送的gps数据段
   * @param  无
   * @retval 无
   */
-void printGpsBuffer(void)
-{
-	if (Save_Data.isParseData)
-	{
-		Save_Data.isParseData = false;
-		
-		printf("Save_Data.UTCTime = ");
-		printf(Save_Data.UTCTime);
-		printf("\r\n");
-
-		if(Save_Data.isUsefull)
-		{
-			Save_Data.isUsefull = false;
-			printf("Save_Data.latitude = ");
-			printf(Save_Data.latitude);
-			printf("\r\n");
-
-
-			printf("Save_Data.N_S = ");
-			printf(Save_Data.N_S);
-			printf("\r\n");
-
-			printf("Save_Data.longitude = ");
-			printf(Save_Data.longitude);
-			printf("\r\n");
-
-			printf("Save_Data.E_W = ");
-			printf(Save_Data.E_W);
-			printf("\r\n");
-		}
-		else
-		{
-			printf("GPS DATA is not usefull!\r\n");
-		}
-		
-	}
-}
-
-
-/*typedef struct SaveData 
-{
-	char GPS_Buffer[GPS_Buffer_Length];
-	char isGetData;		//是否获取到GPS数据
-	char isParseData;	//是否解析完成
-	char UTCTime[UTCTime_Length];		//UTC时间
-	char latitude[latitude_Length];		//纬度
-	char N_S[N_S_Length];		//N/S
-	char longitude[longitude_Length];		//经度
-	char E_W[E_W_Length];		//E/W
-	char isUsefull;		//定位信息是否有效
-} _SaveData;*/
-
 void GPS_data_Buff(void)
 {
 	//数据清空

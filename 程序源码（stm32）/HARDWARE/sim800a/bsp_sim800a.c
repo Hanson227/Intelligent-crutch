@@ -107,6 +107,7 @@ char SIM800C_CREG(int timeout)
 		memset(SIM800C_RX_BUF,0,SIM800C_RXBUFF_SIZE);  //清空800C接收缓冲区 
 		SIM800C_printf("AT+CREG?\r\n");                //发送指令，查看是否注册上
 		delay_ms(1000);                                //延时1s
+		printf(SIM800C_RX_BUF);
 		if(strstr(SIM800C_RX_BUF,"+CREG: 0,1"))        //如果接收到 +CREG: 0,1 表示注册上
 			break;       						       //主动跳出while循环
 		printf("%d ",timeout);                      //串口输出现在的超时时间

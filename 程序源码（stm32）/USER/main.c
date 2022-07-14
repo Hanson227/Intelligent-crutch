@@ -20,7 +20,7 @@
 #include "./hcsr04/bsp_hcsr04.h"
 #include "./gps/bsp_atgm336h.h"
 
-#if 0
+#if 1
  /**
   * @brief  主函数
   * @param  无
@@ -38,6 +38,17 @@ int main(void)
 	{
 		if(Connect_flag==1)
 		{
+			//解析gps数据
+			parseGpsBuffer();
+			
+			//生成gps消息
+			if((SubcribePack_flag==1)&&(Save_Data.isParseData))
+			{
+				GPS_data_Buff();
+				printf(gps_data);
+				MQTT_PublishQs0(P_TOPIC_NAME,gps_data,strlen(gps_data));
+			}
+			
 			//if成立的话，说明发送缓冲区有数据了
 			if(MQTT_TxDataOutPtr != MQTT_TxDataInPtr)
 			{                
@@ -149,24 +160,7 @@ int main(void)
 				MQTT_RxDataOutPtr +=RBUFF_UNIT;                     //指针下移
 				if(MQTT_RxDataOutPtr==MQTT_RxDataEndPtr)            //如果指针到缓冲区尾部了
 					MQTT_RxDataOutPtr = MQTT_RxDataBuf[0];          //指针归位到缓冲区开头                        
-			}//处理接收缓冲区数据的else if分支结尾
-			
-			/*-------------------------------------------------------------*/
-			/*                     处理命令缓冲区数据                      */
-			/*-------------------------------------------------------------*/
-//			if(MQTT_CMDOutPtr != MQTT_CMDInPtr){                             //if成立的话，说明命令缓冲区有数据了			       
-//				printf("命令:%s\r\n",&MQTT_CMDOutPtr[2]);                 //串口输出信息
-//				if(!memcmp(&MQTT_CMDOutPtr[2],CMD1,strlen(CMD1))){           //判断指令，如果是CMD1
-//					LED1_OUT(!LED1_IN_STA);                                  //开关1状态翻转 如果点亮就熄灭，反之如果熄灭就点亮
-//					LED1_State();                                            //判断开关和倒计时状态，并发布给服务器
-//				}else if(!memcmp(&MQTT_CMDOutPtr[2],CMD2,strlen(CMD2))){     //判断指令，如果是CMD2，回复开关状态
-//					LED1_State();                                            //判断开关和倒计时状态，并发布给服务器				
-//				}else printf("未知指令\r\n");                             //串口输出信息
-//				
-//				MQTT_CMDOutPtr += CBUFF_UNIT;                             	 //指针下移
-//				if(MQTT_CMDOutPtr==MQTT_CMDEndPtr)           	             //如果指针到缓冲区尾部了
-//					MQTT_CMDOutPtr = MQTT_CMDBuf[0];          	             //指针归位到缓冲区开头				
-//			}//处理命令缓冲区数据的else if分支结尾		
+			}//处理接收缓冲区数据的else if分支结尾	
 		}//Connect_flag=1的if分支的结尾
 		
 		/*--------------------------------------------------------------------*/
@@ -230,8 +224,12 @@ int main(void)
 
 #endif
 
-#if 1
-
+#if 0
+ /**
+  * @brief  GPS测试函数
+  * @param  无
+  * @retval int
+  */
 int main(void)
 {	
 	delay_init(84);
@@ -244,7 +242,9 @@ int main(void)
 	while(1)
 	{
 		parseGpsBuffer();
-		printGpsBuffer();   
+		//printGpsBuffer();  
+		GPS_data_Buff();
+		printf(gps_data);
 	}
 }
 

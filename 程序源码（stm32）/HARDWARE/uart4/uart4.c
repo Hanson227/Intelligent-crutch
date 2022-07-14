@@ -10,11 +10,10 @@
 
 #include "./uart4/uart4.h"
 
+/*全局变量*/
 char rxdatabufer;
 u16 point1 = 0;
 _SaveData Save_Data;
-
-
 
 //注意,读取USARTx->SR能避免莫名其妙的错误   	
 char UART4_RX_BUF[UART4_REC_LEN];     //接收缓冲,最大UART4_REC_LEN个字节.
@@ -23,6 +22,8 @@ char UART4_RX_BUF[UART4_REC_LEN];     //接收缓冲,最大UART4_REC_LEN个字节.
 //bit14，	接收到0x0d
 //bit13~0，	接收到的有效字节数目
 u16 UART4_RX_STA=0;       //接收状态标记	
+
+
 
 /**
   * @brief  配置嵌套向量中断控制器NVIC
@@ -113,44 +114,13 @@ void UART4_Init(u32 bound)
 	CLR_Buf();//清空缓存
 }
 
-void UART4_IRQHandler(void)                	//串口1中断服务程序
-{
-	u8 Res;
-
-	if(USART_GetITStatus(UART4, USART_IT_RXNE) != RESET) 
-	{
-		Res =USART_ReceiveData(UART4);//读取接收到的数据
-	
-		if(Res == '$')
-		{
-			point1 = 0;	
-		}
-		
-		UART4_RX_BUF[point1++] = Res;
-	
-		if(UART4_RX_BUF[0] == '$' && UART4_RX_BUF[4] == 'M' && UART4_RX_BUF[5] == 'C')			//确定是否收到"GPRMC/GNRMC"这一帧数据
-		{
-			if(Res == '\n')									   
-			{
-				memset(Save_Data.GPS_Buffer, 0, GPS_Buffer_Length);      //清空
-				memcpy(Save_Data.GPS_Buffer, UART4_RX_BUF, point1); 	//保存数据
-				Save_Data.isGetData = true;
-				point1 = 0;
-				memset(UART4_RX_BUF, 0, UART4_REC_LEN);      //清空				
-			}	
-					
-		}
-		
-		if(point1 >= UART4_REC_LEN)
-		{
-			point1 = UART4_REC_LEN;
-		}	
-		  		 
-	} 
-}
-
-
-u8 Hand(char *a)                   // 串口命令识别函数
+ /**
+  * @brief  串口命令识别函数
+  * @param  a：识别的命令
+  * @retval 0：无命令
+			1：有命令
+  */
+u8 Hand(char *a)                   // 
 { 
     if(strstr(UART4_RX_BUF,a)!=NULL)
 	    return 1;
@@ -158,13 +128,23 @@ u8 Hand(char *a)                   // 串口命令识别函数
 		return 0;
 }
 
-void CLR_Buf(void)                           // 串口缓存清理
+ /**
+  * @brief  串口缓存清理
+  * @param  无
+  * @retval 无
+  */
+void CLR_Buf(void)
 {
 	memset(UART4_RX_BUF, 0, UART4_REC_LEN);      //清空
 	point1 = 0;                    
 }
 
-void clrStruct()
+ /**
+  * @brief  清除GPS结构体数据
+  * @param  无
+  * @retval 无
+  */
+void clrStruct(void)
 {
 	Save_Data.isGetData = false;
 	Save_Data.isParseData = false;

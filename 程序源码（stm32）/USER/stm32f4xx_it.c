@@ -193,7 +193,46 @@ void USART3_IRQHandler(void)
 	}
 } 
 
+ /**
+  * @brief  串口4接收中断函数
+  * @param  无
+  * @retval 无
+  */
+void UART4_IRQHandler(void)                	//串口1中断服务程序
+{
+	u8 Res;
 
+	if(USART_GetITStatus(UART4, USART_IT_RXNE) != RESET) 
+	{
+		Res =USART_ReceiveData(UART4);//读取接收到的数据
+	
+		if(Res == '$')
+		{
+			point1 = 0;	
+		}
+		
+		UART4_RX_BUF[point1++] = Res;
+	
+		if(UART4_RX_BUF[0] == '$' && UART4_RX_BUF[4] == 'M' && UART4_RX_BUF[5] == 'C')			//确定是否收到"GPRMC/GNRMC"这一帧数据
+		{
+			if(Res == '\n')									   
+			{
+				memset(Save_Data.GPS_Buffer, 0, GPS_Buffer_Length);      //清空
+				memcpy(Save_Data.GPS_Buffer, UART4_RX_BUF, point1); 	//保存数据
+				Save_Data.isGetData = true;
+				point1 = 0;
+				memset(UART4_RX_BUF, 0, UART4_REC_LEN);      //清空				
+			}	
+					
+		}
+		
+		if(point1 >= UART4_REC_LEN)
+		{
+			point1 = UART4_REC_LEN;
+		}	
+		  		 
+	} 
+}
 
  /**
   * @brief  定时器4中断服务函数 

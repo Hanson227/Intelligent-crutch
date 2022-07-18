@@ -17,7 +17,7 @@ def lcd_show_except(e):
     lcd.display(img)
 
 def main(labels = None, model_addr="/sd/m.kmodel", sensor_window=(224, 224), lcd_rotation=0, sensor_hmirror=False, sensor_vflip=False):
-    
+
     #摄像头初始化
     sensor.reset()
     sensor.set_pixformat(sensor.RGB565)
@@ -64,12 +64,13 @@ def main(labels = None, model_addr="/sd/m.kmodel", sensor_window=(224, 224), lcd
             fmap = kpu.forward(task, img)
             t = time.ticks_ms() - t
             plist=fmap[:]
-            pmax=max(plist)#得到相似程度最高的值下标 
+            pmax=max(plist)#得到相似程度最高的值下标
             max_index=plist.index(pmax)
             img.draw_string(0,0, "%.2f : %s" %(pmax, labels[max_index].strip()), scale=2)
             img.draw_string(0, 200, "t:%dms" %(t), scale=2)
             lcd.display(img)
-            uart_A.write(labels[max_index]+'\r\n')
+            if pmax >=0.8:
+                uart_A.write(labels[max_index]+'\r\n')
     except Exception as e:
         raise e
     finally:

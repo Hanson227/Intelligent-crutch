@@ -42,7 +42,7 @@ static void NVIC_Configuration(void)
 	/* 抢断优先级为1 */
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
 	/* 子优先级为1 */
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 4;
 	/* 使能中断 */
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	/* 初始化配置NVIC */
@@ -55,7 +55,7 @@ static void NVIC_Configuration(void)
   * @param  无
   * @retval 无
   */
-void UART4_Init(u32 bound)
+void Uart4_Init(u32 bound)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 	USART_InitTypeDef USART_InitStructure;

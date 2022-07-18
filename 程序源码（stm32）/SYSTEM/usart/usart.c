@@ -53,7 +53,7 @@ u16 USART_RX_STA=0;       //接收状态标记
   * @param  bound:波特率
   * @retval 无
   */
-void uart_init(u32 bound)
+void debug_uart_init(u32 bound)
 {
 	//GPIO端口设置
 	GPIO_InitTypeDef GPIO_InitStructure;

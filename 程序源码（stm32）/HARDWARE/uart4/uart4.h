@@ -40,7 +40,7 @@ extern char rxdatabufer;
 extern u16 point1;
 extern _SaveData Save_Data;
 
-void UART4_Init(u32 bound);
+void Uart4_Init(u32 bound);
 
 void CLR_Buf(void);
 u8 Hand(char *a);

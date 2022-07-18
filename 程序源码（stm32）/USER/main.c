@@ -11,6 +11,7 @@
 #include "stm32f4xx.h"
 #include "delay.h"
 #include "usart.h"
+#include "./usart2/usart2.h" 
 #include "./usart3/usart3.h"
 #include "./uart4/uart4.h"
 #include "./mqtt/mqtt.h"
@@ -28,28 +29,33 @@
   */
 int main(void)
 {
-	uart_init(115200);//USART1功能初始化，波特率115200				
+	debug_uart_init(115200);//USART1功能初始化，波特率115200
+	Usart2_Init(9600);	
 	Usart3_Init(115200);//USART3功能初始化，波特率115200
-	UART4_Init(9600);
+	Uart4_Init(9600);
 	TIM4_Init(300,7200);//TIM4初始化，定时时间300*7200*1000/72000000 = 30ms	
 	delay_init(84);//延时函数初始化，84M
 	IoT_Parameter_Init();//初始化云IoT平台MQTT服务器的参数
 	
 	while(1)
 	{
+		
 		if(Connect_flag==1)
 		{
-//			//解析gps数据
-//			parseGpsBuffer();
-//			
-//			//生成gps消息
-//			if((SubcribePack_flag==1)&&(Save_Data.isParseData))
-//			{
-//				GPS_data_Buff();
-//				printf(gps_data);
-//				MQTT_PublishQs0(P_TOPIC_NAME,gps_data,strlen(gps_data));
-//			}
-//			
+			
+			//生成gps消息
+			if(SubcribePack_flag==1)
+			{
+				//解析gps数据
+				parseGpsBuffer();
+				if(Save_Data.isParseData)
+				{
+					GPS_data_Buff();
+					printf(gps_data);
+					MQTT_PublishQs0(P_TOPIC_NAME,gps_data,strlen(gps_data)); //发布数据给服务器
+				}
+			}
+			
 			//if成立的话，说明发送缓冲区有数据了
 			if(MQTT_TxDataOutPtr != MQTT_TxDataInPtr)
 			{                
@@ -116,8 +122,8 @@ int main(void)
 							        SubcribePack_flag = 1;                //SubcribePack_flag置1，表示订阅报文成功，其他报文可发送
 									Ping_flag = 0;                        //Ping_flag清零
    								    TIM6_ENABLE_30S();                    //启动30s的PING定时器
-									//void MQTT_PublishQs0(char *topic, char *data, int data_len)
-									MQTT_PublishQs0(P_TOPIC_NAME,"1234",4); //发布数据给服务器  
+									
+									  
 									break;                                //跳出分支                                             
 						default   : printf("订阅失败，准备重启\r\n");  //串口输出信息 
 									Connect_flag = 0;                     //Connect_flag置零，重启连接
@@ -126,7 +132,7 @@ int main(void)
 				}
 				//if判断，第一个字节是0xD0，表示收到的是PINGRESP报文
 				else if(MQTT_RxDataOutPtr[2]==0xD0){ 
-					printf("PING报文回复\r\n"); 		  //串口输出信息 
+					printf("PING报文回复\r\n"); 		  	  //串口输出信息 
 					if(Ping_flag==1){                     //如果Ping_flag=1，表示第一次发送
 						 Ping_flag = 0;    				  //要清除Ping_flag标志
 					}else if(Ping_flag>1){ 				  //如果Ping_flag>1，表示是多次发送了，而且是2s间隔的快速发送
@@ -204,7 +210,7 @@ int main(void)
 	uint32_t a=0;
 	//串口1波特率:115200bps
 	delay_init(84);//延时函数初始化，84M
-	uart_init(115200);	
+	debug_uart_init(115200);	
 	sr04_init();//初始化超声波模块
 	printf("超声波模块测试");
 	while(1)
@@ -234,18 +240,39 @@ int main(void)
 int main(void)
 {	
 	delay_init(84);
-	uart_init(9600);	 //串口初始化
+	debug_uart_init(115200);	 //串口初始化
 	UART4_Init(9600);
 		
 	clrStruct();
 	
-	printf("GPS模块测试");
+	printf("GPS模块测试\r\n");
 	while(1)
 	{
 		parseGpsBuffer();  
 		GPS_data_Buff();
 		printf(gps_data);
+		//printf("\r\n");
 	}
+}
+
+#endif
+
+#if 0
+ /**
+  * @brief  语音测试函数
+  * @param  无
+  * @retval int
+  */
+int main(void)
+{
+	delay_init(84);
+	debug_uart_init(115200);	 //串口初始化
+	Usart2_Init(9600);
+	u2_printf("语音模块测试\r\n");
+	while(1)
+	{
+		
+	}	
 }
 
 #endif

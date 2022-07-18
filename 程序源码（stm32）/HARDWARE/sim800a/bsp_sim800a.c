@@ -15,61 +15,61 @@
 #include "delay.h"
 #include "./mqtt/mqtt.h"
 
-// /**
-//  * @brief  初始化SIM800C开关的GPIO
-//  * @param  无
-//  * @retval 无
-//  */
-//void SIM800C_GPIO_Init(void)
-//{
-//	GPIO_InitTypeDef GPIO_InitStructure;                      //定义一个设置IO端口参数的结构体
-//	RCC_AHB1PeriphClockCmd( RCC_AHB1Periph_GPIOC , ENABLE);   //使能PC端口时钟
-//	
-//	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;                 //准备设置PC0
-//	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;         //速率50Mhz
-//	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;   		  //输出方式
-//	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;			  //推免模式
-//	GPIO_Init(GPIOC, &GPIO_InitStructure);            		  //设置PC0
-//	
-//	GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_1;                //准备设置PC1
-//	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;         //速率50Mhz
-//	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;   		  	  //输入模式
-//	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;				  //下拉模式
-//	GPIO_Init(GPIOC, &GPIO_InitStructure);            		  //设置PC1
-//}
+ /**
+  * @brief  初始化SIM800C开关的GPIO
+  * @param  无
+  * @retval 无
+  */
+void SIM800C_GPIO_Init(void)
+{
+	GPIO_InitTypeDef GPIO_InitStructure;                      //定义一个设置IO端口参数的结构体
+	RCC_AHB1PeriphClockCmd( RCC_AHB1Periph_GPIOC , ENABLE);   //使能PC端口时钟
+	
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;                 //准备设置PC0
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;         //速率50Mhz
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;   		  //输出方式
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;			  //推免模式
+	GPIO_Init(GPIOC, &GPIO_InitStructure);            		  //设置PC0
+	
+	GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_1;                //准备设置PC1
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;         //速率50Mhz
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;   		  	  //输入模式
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;				  //下拉模式
+	GPIO_Init(GPIOC, &GPIO_InitStructure);            		  //设置PC1
+}
 
-// /**
-//  * @brief  SIM800C开机
-//  * @param  无
-//  * @retval 0:开机成功
-//			1:开机失败
-//  */
-//char SIM800C_Power(void)
-//{
-//	if(POWER_STA==0){   							           //如果PC1是低电平，表示目前处于关机状态		
-//		printf("\r\n目前处于关机状态，准备开机\r\n");       //串口输出信息
-//		POWER_KEY(1);                                          //先拉高PC0
-//		delay_ms(1500);										   //延时
-//		POWER_KEY(0);										   //再拉低PC0，开机
-//	}else{                                                     //反之PC1是高电平，表示目前处于开机状态
-//		printf("\r\n目前处于开机状态，准备重启\r\n");       //串口输出信息		
-//		POWER_KEY(1);                                          //先拉高PC0
-//		delay_ms(1500);										   //延时
-//		POWER_KEY(0);										   //再拉低PC0，关机
-//		delay_ms(1200);                                        //间隔
-//		POWER_KEY(1);                                          //先拉高PC0
-//		delay_ms(1500);										   //延时
-//		POWER_KEY(0);										   //再拉低PC0，开机，完成重启
-//	}	
-//	delay_ms(2000);			                                   //延时，等待状态稳定
-//	if(POWER_STA){                                             //如果PC1是低电平，表示开机或是重启成功
-//		printf("开机成功\r\n");                             //串口输出信息
-//	}else{												       //反之PC1是高电平，表示开始或是重启失败
-//		printf("开机失败\r\n"); 							   //串口输出信息
-//		return 1;                                              //返回1，表示失败
-//	}	
-//	return 0;                                                  //返回0，表示成功
-//}
+ /**
+  * @brief  SIM800C开机
+  * @param  无
+  * @retval 0:开机成功
+			1:开机失败
+  */
+char SIM800C_Power(void)
+{
+	if(POWER_STA==0){   							           //如果PC1是低电平，表示目前处于关机状态		
+		printf("\r\n目前处于关机状态，准备开机\r\n");       //串口输出信息
+		POWER_KEY(1);                                          //先拉高PC0
+		delay_ms(1500);										   //延时
+		POWER_KEY(0);										   //再拉低PC0，开机
+	}else{                                                     //反之PC1是高电平，表示目前处于开机状态
+		printf("\r\n目前处于开机状态，准备重启\r\n");       //串口输出信息		
+		POWER_KEY(1);                                          //先拉高PC0
+		delay_ms(1500);										   //延时
+		POWER_KEY(0);										   //再拉低PC0，关机
+		delay_ms(1200);                                        //间隔
+		POWER_KEY(1);                                          //先拉高PC0
+		delay_ms(1500);										   //延时
+		POWER_KEY(0);										   //再拉低PC0，开机，完成重启
+	}	
+	delay_ms(2000);			                                   //延时，等待状态稳定
+	if(POWER_STA){                                             //如果PC1是低电平，表示开机或是重启成功
+		printf("开机成功\r\n");                             //串口输出信息
+	}else{												       //反之PC1是高电平，表示开始或是重启失败
+		printf("开机失败\r\n"); 							   //串口输出信息
+		return 1;                                              //返回1，表示失败
+	}	
+	return 0;                                                  //返回0，表示成功
+}
 
  /**
   * @brief  发送设置指令
@@ -84,7 +84,7 @@ char SIM800C_SendCmd(char *cmd, int timeout)
 	memset(SIM800C_RX_BUF,0,SIM800C_RXBUFF_SIZE);  //清空800C接收缓冲区 
 	SIM800C_printf("%s\r\n",cmd);                  //发送指令
 	while(timeout--){                              //等待超时时间到0
-		delay_ms(100);                             //延时100ms
+		delay_ms(1000);                             //延时1s
 		if(strstr(SIM800C_RX_BUF,"OK"))            //如果接收到OK表示指令成功
 			break;       						   //主动跳出while循环
 		printf("%d ",timeout);                  //串口输出现在的超时时间
@@ -158,6 +158,7 @@ char SIM800C_CGATT(int timeout)
 		memset(SIM800C_RX_BUF,0,SIM800C_RXBUFF_SIZE);  //清空800C接收缓冲区 
 		SIM800C_printf("AT+CGATT?\r\n");               //发送指令，查询是否附着GPRS
 		delay_ms(1000);                                //延时1s
+		printf(SIM800C_RX_BUF);
 		if(strstr(SIM800C_RX_BUF,"+CGATT: 1"))		   //接收到 +CGATT: 1 表示指令成功
 			break;       						       //主动跳出while循环
 		printf("%d ",timeout);                      //串口输出现在的超时时间
@@ -176,19 +177,19 @@ char SIM800C_CGATT(int timeout)
 char SIM800C_ActivateNetwork(void)
 {	                                                              //反之如果time小于timeout，表示正确，通过break主动跳出while
 	printf("等待激活GPRS... ...\r\n");                         //串口输出信息
-	if(SIM800C_SendCmd("AT+SAPBR=3,1,\"CONTYPE\",\"GPRS\"",60)){  //发送激活GPRS命令，超时时间6s
+	if(SIM800C_SendCmd("AT+SAPBR=3,1,\"CONTYPE\",\"GPRS\"",10)){  //发送激活GPRS命令，超时时间10s
 		printf("激活GPRS失败\r\n");                            //串口输出信息
 		return 1;                                                 //如果if成立，表示超时了，返回1
 	}else{                                                        //反之，表示指令正确
 		printf("激活GPRS成功\r\n");                            //串口输出信息
 		printf("等待设置接入点... ...\r\n");                   //串口输出信息
-		if(SIM800C_SendCmd("AT+SAPBR=3,1,\"APN\",\"CMIOT\"",60)){ //发送设置接入点命令，超时时间6s
+		if(SIM800C_SendCmd("AT+SAPBR=3,1,\"APN\",\"CMIOT\"",10)){ //发送设置接入点命令，超时时间10s
 			printf("设置接入点失败\r\n");                      //串口输出信息
 			return 2;                                             //如果if成立，表示超时了，返回2
 		}else{													  //反之，表示指令正确
 			printf("设置接入点成功\r\n");                      //串口输出信息
 			printf("等待打开GPRS网络... ...\r\n");             //串口输出信息
-			if(SIM800C_SendCmd("AT+SAPBR=1,1",60)){               //发送打开网络命令，超时时间6s
+			if(SIM800C_SendCmd("AT+SAPBR=1,1",10)){               //发送打开网络命令，超时时间10s
 				printf("打开GPRS网络失败\r\n");                //串口输出信息
 				return 3;                                         //如果if成立，表示超时了，返回3
 			}else printf("打开GPRS网络成功\r\n");              //串口输出信息	
@@ -250,36 +251,37 @@ char SIM800C_Connect_IoTServer(void)
 {
 	char i;                         //定义一个变量，用于for循环
 	
-	//SIM800C_GPIO_Init();            //控制800C的IO初始化
-	//if(SIM800C_Power()){            //控制800C开机或重启,如果返回1，说明开机重启失败，准备重启
-	//	return 1;                   //返回1
-	//}
+//	SIM800C_GPIO_Init();            //控制800C的IO初始化
+//	if(SIM800C_Power()){            //控制800C开机或重启,如果返回1，说明开机重启失败，准备重启
+//		return 1;                   //返回1
+//	}
 
 	printf("请等待注册上网络... ...\r\n");        //串口输出信息
-	if(SIM800C_CREG(30)){                            //等待注册上网络，超时单位1s，超时时间30s
+	if(SIM800C_CREG(10)){                            //等待注册上网络，超时单位1s，超时时间10s
 		printf("注册网络超时，准备重启\r\n");     //串口输出信息
 		return 2;                                    //返回2
 	}else printf("注册上网络\r\n");               //串口输出信息
 	
-	if(SIM800C_CSQ(60)){                             //查询信号强度，超时单位100ms，超时时间6s
+	if(SIM800C_CSQ(10)){                             //查询信号强度，超时单位100ms，超时时间1s
 		printf("查询信号强度超时，准备重启\r\n"); //串口输出信息
 		return 3;                                    //返回3	
 	}
 	
 	printf("请等待附着上GPRS... ...\r\n");        //串口输出信息
-	if(SIM800C_CGATT(30)){                           //查询附着GPRS，超时单位1s，超时时间30s
+	if(SIM800C_CGATT(10)){                           //查询附着GPRS，超时单位1s，超时时间10s
 		printf("查询附着GPRS超时，准备重启\r\n"); //串口输出信息
 		return 4;                                    //返回4	
 	}else printf("附着上GPRS\r\n");               //串口输出信息
 	
 	printf("请等待设置单链接... ...\r\n");        //串口输出信息
-	if(SIM800C_SendCmd("AT+CIPMUX=0",60)){           //设置单链接模式，超时单位100ms，超时时间6s	
+	if(SIM800C_SendCmd("AT+CIPMUX=0",10)){           //设置单链接模式，超时单位1s，超时时间10s
+		printf(SIM800C_RX_BUF);
 		printf("设置单链接失败，准备重启\r\n");   //串口输出信息
 		return 5;                                    //返回5	
 	}else printf("设置单链接模式成功\r\n");       //串口输出信息
 
 	printf("请等待设置透传... ...\r\n");         //串口输出信息
-	if(SIM800C_SendCmd("AT+CIPMODE=1",60)){         //设置透传模式，超时单位100ms，超时时间6s		
+	if(SIM800C_SendCmd("AT+CIPMODE=1",10)){         //设置透传模式，超时单位1s，超时时间10s		
 		printf("设置透传失败，准备重启\r\n");    //串口输出信息
 		return 6;                                   //返回6
 	}else printf("设置透传成功\r\n");            //串口输出信息   

@@ -29,6 +29,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_it.h"
+#include "./usart2/usart2.h"  
 #include "./usart3/usart3.h"
 #include "./uart4/uart4.h"
 #include "./mqtt/mqtt.h"
@@ -169,6 +170,19 @@ void SysTick_Handler(void)
   */ 
 
  /**
+  * @brief  串口2接收中断函数
+  * @param  无
+  * @retval 无
+  */
+void USART2_IRQHandler(void)                	//串口1中断服务程序
+{
+	if(USART_GetITStatus( USART2, USART_IT_RXNE ) != RESET)
+	{				
+		USART_SendData( USART2, USART_ReceiveData( USART2 ));
+	}	
+} 
+
+ /**
   * @brief  串口3接收中断函数
   * @param  无
   * @retval 无
@@ -191,7 +205,7 @@ void USART3_IRQHandler(void)
 			Usart3_RxCounter ++;         				    //每接收1个字节的数据，Usart3_RxCounter加1，表示接收的数据总量+1 
 		}
 	}
-} 
+}
 
  /**
   * @brief  串口4接收中断函数

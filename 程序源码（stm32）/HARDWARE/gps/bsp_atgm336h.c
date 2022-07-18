@@ -42,8 +42,8 @@ void parseGpsBuffer(void)
 	if (Save_Data.isGetData)
 	{
 		Save_Data.isGetData = false;
-		printf("**************\r\n");
-		printf(Save_Data.GPS_Buffer);
+		//printf("**************\r\n");
+		//printf(Save_Data.GPS_Buffer);
 
 		
 		for (i = 0 ; i <= 6 ; i++)
@@ -95,6 +95,7 @@ void parseGpsBuffer(void)
   */
 void GPS_data_Buff(void)
 {
+	int len=0;
 	//Êý¾ÝÇå¿Õ
 	memset(gps_data,0,128);
 	
@@ -104,14 +105,25 @@ void GPS_data_Buff(void)
 		Save_Data.isParseData = false;
 		if(Save_Data.isUsefull)
 		{
-			memcpy(gps_data,Save_Data.latitude,strlen(Save_Data.latitude));
-			memcpy(gps_data,Save_Data.N_S,strlen(Save_Data.N_S));		
-			memcpy(gps_data,Save_Data.longitude,strlen(Save_Data.longitude));
+			memcpy(gps_data,Save_Data.UTCTime,strlen(Save_Data.UTCTime));
+			len=strlen(Save_Data.UTCTime);
+			memcpy(&gps_data[len],":",1);
+			len+=1;
+			memcpy(&gps_data[len],Save_Data.latitude,strlen(Save_Data.latitude));
+			len+=strlen(Save_Data.latitude);
+			memcpy(&gps_data[len],Save_Data.N_S,strlen(Save_Data.N_S));
+			len+=strlen(Save_Data.N_S);
+			memcpy(&gps_data[len],Save_Data.longitude,strlen(Save_Data.longitude));
+			len+=strlen(Save_Data.longitude);
 			memcpy(gps_data,Save_Data.E_W,strlen(Save_Data.E_W));
+			len+=strlen(Save_Data.E_W);
+			memcpy(gps_data,"\r\n",strlen("\r\n"));
 		}
 		else
 		{
-			memcpy(gps_data,"null",strlen("null"));
+			memcpy(gps_data,Save_Data.UTCTime,strlen(Save_Data.UTCTime));
+			len+=strlen(Save_Data.UTCTime);
+			memcpy(&gps_data[strlen(Save_Data.UTCTime)],":null\r\n",strlen(":null\r\n"));			
 		}
 	}
 }

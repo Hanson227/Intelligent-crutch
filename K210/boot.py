@@ -33,8 +33,8 @@ def main(labels = None, model_addr="/sd/m.kmodel", sensor_window=(224, 224), lcd
     lcd.clear(lcd.WHITE)
 
     #串口初始化
-    fm.register(9,fm.fpioa.UART1_TX,force=True)
-    fm.register(10,fm.fpioa.UART1_RX,force=True)
+    fm.register(10,fm.fpioa.UART1_TX,force=True)
+    fm.register(11,fm.fpioa.UART1_RX,force=True)
     uart_A=UART(UART.UART1,115200,8,None,1,timeout=1000,read_buf_len=4096)
 
     if not labels:
@@ -78,7 +78,7 @@ def main(labels = None, model_addr="/sd/m.kmodel", sensor_window=(224, 224), lcd
 #命令行模式调试专用函数
 if __name__ == "__main__":
     try:
-        labels = ["left", "staircase", "zebra"]
+        labels = ["left", "zebra"]
         # main(labels=labels, model_addr=0x300000)
         main(labels=labels, model_addr="/sd/m.kmodel")
     except Exception as e:

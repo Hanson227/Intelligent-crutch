@@ -11,6 +11,7 @@
 "..\obj\bsp_hcsr04.o"
 "..\obj\bsp_sim800a.o"
 "..\obj\bsp_atgm336h.o"
+"..\obj\bsp_buzzer.o"
 "..\obj\startup_stm32f40_41xxx.o"
 "..\obj\misc.o"
 "..\obj\stm32f4xx_adc.o"

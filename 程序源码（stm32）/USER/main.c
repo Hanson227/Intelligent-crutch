@@ -29,6 +29,7 @@
   */
 int main(void)
 {
+	int time_i=0;
 	debug_uart_init(115200);//USART1功能初始化，波特率115200
 	Usart2_Init(9600);	
 	Usart3_Init(115200);//USART3功能初始化，波特率115200
@@ -39,24 +40,29 @@ int main(void)
 	
 	while(1)
 	{
-		
+		time_i++;
+		delay_ms(1000);
+		if(time_i>10)
+			time_i=0;
+		printf("%d",time_i);
 		if(Connect_flag==1)
 		{
-			
 			//生成gps消息
 			if(SubcribePack_flag==1)
 			{
 				//解析gps数据
-				parseGpsBuffer();
-				if(Save_Data.isParseData)
-				{
-					GPS_data_Buff();
-					printf(gps_data);
-					MQTT_PublishQs0(P_TOPIC_NAME,gps_data,strlen(gps_data)); //发布数据给服务器
-				}
+				
+				//parseGpsBuffer();
+				//if(Save_Data.isParseData)
+				//{
+					//printf(Save_Data.GPS_Buffer);
+					
+					//MQTT_PublishQs0(P_TOPIC_NAME,(char *)(&time_i),1); //发布数据给服务器
+				//}
 			}
 			else
 			{
+				delay_ms(1000);
 				printf("SubcribePack_flag=%d\r\n",SubcribePack_flag);
 			}
 			
@@ -78,7 +84,9 @@ int main(void)
 					if(MQTT_TxDataOutPtr==MQTT_TxDataEndPtr)
 						//指针归位到缓冲区开头
 						MQTT_TxDataOutPtr = MQTT_TxDataBuf[0];
-				}  				
+				}
+				else
+					printf("数据：0x%x\r\n",MQTT_TxDataOutPtr[2]);
 			}//处理发送缓冲区数据的else if分支结尾
 		
 					
@@ -146,10 +154,10 @@ int main(void)
 				}	
 				//if判断，如果第一个字节是0x30，表示收到的是服务器发来的推送数据
 				//我们要提取控制命令
-				else if((MQTT_RxDataOutPtr[2]==0x30)){ 
-					printf("服务器等级0推送\r\n"); 		   //串口输出信息 
-					MQTT_DealPushdata_Qs0(MQTT_RxDataOutPtr);  //处理等级0推送数据
-				}				
+//				else if((MQTT_RxDataOutPtr[2]==0x30)){ 
+//					printf("服务器等级0推送\r\n"); 		   //串口输出信息 
+//					MQTT_DealPushdata_Qs0(MQTT_RxDataOutPtr);  //处理等级0推送数据
+//				}				
 				//if判断，如果一共接收了10个字节，第一个字节是0x0D，有可能收到了 CLOSED 表示连接断开
 				//我们进入else if，接着判断
 				else if((MQTT_RxDataOutPtr[1]==10)&&(MQTT_RxDataOutPtr[2]==0x0D)){

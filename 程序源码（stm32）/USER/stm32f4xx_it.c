@@ -68,9 +68,14 @@ void NMI_Handler(void)
 void HardFault_Handler(void)
 {
   /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+	
+	uint32_t r_sp ;
+	r_sp = __get_PSP(); //获取SP的值
+	printf("溢出！%d\r\n",r_sp);
+	
+	while (1)
+	{
+	}
 }
 
 /**

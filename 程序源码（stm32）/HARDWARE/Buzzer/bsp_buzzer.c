@@ -10,10 +10,11 @@
  */
 
 #include "./hcsr04/bsp_hcsr04.h"
+#include "usart.h"
 #include "delay.h"
 
 
-uint32_t tim13_cnt=0
+uint32_t tim13_cnt=0;
 
 
 /**
@@ -22,6 +23,7 @@ uint32_t tim13_cnt=0
  */
 void tim13_init(void)
 {
+	GPIO_InitTypeDef GPIO_InitStructure;
 	TIM_OCInitTypeDef  TIM_OCInitStructure;
 	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 	
@@ -111,7 +113,7 @@ void beep_init(void)
  */
 void buzzer(void)
 {
-    uint32_t distance=0;
+    int distance=0;
 	uint32_t duty=50;
 	uint32_t distance_safe=1;
 
@@ -138,18 +140,18 @@ void buzzer(void)
 			if(distance>=250 && distance<350)
 			{	
 				tim13_set_freq(2);
-                distance_safe=1
+                distance_safe=1;
 			}				
 			else if(distance>=150 && distance<250)
 			{
 				tim13_set_freq(4);
-                distance_safe=1
+                distance_safe=1;
 			}	
 
 			else if(distance<150)
 			{			
 				tim13_set_freq(10);
-                distance_safe=1
+                distance_safe=1;
 			}	
 
 			//若是安全距离，则蜂鸣器禁鸣

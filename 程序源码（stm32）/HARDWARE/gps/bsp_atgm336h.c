@@ -15,6 +15,8 @@
 
 char gps_data[128];
 
+
+
  /**
   * @brief  错误检测函数
   * @param  num：错误参数
@@ -38,14 +40,16 @@ void parseGpsBuffer(void)
 {
 	char *subString;
 	char *subStringNext;
-	char i = 0;
+	char i=0;
+	printf("1\r\n");
 	if (Save_Data.isGetData)
 	{
+		printf("2\r\n");
 		Save_Data.isGetData = false;
 		//printf("**************\r\n");
-		//printf(Save_Data.GPS_Buffer);
+		printf(Save_Data.GPS_Buffer);
 
-		
+		printf("3\r\n");
 		for (i = 0 ; i <= 6 ; i++)
 		{
 			if (i == 0)
@@ -84,46 +88,6 @@ void parseGpsBuffer(void)
 					errorLog(2);	//解析错误
 				}
 			}
-		}
-	}
-}
-
- /**
-  * @brief  mqtt发送的gps数据段
-  * @param  无
-  * @retval 无
-  */
-void GPS_data_Buff(void)
-{
-	int len=0;
-	//数据清空
-	memset(gps_data,0,128);
-	
-	//数据写入
-	if (Save_Data.isParseData)
-	{
-		Save_Data.isParseData = false;
-		if(Save_Data.isUsefull)
-		{
-			memcpy(gps_data,Save_Data.UTCTime,strlen(Save_Data.UTCTime));
-			len=strlen(Save_Data.UTCTime);
-			memcpy(&gps_data[len],":",1);
-			len+=1;
-			memcpy(&gps_data[len],Save_Data.latitude,strlen(Save_Data.latitude));
-			len+=strlen(Save_Data.latitude);
-			memcpy(&gps_data[len],Save_Data.N_S,strlen(Save_Data.N_S));
-			len+=strlen(Save_Data.N_S);
-			memcpy(&gps_data[len],Save_Data.longitude,strlen(Save_Data.longitude));
-			len+=strlen(Save_Data.longitude);
-			memcpy(gps_data,Save_Data.E_W,strlen(Save_Data.E_W));
-			len+=strlen(Save_Data.E_W);
-			memcpy(gps_data,"\r\n",strlen("\r\n"));
-		}
-		else
-		{
-			memcpy(gps_data,Save_Data.UTCTime,strlen(Save_Data.UTCTime));
-			len+=strlen(Save_Data.UTCTime);
-			memcpy(&gps_data[strlen(Save_Data.UTCTime)],":null\r\n",strlen(":null\r\n"));			
 		}
 	}
 }

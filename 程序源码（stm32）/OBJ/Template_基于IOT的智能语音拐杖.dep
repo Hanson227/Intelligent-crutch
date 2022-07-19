@@ -1,5 +1,5 @@
 Dependencies for Project 'Template', Target '基于IOT的智能语音拐杖': (DO NOT MODIFY !)
-F (.\main.c)(0x62D658A5)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\FWLIB\inc -I ..\HARDWARE-I.\RTE\_____IOT______________-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
+F (.\main.c)(0x62D67F08)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\FWLIB\inc -I ..\HARDWARE-I.\RTE\_____IOT______________-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
 I (stm32f4xx.h)(0x5710F354)
 I (..\CORE\core_cm4.h)(0x5710F350)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -49,8 +49,8 @@ I (..\HARDWARE\./timer/timer4.h)(0x62CBE723)
 I (..\HARDWARE\./timer/timer6.h)(0x62CBE723)
 I (..\HARDWARE\./sim800a/bsp_sim800a.h)(0x62CBE723)
 I (..\HARDWARE\./hcsr04/bsp_hcsr04.h)(0x62CBD3A8)
-I (..\HARDWARE\./gps/bsp_atgm336h.h)(0x62D01790)
-F (.\stm32f4xx_it.c)(0x62D517CE)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\FWLIB\inc -I ..\HARDWARE-I.\RTE\_____IOT______________-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\stm32f4xx_it.o --omf_browse ..\obj\stm32f4xx_it.crf --depend ..\obj\stm32f4xx_it.d)
+I (..\HARDWARE\./gps/bsp_atgm336h.h)(0x62D67441)
+F (.\stm32f4xx_it.c)(0x62D66C93)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\FWLIB\inc -I ..\HARDWARE-I.\RTE\_____IOT______________-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\stm32f4xx_it.o --omf_browse ..\obj\stm32f4xx_it.crf --depend ..\obj\stm32f4xx_it.d)
 I (stm32f4xx_it.h)(0x5710F354)
 I (stm32f4xx.h)(0x5710F354)
 I (..\CORE\core_cm4.h)(0x5710F350)
@@ -365,7 +365,7 @@ I (..\FWLIB\inc\stm32f4xx_can.h)(0x5710F350)
 I (..\FWLIB\inc\stm32f4xx_dac.h)(0x5710F350)
 I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x5710F350)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x5710F350)
-F (..\HARDWARE\hcsr04\bsp_hcsr04.c)(0x62CEC203)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\FWLIB\inc -I ..\HARDWARE-I.\RTE\_____IOT______________-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\bsp_hcsr04.o --omf_browse ..\obj\bsp_hcsr04.crf --depend ..\obj\bsp_hcsr04.d)
+F (..\HARDWARE\hcsr04\bsp_hcsr04.c)(0x62D65A45)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\FWLIB\inc -I ..\HARDWARE-I.\RTE\_____IOT______________-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\bsp_hcsr04.o --omf_browse ..\obj\bsp_hcsr04.crf --depend ..\obj\bsp_hcsr04.d)
 I (..\HARDWARE\./hcsr04/bsp_hcsr04.h)(0x62CBD3A8)
 I (..\USER\stm32f4xx.h)(0x5710F354)
 I (..\CORE\core_cm4.h)(0x5710F350)
@@ -447,8 +447,8 @@ I (..\SYSTEM\usart\usart.h)(0x62D51719)
 I (..\SYSTEM\sys\sys.h)(0x62CBE723)
 I (..\SYSTEM\delay\delay.h)(0x62CBE723)
 I (..\HARDWARE\./mqtt/mqtt.h)(0x62D2D0B8)
-F (..\HARDWARE\gps\bsp_atgm336h.c)(0x62D4153A)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\FWLIB\inc -I ..\HARDWARE-I.\RTE\_____IOT______________-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\bsp_atgm336h.o --omf_browse ..\obj\bsp_atgm336h.crf --depend ..\obj\bsp_atgm336h.d)
-I (..\HARDWARE\./gps/bsp_atgm336h.h)(0x62D01790)
+F (..\HARDWARE\gps\bsp_atgm336h.c)(0x62D67441)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\FWLIB\inc -I ..\HARDWARE-I.\RTE\_____IOT______________-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\bsp_atgm336h.o --omf_browse ..\obj\bsp_atgm336h.crf --depend ..\obj\bsp_atgm336h.d)
+I (..\HARDWARE\./gps/bsp_atgm336h.h)(0x62D67441)
 I (..\SYSTEM\usart\usart.h)(0x62D51719)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
 I (..\USER\stm32f4xx_conf.h)(0x5710F354)
@@ -488,6 +488,47 @@ I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x5710F350)
 I (..\SYSTEM\sys\sys.h)(0x62CBE723)
 I (..\HARDWARE\./uart4/uart4.h)(0x62D51719)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
+F (..\HARDWARE\Buzzer\bsp_buzzer.c)(0x62D65D4C)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\FWLIB\inc -I ..\HARDWARE-I.\RTE\_____IOT______________-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\bsp_buzzer.o --omf_browse ..\obj\bsp_buzzer.crf --depend ..\obj\bsp_buzzer.d)
+I (..\HARDWARE\./hcsr04/bsp_hcsr04.h)(0x62CBD3A8)
+I (..\USER\stm32f4xx.h)(0x5710F354)
+I (..\CORE\core_cm4.h)(0x5710F350)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
+I (..\CORE\core_cmInstr.h)(0x5710F350)
+I (..\CORE\core_cmFunc.h)(0x5710F350)
+I (..\CORE\core_cm4_simd.h)(0x5710F350)
+I (..\USER\system_stm32f4xx.h)(0x5710F354)
+I (..\USER\stm32f4xx_conf.h)(0x5710F354)
+I (..\FWLIB\inc\stm32f4xx_adc.h)(0x5710F350)
+I (..\FWLIB\inc\stm32f4xx_crc.h)(0x5710F350)
+I (..\FWLIB\inc\stm32f4xx_dbgmcu.h)(0x5710F350)
+I (..\FWLIB\inc\stm32f4xx_dma.h)(0x5710F350)
+I (..\FWLIB\inc\stm32f4xx_exti.h)(0x5710F350)
+I (..\FWLIB\inc\stm32f4xx_flash.h)(0x5710F350)
+I (..\FWLIB\inc\stm32f4xx_gpio.h)(0x5710F350)
+I (..\FWLIB\inc\stm32f4xx_i2c.h)(0x5710F350)
+I (..\FWLIB\inc\stm32f4xx_iwdg.h)(0x5710F350)
+I (..\FWLIB\inc\stm32f4xx_pwr.h)(0x5710F351)
+I (..\FWLIB\inc\stm32f4xx_rcc.h)(0x5710F351)
+I (..\FWLIB\inc\stm32f4xx_rtc.h)(0x5710F351)
+I (..\FWLIB\inc\stm32f4xx_sdio.h)(0x5710F351)
+I (..\FWLIB\inc\stm32f4xx_spi.h)(0x5710F351)
+I (..\FWLIB\inc\stm32f4xx_syscfg.h)(0x5710F351)
+I (..\FWLIB\inc\stm32f4xx_tim.h)(0x5710F351)
+I (..\FWLIB\inc\stm32f4xx_usart.h)(0x5710F351)
+I (..\FWLIB\inc\stm32f4xx_wwdg.h)(0x5710F351)
+I (..\FWLIB\inc\misc.h)(0x5710F350)
+I (..\FWLIB\inc\stm32f4xx_cryp.h)(0x5710F350)
+I (..\FWLIB\inc\stm32f4xx_hash.h)(0x5710F350)
+I (..\FWLIB\inc\stm32f4xx_rng.h)(0x5710F351)
+I (..\FWLIB\inc\stm32f4xx_can.h)(0x5710F350)
+I (..\FWLIB\inc\stm32f4xx_dac.h)(0x5710F350)
+I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x5710F350)
+I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x5710F350)
+I (..\SYSTEM\usart\usart.h)(0x62D51719)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
+I (..\SYSTEM\sys\sys.h)(0x62CBE723)
+I (..\SYSTEM\delay\delay.h)(0x62CBE723)
+F (..\HARDWARE\Buzzer\bsp.buzzer.h)(0x62D65A45)()
 F (..\CORE\startup_stm32f40_41xxx.s)(0x5710F350)(--cpu Cortex-M4.fp -g --apcs=interwork -I.\RTE\_____IOT______________-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 524" --pd "STM32F407xx SETA 1"--list ..\obj\startup_stm32f40_41xxx.lst --xref -o ..\obj\startup_stm32f40_41xxx.o --depend ..\obj\startup_stm32f40_41xxx.d)
 F (..\FWLIB\src\misc.c)(0x5710F353)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\FWLIB\inc -I ..\HARDWARE-I.\RTE\_____IOT______________-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\misc.o --omf_browse ..\obj\misc.crf --depend ..\obj\misc.d)
 I (..\FWLIB\inc\misc.h)(0x5710F350)

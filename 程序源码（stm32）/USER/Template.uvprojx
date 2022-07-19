@@ -445,6 +445,16 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\gps\bsp_atgm336h.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_buzzer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\Buzzer\bsp_buzzer.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp.buzzer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\HARDWARE\Buzzer\bsp.buzzer.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

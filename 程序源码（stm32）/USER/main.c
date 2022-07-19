@@ -55,6 +55,10 @@ int main(void)
 					MQTT_PublishQs0(P_TOPIC_NAME,gps_data,strlen(gps_data)); //发布数据给服务器
 				}
 			}
+			else
+			{
+				printf("SubcribePack_flag=%d\r\n",SubcribePack_flag);
+			}
 			
 			//if成立的话，说明发送缓冲区有数据了
 			if(MQTT_TxDataOutPtr != MQTT_TxDataInPtr)

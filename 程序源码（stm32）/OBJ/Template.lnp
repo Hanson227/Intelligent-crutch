@@ -7,7 +7,6 @@
 "..\obj\usart3.o"
 "..\obj\uart4.o"
 "..\obj\timer4.o"
-"..\obj\timer6.o"
 "..\obj\bsp_hcsr04.o"
 "..\obj\bsp_sim800a.o"
 "..\obj\bsp_atgm336h.o"

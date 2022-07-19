@@ -45,7 +45,6 @@
 ..\obj\main.o: ..\HARDWARE\./uart4/uart4.h
 ..\obj\main.o: ..\HARDWARE\./mqtt/mqtt.h
 ..\obj\main.o: ..\HARDWARE\./timer/timer4.h
-..\obj\main.o: ..\HARDWARE\./timer/timer6.h
 ..\obj\main.o: ..\HARDWARE\./sim800a/bsp_sim800a.h
 ..\obj\main.o: ..\HARDWARE\./hcsr04/bsp_hcsr04.h
 ..\obj\main.o: ..\HARDWARE\./gps/bsp_atgm336h.h

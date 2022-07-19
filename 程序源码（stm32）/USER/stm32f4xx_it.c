@@ -33,7 +33,6 @@
 #include "./usart3/usart3.h"
 #include "./uart4/uart4.h"
 #include "./mqtt/mqtt.h"
-#include "./timer/timer6.h"
 #include "./timer/timer4.h"
 
 /** @addtogroup Template_Project
@@ -276,35 +275,5 @@ void TIM4_IRQHandler(void)
 	}
 }
 
- /**
-  * @brief  定时器6中断服务函数
-  * @param  无  
-  * @retval 无
-  */
-void TIM6_IRQHandler(void)
-{
-	if(TIM_GetITStatus(TIM6, TIM_IT_Update) != RESET){   //如果TIM_IT_Update置位，表示TIM6溢出中断，进入if	
-		switch(Ping_flag){                               //判断Ping_flag的状态
-			case 0:										 //如果Ping_flag等于0，表示正常状态，发送Ping报文  
-					MQTT_PingREQ(); 					 //添加Ping报文到发送缓冲区  
-					break;
-			case 1:										 //如果Ping_flag等于1，说明上一次发送到的ping报文，没有收到服务器回复，所以1没有被清除为0，可能是连接异常，我们要启动快速ping模式
-					TIM6_ENABLE_2S(); 					 //我们将定时器6设置为2s定时,快速发送Ping报文
-					MQTT_PingREQ();  					 //添加Ping报文到发送缓冲区  
-					break;
-			case 2:										 //如果Ping_flag等于2，说明还没有收到服务器回复
-			case 3:				                         //如果Ping_flag等于3，说明还没有收到服务器回复
-			case 4:				                         //如果Ping_flag等于4，说明还没有收到服务器回复	
-					MQTT_PingREQ();  					 //添加Ping报文到发送缓冲区 
-					break;
-			case 5:										 //如果Ping_flag等于5，说明我们发送了多次ping，均无回复，应该是连接有问题，我们重启连接
-					Connect_flag = 0;                    //连接状态置0，表示断开，没连上服务器
-					TIM_Cmd(TIM6,DISABLE);               //关TIM6 				
-					break;			
-		}
-		Ping_flag++;           		             		 //Ping_flag自增1，表示又发送了一次ping，期待服务器的回复
-		TIM_ClearITPendingBit(TIM6, TIM_IT_Update);      //清除TIM6溢出中断标志 	
-	}
-}
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

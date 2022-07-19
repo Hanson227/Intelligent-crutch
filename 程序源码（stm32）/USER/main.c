@@ -16,7 +16,7 @@
 #include "./uart4/uart4.h"
 #include "./mqtt/mqtt.h"
 #include "./timer/timer4.h"
-#include "./timer/timer6.h"
+//#include "./timer/timer6.h"
 #include "./sim800a/bsp_sim800a.h"
 #include "./hcsr04/bsp_hcsr04.h"
 #include "./gps/bsp_atgm336h.h"
@@ -29,7 +29,6 @@
   */
 int main(void)
 {
-	int time_i=0;
 	debug_uart_init(115200);//USART1功能初始化，波特率115200
 	Usart2_Init(9600);	
 	Usart3_Init(115200);//USART3功能初始化，波特率115200
@@ -40,25 +39,20 @@ int main(void)
 	
 	while(1)
 	{
-		time_i++;
-		delay_ms(1000);
-		if(time_i>10)
-			time_i=0;
-		printf("%d",time_i);
 		if(Connect_flag==1)
 		{
 			//生成gps消息
 			if(SubcribePack_flag==1)
 			{
 				//解析gps数据
-				
-				//parseGpsBuffer();
-				//if(Save_Data.isParseData)
-				//{
-					//printf(Save_Data.GPS_Buffer);
+				parseGpsBuffer();
+				delay_ms(1000);
+				if(Save_Data.isParseData)
+				{
+					printf(Save_Data.GPS_Buffer);
 					
-					//MQTT_PublishQs0(P_TOPIC_NAME,(char *)(&time_i),1); //发布数据给服务器
-				//}
+					MQTT_PublishQs0(P_TOPIC_NAME,Save_Data.GPS_Buffer,strlen(Save_Data.GPS_Buffer)); //发布数据给服务器
+				}
 			}
 			else
 			{
@@ -133,7 +127,7 @@ int main(void)
 						case 0x01 : printf("订阅成功\r\n");            //串口输出信息
 							        SubcribePack_flag = 1;                //SubcribePack_flag置1，表示订阅报文成功，其他报文可发送
 									Ping_flag = 0;                        //Ping_flag清零
-   								    TIM6_ENABLE_30S();                    //启动30s的PING定时器
+   								    //TIM6_ENABLE_30S();                    //启动30s的PING定时器
 									
 									  
 									break;                                //跳出分支                                             
@@ -142,22 +136,7 @@ int main(void)
 									break;                                //跳出分支 								
 					}					
 				}
-				//if判断，第一个字节是0xD0，表示收到的是PINGRESP报文
-				else if(MQTT_RxDataOutPtr[2]==0xD0){ 
-					printf("PING报文回复\r\n"); 		  	  //串口输出信息 
-					if(Ping_flag==1){                     //如果Ping_flag=1，表示第一次发送
-						 Ping_flag = 0;    				  //要清除Ping_flag标志
-					}else if(Ping_flag>1){ 				  //如果Ping_flag>1，表示是多次发送了，而且是2s间隔的快速发送
-						Ping_flag = 0;     				  //要清除Ping_flag标志
-						TIM6_ENABLE_30S(); 				  //PING定时器重回30s的时间
-					}				
-				}	
-				//if判断，如果第一个字节是0x30，表示收到的是服务器发来的推送数据
-				//我们要提取控制命令
-//				else if((MQTT_RxDataOutPtr[2]==0x30)){ 
-//					printf("服务器等级0推送\r\n"); 		   //串口输出信息 
-//					MQTT_DealPushdata_Qs0(MQTT_RxDataOutPtr);  //处理等级0推送数据
-//				}				
+								
 				//if判断，如果一共接收了10个字节，第一个字节是0x0D，有可能收到了 CLOSED 表示连接断开
 				//我们进入else if，接着判断
 				else if((MQTT_RxDataOutPtr[1]==10)&&(MQTT_RxDataOutPtr[2]==0x0D)){
@@ -253,7 +232,7 @@ int main(void)
 {	
 	delay_init(84);
 	debug_uart_init(115200);	 //串口初始化
-	UART4_Init(9600);
+	Uart4_Init(9600);
 		
 	clrStruct();
 	
@@ -261,8 +240,8 @@ int main(void)
 	while(1)
 	{
 		parseGpsBuffer();  
-		GPS_data_Buff();
-		printf(gps_data);
+		//GPS_data_Buff();
+		//printf(gps_data);
 		//printf("\r\n");
 	}
 }

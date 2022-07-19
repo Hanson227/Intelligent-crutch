@@ -41,15 +41,11 @@ void parseGpsBuffer(void)
 	char *subString;
 	char *subStringNext;
 	char i=0;
-	printf("1\r\n");
 	if (Save_Data.isGetData)
 	{
-		printf("2\r\n");
 		Save_Data.isGetData = false;
 		//printf("**************\r\n");
-		printf(Save_Data.GPS_Buffer);
-
-		printf("3\r\n");
+		//printf(Save_Data.GPS_Buffer);
 		for (i = 0 ; i <= 6 ; i++)
 		{
 			if (i == 0)

@@ -43,5 +43,4 @@
 ..\obj\stm32f4xx_it.o: ..\HARDWARE\./uart4/uart4.h
 ..\obj\stm32f4xx_it.o: ..\SYSTEM\sys\sys.h
 ..\obj\stm32f4xx_it.o: ..\HARDWARE\./mqtt/mqtt.h
-..\obj\stm32f4xx_it.o: ..\HARDWARE\./timer/timer6.h
 ..\obj\stm32f4xx_it.o: ..\HARDWARE\./timer/timer4.h

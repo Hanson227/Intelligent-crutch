@@ -70,7 +70,7 @@ void HardFault_Handler(void)
 	
 	uint32_t r_sp ;
 	r_sp = __get_PSP(); //获取SP的值
-	printf("溢出！%d\r\n",r_sp);
+	printf("error:%d\r\n",r_sp);
 	
 	while (1)
 	{

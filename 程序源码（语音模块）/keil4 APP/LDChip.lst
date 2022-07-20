@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   LDCHIP                                                            07/18/2022 22:23:43 PAGE 1   
+C51 COMPILER V9.60.0.0   LDCHIP                                                            07/20/2022 22:17:23 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE LDCHIP
@@ -62,7 +62,7 @@ line level    source
   52   1        LD_ReadReg(0x06);
   53   1        LD_WriteReg(0x17, 0x35);
   54   1        delay(10);
-C51 COMPILER V9.60.0.0   LDCHIP                                                            07/18/2022 22:23:43 PAGE 2   
+C51 COMPILER V9.60.0.0   LDCHIP                                                            07/20/2022 22:17:23 PAGE 2   
 
   55   1        LD_ReadReg(0x06);
   56   1      
@@ -126,7 +126,7 @@ line level    source
  114   1        LD_WriteReg(0x29,0) ;
  115   1        LD_WriteReg(0x02,0) ;
  116   1        if((ucRegVal & 0x10) &&
-C51 COMPILER V9.60.0.0   LDCHIP                                                            07/18/2022 22:23:43 PAGE 3   
+C51 COMPILER V9.60.0.0   LDCHIP                                                            07/20/2022 22:17:23 PAGE 3   
 
  117   1            LD_ReadReg(0xb2)==0x21 &&
  118   1            LD_ReadReg(0xbf)==0x35)                   /*识别成功*/
@@ -190,7 +190,7 @@ line level    source
  176   2          {
  177   3            LD_Reset();                       //      LD3320芯片内部出现不正常，立即重启LD3320芯片
  178   3            delay(50);                        //      并从初始化开始重新ASR识别流程
-C51 COMPILER V9.60.0.0   LDCHIP                                                            07/18/2022 22:23:43 PAGE 4   
+C51 COMPILER V9.60.0.0   LDCHIP                                                            07/20/2022 22:17:23 PAGE 4   
 
  179   3            continue;
  180   3          }
@@ -252,107 +252,103 @@ line level    source
  236   1        {
  237   2          return 0;
  238   2        }
- 239   1      //      LD_WriteReg(0xB6, 0xa); //识别时间       1S
- 240   1      //      LD_WriteReg(0xB5, 0x1E); //背景音段时间 300ms
-C51 COMPILER V9.60.0.0   LDCHIP                                                            07/18/2022 22:23:43 PAGE 5   
+ 239   1      
+ 240   1        LD_WriteReg(0x1C, 0x0b); //配置麦克风做为输入信号
+C51 COMPILER V9.60.0.0   LDCHIP                                                            07/20/2022 22:17:23 PAGE 5   
 
- 241   1      //      LD_WriteReg(0xB8, 10); //结束时间
+ 241   1      
  242   1      
- 243   1      //      LD_WriteReg(0x1C, 0x07); //配置双通道音频信号做为输入信号
- 244   1        LD_WriteReg(0x1C, 0x0b); //配置麦克风做为输入信号
- 245   1      
- 246   1      
- 247   1        LD_WriteReg(0xB2, 0xff);
- 248   1        delay( 1);
- 249   1        LD_WriteReg(0x37, 0x06);
- 250   1        delay( 1 );
- 251   1        LD_WriteReg(0x37, 0x06);
- 252   1        delay( 5 );
- 253   1        LD_WriteReg(0x29, 0x10);
- 254   1      
- 255   1        LD_WriteReg(0xBD, 0x00);
- 256   1        EX0=1;
- 257   1        return 1;
- 258   1      }
- 259          
- 260           /**
- 261            * @brief  向LD模块添加关键词
- 262            * @param  无
- 263            * @retval flag：1->添加成功
- 264            */
- 265          uint8 LD_AsrAddFixed()
- 266          {
- 267   1        uint8 k, flag;
- 268   1        uint8 nAsrAddLength;
- 269   1      #define DATE_A 50   /*数组二维数值*/
- 270   1      #define DATE_B 20               /*数组一维数值*/
- 271   1        uint8 code sRecog[DATE_A][DATE_B] =
- 272   1        {
- 273   1                  "\0",
- 274   1              "ni hao xiao bu", \
- 275   1                      "nin hao xiao bu", \
- 276   1                      "xiao bu xiao bu", \
- 277   1                      "xiao bu", \
- 278   1                      "xian zai ji dian"
- 279   1        };    /*添加关键词，用户修改*/
- 280   1        uint8 code pCode[DATE_A] =
- 281   1        {
- 282   1          CODE_CMD,\
- 283   1          CODE_1,\
- 284   1          CODE_2,\
- 285   1          CODE_3,\
- 286   1          CODE_4,\
- 287   1          CODE_5,\
- 288   1          CODE_6,\
- 289   1          CODE_7,\
- 290   1          CODE_8,\
- 291   1          CODE_9,\
- 292   1          CODE_10
- 293   1        };    /*添加识别码，用户修改*/
- 294   1        flag = 1;
- 295   1        for (k=0; k<DATE_A; k++)
- 296   1        {
- 297   2      
- 298   2          if(LD_Check_ASRBusyFlag_b2() == 0)
- 299   2          {
- 300   3            flag = 0;
- 301   3            break;
- 302   3          }
-C51 COMPILER V9.60.0.0   LDCHIP                                                            07/18/2022 22:23:43 PAGE 6   
+ 243   1        LD_WriteReg(0xB2, 0xff);
+ 244   1        delay( 1);
+ 245   1        LD_WriteReg(0x37, 0x06);
+ 246   1        delay( 1 );
+ 247   1        LD_WriteReg(0x37, 0x06);
+ 248   1        delay( 5 );
+ 249   1        LD_WriteReg(0x29, 0x10);
+ 250   1      
+ 251   1        LD_WriteReg(0xBD, 0x00);
+ 252   1        EX0=1;
+ 253   1        return 1;
+ 254   1      }
+ 255          
+ 256           /**
+ 257            * @brief  向LD模块添加关键词
+ 258            * @param  无
+ 259            * @retval flag：1->添加成功
+ 260            */
+ 261          uint8 LD_AsrAddFixed()
+ 262          {
+ 263   1        uint8 k, flag;
+ 264   1        uint8 nAsrAddLength;
+ 265   1      #define DATE_A 50   /*数组二维数值*/
+ 266   1      #define DATE_B 20               /*数组一维数值*/
+ 267   1        uint8 code sRecog[DATE_A][DATE_B] =
+ 268   1        {
+ 269   1                  "\0", \
+ 270   1              "ni hao xiao bu", \
+ 271   1                      "nin hao xiao bu", \
+ 272   1                      "xiao bu xiao bu", \
+ 273   1                      "xiao bu", \
+ 274   1                      "xian zai ji dian"
+ 275   1        };    /*添加关键词，用户修改*/
+ 276   1        uint8 code pCode[DATE_A] =
+ 277   1        {
+ 278   1          CODE_CMD,\
+ 279   1          CODE_1,\
+ 280   1          CODE_2,\
+ 281   1          CODE_3,\
+ 282   1          CODE_4,\
+ 283   1          CODE_5,\
+ 284   1          CODE_6,\
+ 285   1          CODE_7,\
+ 286   1          CODE_8,\
+ 287   1          CODE_9,\
+ 288   1          CODE_10
+ 289   1        };    /*添加识别码，用户修改*/
+ 290   1        flag = 1;
+ 291   1        for (k=0; k<DATE_A; k++)
+ 292   1        {
+ 293   2      
+ 294   2          if(LD_Check_ASRBusyFlag_b2() == 0)
+ 295   2          {
+ 296   3            flag = 0;
+ 297   3            break;
+ 298   3          }
+ 299   2      
+ 300   2          LD_WriteReg(0xc1, pCode[k] );
+ 301   2          LD_WriteReg(0xc3, 0 );
+ 302   2          LD_WriteReg(0x08, 0x04);
+C51 COMPILER V9.60.0.0   LDCHIP                                                            07/20/2022 22:17:23 PAGE 6   
 
- 303   2      
- 304   2          LD_WriteReg(0xc1, pCode[k] );
- 305   2          LD_WriteReg(0xc3, 0 );
- 306   2          LD_WriteReg(0x08, 0x04);
- 307   2          delay(1);
- 308   2          LD_WriteReg(0x08, 0x00);
- 309   2          delay(1);
- 310   2      
- 311   2          for (nAsrAddLength=0; nAsrAddLength<DATE_B; nAsrAddLength++)
- 312   2          {
- 313   3            if (sRecog[k][nAsrAddLength] == 0)
- 314   3              break;
- 315   3            LD_WriteReg(0x5, sRecog[k][nAsrAddLength]);
- 316   3          }
- 317   2          LD_WriteReg(0xb9, nAsrAddLength);
- 318   2          LD_WriteReg(0xb2, 0xff);
- 319   2          LD_WriteReg(0x37, 0x04);
- 320   2        }
- 321   1        return flag;
- 322   1      }
- 323          
- 324           /**
- 325            * @brief  获取识别结果
- 326            * @param  无
- 327            * @retval LD_ReadReg(0xc5 )；  读取内部寄存器返回识别码。
- 328            */
- 329          uint8 LD_GetResult()
- 330          {
- 331   1        return LD_ReadReg(0xc5 );
- 332   1      }
- 333          
- 334          
- 335          
+ 303   2          delay(1);
+ 304   2          LD_WriteReg(0x08, 0x00);
+ 305   2          delay(1);
+ 306   2      
+ 307   2          for (nAsrAddLength=0; nAsrAddLength<DATE_B; nAsrAddLength++)
+ 308   2          {
+ 309   3            if (sRecog[k][nAsrAddLength] == 0)
+ 310   3              break;
+ 311   3            LD_WriteReg(0x5, sRecog[k][nAsrAddLength]);
+ 312   3          }
+ 313   2          LD_WriteReg(0xb9, nAsrAddLength);
+ 314   2          LD_WriteReg(0xb2, 0xff);
+ 315   2          LD_WriteReg(0x37, 0x04);
+ 316   2        }
+ 317   1        return flag;
+ 318   1      }
+ 319          
+ 320           /**
+ 321            * @brief  获取识别结果
+ 322            * @param  无
+ 323            * @retval LD_ReadReg(0xc5 )；  读取内部寄存器返回识别码。
+ 324            */
+ 325          uint8 LD_GetResult()
+ 326          {
+ 327   1        return LD_ReadReg(0xc5 );
+ 328   1      }
+ 329          
+ 330          
+ 331          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE

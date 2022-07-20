@@ -43,6 +43,7 @@ sbit SRD4 = P1 ^ 4;
 void  main(void)
 {
 	uint8 idata nAsrRes;
+	char cmd=0;
 	uint8 i = 0;
 	P1M0 = 0xFF;
 	P1M1 = 0x00;
@@ -55,6 +56,18 @@ void  main(void)
 	PrintCom("<G>ÎÒÊÇĞ¡²¼£¬ºÜ¸ßĞËÎªÄú·şÎñ");
 	while(1)
 	{
+		cmd=(char)UARTReceiveByte();
+		switch(cmd)
+		{
+			case '1':PrintCom("<G>Ç°·½°ßÂíÏß");
+				break;
+			case '2':PrintCom("<G>");
+				break;
+			case '3':PrintCom("<G>Ç°·½ÓĞÕÏ°­Îï");
+				break;
+			default:
+				break;
+		}
 		switch(nAsrStatus)
 		{
 		case LD_ASR_RUNING:
@@ -229,182 +242,6 @@ void 	User_handle(uint8 dat)
 	case CODE_5:		/*ÃüÁî¡°¡±*/
 		SRD3 = 1;
 		PrintCom("<G>ÏÖÔÚÊÇÏÂÎçÒ»µã\r\n");
-		break;
-	case CODE_6:		/*ÃüÁî¡°¡±*/
-		
-		PrintCom("");
-		break;
-	case CODE_7:		/*ÃüÁî¡°¡±*/
-		
-		PrintCom("");
-		break;
-	case CODE_8:		/*ÃüÁî¡°¡±*/
-		
-		PrintCom("");
-		break;
-	case CODE_9:		/*ÃüÁî¡°¡±*/
-		
-		PrintCom("");
-		break;
-	case CODE_10:		/*ÃüÁî¡°¡±*/
-		
-		PrintCom("");
-		break;
-	case CODE_11:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_12:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_13:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_14:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_15:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_16:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_17:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_18:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_19:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_20:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_21:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_22:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_23:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_24:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_25:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_26:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_27:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_28:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_29:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_30:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_31:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_32:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_33:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_34:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_35:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_36:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_37:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_38:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_39:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_40:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_41:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_42:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_43:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_44:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_45:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_46:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_47:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_48:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
-		break;
-	case CODE_49:		/*ÃüÁî¡°.....¡±*/
-
-		PrintCom("");
 		break;
 	default:/*text.....*/
 		break;

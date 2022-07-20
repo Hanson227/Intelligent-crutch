@@ -441,14 +441,14 @@
               <FilePath>..\HARDWARE\gps\bsp_atgm336h.c</FilePath>
             </File>
             <File>
-              <FileName>bsp_buzzer.c</FileName>
+              <FileName>bsp_beep.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\HARDWARE\Buzzer\bsp_buzzer.c</FilePath>
+              <FilePath>..\HARDWARE\beep\bsp_beep.c</FilePath>
             </File>
             <File>
-              <FileName>bsp.buzzer.h</FileName>
+              <FileName>bsp_beep.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\HARDWARE\Buzzer\bsp.buzzer.h</FilePath>
+              <FilePath>..\HARDWARE\beep\bsp_beep.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -659,16 +659,6 @@
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\SYSTEM\usart\usart.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>README</GroupName>
-          <Files>
-            <File>
-              <FileName>readme.txt</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\readme.txt</FilePath>
             </File>
           </Files>
         </Group>

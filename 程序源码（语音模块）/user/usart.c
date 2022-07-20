@@ -36,6 +36,24 @@ void UARTSendByte(uint8_t DAT)
 }
 
  /**
+  * @brief  串口接收函数
+  * @param  无
+  * @retval 返回一个字节
+  */
+//
+uint8_t UARTReceiveByte(void)
+{
+	uint8_t DAT;
+	ES  =  0;
+	RI=0;
+	DAT = SBUF;
+	while(RI==0);
+	RI=0;
+	ES = 1;
+	return DAT;
+}
+
+ /**
   * @brief  串口发送字符串数据
   * @param  *DAT：字符串指针
   * @retval 无

@@ -441,16 +441,6 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\gps\bsp_atgm336h.c</FilePath>
             </File>
-            <File>
-              <FileName>bsp_buzzer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\Buzzer\bsp_buzzer.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp.buzzer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\HARDWARE\Buzzer\bsp.buzzer.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -660,16 +650,6 @@
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\SYSTEM\usart\usart.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>README</GroupName>
-          <Files>
-            <File>
-              <FileName>readme.txt</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\readme.txt</FilePath>
             </File>
           </Files>
         </Group>

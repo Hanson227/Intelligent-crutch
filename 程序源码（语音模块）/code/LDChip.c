@@ -236,11 +236,7 @@ uint8 LD_AsrRun()
   {
     return 0;
   }
-//	LD_WriteReg(0xB6, 0xa); //识别时间	 1S
-//	LD_WriteReg(0xB5, 0x1E); //背景音段时间 300ms
-//	LD_WriteReg(0xB8, 10); //结束时间
 
-//	LD_WriteReg(0x1C, 0x07); //配置双通道音频信号做为输入信号
   LD_WriteReg(0x1C, 0x0b); //配置麦克风做为输入信号
 
 
@@ -270,7 +266,7 @@ uint8 LD_AsrAddFixed()
 #define DATE_B 20		/*数组一维数值*/
   uint8 code sRecog[DATE_A][DATE_B] =
   {
-	    "\0",
+	    "\0", \
     	"ni hao xiao bu", \
 		"nin hao xiao bu", \
 		"xiao bu xiao bu", \

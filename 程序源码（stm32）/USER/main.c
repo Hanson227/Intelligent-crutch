@@ -16,12 +16,11 @@
 #include "./uart4/uart4.h"
 #include "./mqtt/mqtt.h"
 #include "./timer/timer4.h"
-//#include "./timer/timer6.h"
 #include "./sim800a/bsp_sim800a.h"
 #include "./hcsr04/bsp_hcsr04.h"
 #include "./gps/bsp_atgm336h.h"
 
-#if 1
+#if 0
  /**
   * @brief  主函数
   * @param  无
@@ -29,38 +28,59 @@
   */
 int main(void)
 {
+	uint32_t a=0;
 	debug_uart_init(115200);//USART1功能初始化，波特率115200
 	Usart2_Init(9600);	
 	Usart3_Init(115200);//USART3功能初始化，波特率115200
 	Uart4_Init(9600);
 	TIM4_Init(300,7200);//TIM4初始化，定时时间300*7200*1000/72000000 = 30ms	
 	delay_init(84);//延时函数初始化，84M
+	//beep_init()//蜂鸣器初始化
+	sr04_init();//初始化超声波模块
 	IoT_Parameter_Init();//初始化云IoT平台MQTT服务器的参数
 	
 	while(1)
 	{
-		if(Connect_flag==1)
+		/*-------------------------------------------------------------*/
+		/*   串口发送数据，语音模块接收识别，提示前方障碍物，无需联网     */
+		/*-------------------------------------------------------------*/
+		a=sr04_get_distance();
+		if(a>0)
 		{
-			//生成gps消息
-			if(SubcribePack_flag==1)
+			if(a>=20&&a<=3000)
 			{
-				//解析gps数据
-				parseGpsBuffer();
-				delay_ms(1000);
-				if(Save_Data.isParseData)
+				u2_printf("3");
+			}
+		}
+		
+		
+		
+		
+		
+		if(Connect_flag==1)//联网成功
+		{
+			/*-------------------------------------------------------------*/
+			/*             处理GPD数据，加载到发送缓冲区数据                */
+			/*-------------------------------------------------------------*/
+			if(SubcribePack_flag==1)//如果订阅成功
+			{
+				parseGpsBuffer();//解析gps数据
+				delay_ms(5000);//后期改成定时器定时发送
+				if(Save_Data.isParseData)//如果解析成功
 				{
 					printf(Save_Data.GPS_Buffer);
-					
-					MQTT_PublishQs0(P_TOPIC_NAME,Save_Data.GPS_Buffer,strlen(Save_Data.GPS_Buffer)); //发布数据给服务器
+					MQTT_PublishQs0(P_TOPIC_NAME,Save_Data.GPS_Buffer,strlen(Save_Data.GPS_Buffer)); //发送消息报文
 				}
 			}
-			else
-			{
-				delay_ms(1000);
-				printf("SubcribePack_flag=%d\r\n",SubcribePack_flag);
-			}
 			
-			//if成立的话，说明发送缓冲区有数据了
+			
+			
+			
+			
+			
+			/*-------------------------------------------------------------*/
+			/*                     处理发送缓冲区数据                      */
+			/*-------------------------------------------------------------*/
 			if(MQTT_TxDataOutPtr != MQTT_TxDataInPtr)
 			{                
 				//3种情况可进入if
@@ -83,7 +103,11 @@ int main(void)
 					printf("数据：0x%x\r\n",MQTT_TxDataOutPtr[2]);
 			}//处理发送缓冲区数据的else if分支结尾
 		
-					
+			
+
+
+
+			
 			/*-------------------------------------------------------------*/
 			/*                     处理接收缓冲区数据                      */
 			/*-------------------------------------------------------------*/
@@ -124,25 +148,21 @@ int main(void)
 				else if(MQTT_RxDataOutPtr[2]==0x90){ 
 						switch(MQTT_RxDataOutPtr[6]){					
 						case 0x00 :
-						case 0x01 : printf("订阅成功\r\n");            //串口输出信息
-							        SubcribePack_flag = 1;                //SubcribePack_flag置1，表示订阅报文成功，其他报文可发送
-									Ping_flag = 0;                        //Ping_flag清零
-   								    //TIM6_ENABLE_30S();                    //启动30s的PING定时器
-									
-									  
-									break;                                //跳出分支                                             
-						default   : printf("订阅失败，准备重启\r\n");  //串口输出信息 
-									Connect_flag = 0;                     //Connect_flag置零，重启连接
-									break;                                //跳出分支 								
+						case 0x01 : printf("订阅成功\r\n");//串口输出信息
+							        SubcribePack_flag = 1;//订阅报文成功，其他报文可发送									  
+									break;//跳出分支                                             
+						default   : printf("订阅失败，准备重启\r\n");//串口输出信息 
+									Connect_flag = 0;//Connect_flag置零，重启连接
+									break;//跳出分支 								
 					}					
 				}
 								
 				//if判断，如果一共接收了10个字节，第一个字节是0x0D，有可能收到了 CLOSED 表示连接断开
 				//我们进入else if，接着判断
 				else if((MQTT_RxDataOutPtr[1]==10)&&(MQTT_RxDataOutPtr[2]==0x0D)){
-					MQTT_RxDataOutPtr[12] = '\0';                   //加入字符串结束符
-					if(strstr(SIM800C_RX_BUF,"CLOSED")){            //如果搜索到了CLOSED，表示连接断开了						
-						Connect_flag = 0;                           //连接状态置0，表示断开，需要重连服务器
+					MQTT_RxDataOutPtr[12] = '\0';//加入字符串结束符
+					if(strstr(SIM800C_RX_BUF,"CLOSED")){//如果搜索到了CLOSED，表示连接断开了						
+						Connect_flag = 0;//连接状态置0，表示断开，需要重连服务器
 					}			
 				}
 				//if判断，如果一共接收了15个字节，第一个字节是0x0D，有可能收到了 +PDP: DEACT 表示GPRS断开
@@ -161,14 +181,17 @@ int main(void)
 			}//处理接收缓冲区数据的else if分支结尾	
 		}//Connect_flag=1的if分支的结尾
 		
+		
+		
+		
 		/*--------------------------------------------------------------------*/
 		/*      Connect_flag=0同服务器断开了连接,我们要重启连接服务器         */
 		/*--------------------------------------------------------------------*/
 		else
 		{ 
 			printf("需要连接服务器\r\n");//串口输出信息
-			TIM_Cmd(TIM4,DISABLE);//关闭TIM4 
-			TIM_Cmd(TIM6,DISABLE);//关闭TIM6  
+			
+			 
 			SIM800C_RxCounter=0;//800C接收数据量变量清零
 			//清空800C接收缓冲区                        
 			memset(SIM800C_RX_BUF,0,SIM800C_RXBUFF_SIZE);     
@@ -177,6 +200,7 @@ int main(void)
 			if(SIM800C_Connect_IoTServer()==0)
 			{   			 
 				printf("建立TCP连接成功\r\n");//串口输出信息
+				u2_printf("4");////串口发送数据，语音模块接收识别，提示网络连接成功
 				Connect_flag = 1;//置1，表示连接成功	
 				SIM800C_RxCounter=0;//800C接收数据量变量清零    
 				//清空800C接收缓冲区                    
@@ -190,7 +214,7 @@ int main(void)
 #endif 
 
 
-#if 0
+#if 1
  /**
   * @brief  超声波测试函数
   * @param  无
@@ -202,6 +226,7 @@ int main(void)
 	//串口1波特率:115200bps
 	delay_init(84);//延时函数初始化，84M
 	debug_uart_init(115200);	
+	Usart2_Init(9600);
 	sr04_init();//初始化超声波模块
 	printf("超声波模块测试");
 	while(1)
@@ -210,9 +235,9 @@ int main(void)
 		a=sr04_get_distance();
 		if(a>0)
 		{
-			if(a>=20&&a<=4000)
+			if(a>=20&&a<=3000)
 			{
-				
+				u2_printf("3");//串口发送数据，语音模块接收识别
 			}
 		}
 		printf("%d cm\r\n",a/10);
@@ -262,8 +287,19 @@ int main(void)
 	u2_printf("语音模块测试\r\n");
 	while(1)
 	{
-		
 	}	
+}
+
+#endif
+
+#if 0
+
+int main(void)
+{
+	delay_init(84);//延时函数初始化，84M
+	debug_uart_init(115200);
+	printf("蜂鸣器模块测试");
+	buzzer();
 }
 
 #endif

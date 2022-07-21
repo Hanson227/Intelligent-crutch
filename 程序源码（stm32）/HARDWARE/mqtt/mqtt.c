@@ -49,8 +49,7 @@ int   Variable_len;                     					 //可变报头长度
 int   Payload_len;                       					 //有效负荷长度
 unsigned char  temp_buff[TBUFF_UNIT];						 //临时缓冲区，构建报文用
 
-char Ping_flag;           //ping报文状态      0：正常状态，等待计时时间到，发送Ping报文
-                          //ping报文状态      1：Ping报文已发送，当收到 服务器回复报文的后 将1置为0
+
 char Connect_flag;        //同服务器连接状态  0：还没有连接服务器  1：连接上服务器了
 char ConnectPack_flag;    //CONNECT报文状态   1：CONNECT报文成功
 char SubcribePack_flag;   //订阅报文状态      1：订阅报文成功
@@ -77,7 +76,6 @@ void MQTT_Buff_Init(void)
     MQTT_ConectPack();                                //发送缓冲区添加连接报文
 	MQTT_Subscribe(S_TOPIC_NAME,0);	                  //发送缓冲区添加订阅topic，等级0	
 	
-	Ping_flag = ConnectPack_flag = SubcribePack_flag = 0;  //各个参数清零
 }
 
  /**
@@ -185,7 +183,7 @@ void MQTT_Subscribe(char *topic_name, int QoS)
 }
 
  /**
-  * @brief  PING报文，心跳包
+  * @brief  PING报文，心跳包，程序持续发送数据，不需要此报文
   * @param  无
   * @retval 无
   */

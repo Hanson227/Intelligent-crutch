@@ -59,11 +59,17 @@ void  main(void)
 		cmd=(char)UARTReceiveByte();
 		switch(cmd)
 		{
-			case '1':PrintCom("<G>前方斑马线");
+			case '1':
+				PrintCom("<G>前方斑马线");
+				delay(20000);
 				break;
-			case '2':PrintCom("<G>");
+			case '2':
+				PrintCom("<G>");
+				delay(20000);
 				break;
-			case '3':PrintCom("<G>前方有障碍物");
+			case '3':
+				PrintCom("<G>前方有障碍物");
+				delay(20000);
 				break;
 			default:
 				break;

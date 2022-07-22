@@ -183,7 +183,7 @@ void MQTT_Subscribe(char *topic_name, int QoS)
 }
 
  /**
-  * @brief  PING报文，心跳包，程序持续发送数据，不需要此报文
+  * @brief  PING报文，心跳包
   * @param  无
   * @retval 无
   */

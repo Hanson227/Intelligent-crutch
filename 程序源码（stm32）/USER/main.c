@@ -57,6 +57,7 @@ int main(void)
 		
 		
 		
+		
 		if(Connect_flag==1)//联网成功
 		{
 			/*-------------------------------------------------------------*/
@@ -65,11 +66,17 @@ int main(void)
 			if(SubcribePack_flag==1)//如果订阅成功
 			{
 				parseGpsBuffer();//解析gps数据
+				
 				delay_ms(5000);//后期改成定时器定时发送
 				if(Save_Data.isParseData)//如果解析成功
 				{
-					printf(Save_Data.GPS_Buffer);
-					MQTT_PublishQs0(P_TOPIC_NAME,Save_Data.GPS_Buffer,strlen(Save_Data.GPS_Buffer)); //发送消息报文
+					pushGPSdata();//发送数据处理换算
+					printf(gps_data);
+					MQTT_PublishQs0(P_TOPIC_NAME,gps_data,strlen(gps_data)); //发送消息报文
+				}
+				else
+				{
+					MQTT_PingREQ();
 				}
 			}
 			

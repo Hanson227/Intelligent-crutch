@@ -11,9 +11,9 @@
 #include "./gps/bsp_atgm336h.h"
 #include "usart.h"
 #include "./uart4/uart4.h"
+#include "stdlib.h"
 
 
-char gps_data[128];
 
 
 
@@ -88,5 +88,87 @@ void parseGpsBuffer(void)
 	}
 }
 
+char gps_data[128];
+void pushGPSdata(void)
+{
+	int num_temp = 0;
+	int i;
+	char str_temp[12] = {0};
+	int len = 0;
+	
+	memset(gps_data,0,128);//Çå³ý
+	
+	if(Save_Data.isUsefull)
+	{	
+		
+		
+		//UTCTime_Length 11 hhmmss.sss
+		memcpy(gps_data,"UTCTime",strlen("UTCTime"));
+		len += strlen("UTCTime");
+		memcpy(&gps_data[len],Save_Data.UTCTime,strlen(Save_Data.UTCTime));
+		len += strlen(Save_Data.UTCTime);
+		
+		
+		//latitude_Length 11 ddmm.mmmm
+		for(i = 2; i<9; i++)
+		{
+			if (i != 4)
+			{
+				num_temp *= 10;
+			}
+			if ((i>=2)&&(i != 4))
+				num_temp += (Save_Data.latitude[i] - '0');
+		}
+		num_temp =(int)(((double)num_temp) / 0.6);
+		memcpy(str_temp, Save_Data.latitude, 3);
+		str_temp[2] = '.';
+		for (i = 1; i <= 6; i++)
+		{
+			str_temp[9 - i] = num_temp % 10 + '0';
+			num_temp /= 10;
+		}
+		memcpy(&gps_data[len],",N",2);
+		len += 2;
+		memcpy(&gps_data[len],str_temp,strlen(str_temp));
+		len += strlen(str_temp);
+		
+		
+		//longitude_Length 12 dddmm.mmmm
+		memset(str_temp,0,12);
+		num_temp=0;
+		for(i = 3; i<10; i++)
+		{
+			if (i != 5)
+			{
+				num_temp *= 10;
+			}
+			if ((i>=3)&&(i != 5))
+				num_temp += (Save_Data.longitude[i] - '0');
+		}
+		num_temp =(int)(((double)num_temp) / 0.6);
+		memcpy(str_temp, Save_Data.longitude, 2);
+		str_temp[3] = '.';
+		for (i = 1; i <= 6; i++)
+		{
+			str_temp[10 - i] = num_temp % 10 + '0';
+			num_temp /= 10;
+		}
+		memcpy(&gps_data[len],",E",2);
+		len += 2;
+		memcpy(&gps_data[len],str_temp,strlen(str_temp));
+		len += strlen(str_temp);
+	}
+	else
+	{
+		//UTCTime_Length 11 hhmmss.sss
+		memcpy(gps_data,"UTCTime",strlen("UTCTime"));
+		len += strlen("UTCTime");
+		memcpy(&gps_data[len],Save_Data.UTCTime,strlen(Save_Data.UTCTime));
+		len += strlen(Save_Data.UTCTime);
+		
+		memcpy(gps_data,",null",strlen(",null"));
+		len += strlen(",null");
+	}
+}
 
 /*********************************************END OF FILE**********************/

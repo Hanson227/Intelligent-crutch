@@ -24,6 +24,8 @@ typedef unsigned       long int uint64_t;
 #include "LDChip.h"
 #include "Reg_RW.h"
 #include "usart.h"
+#include "stdio.h"
+#include "string.h"
 
 /****条件编译定义*******/
 #define TEST		 //测试命令

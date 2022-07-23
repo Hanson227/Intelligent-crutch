@@ -10,10 +10,13 @@
 #define SIM800C_RxCounter    Usart3_RxCounter    //串口2控制 800C
 #define SIM800C_RX_BUF       Usart3_RxBuff       //串口2控制 800C
 #define SIM800C_RXBUFF_SIZE  USART3_RXBUFF_SIZE  //串口2控制 800C
+#define EMERGENCY_CALL_CMD		 "AT+CMGS=\"+8613106944560\""
  
 void SIM800C_GPIO_Init(void);
 char SIM800C_Power(void);
 char SIM800C_SendCmd(char *, int);
+char SIM800C_Note_Edit(char *call_cmd);
+char SIM800C_Note_Send(int timeout);
 char SIM800C_CREG(int);
 char SIM800C_CSQ(int timeout);
 char SIM800C_CGATT(int timeout);

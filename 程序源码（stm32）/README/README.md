@@ -16,7 +16,7 @@
 | 定位、路线导航             | <center>ATGM336H    | 已调试完成	|
 | 电池蓄电                  	| 锂电池              |			|
 
-## 串口使用情况;
+## 串口使用情况
 
 串口号   | 对应模块
 | --- | ---|
@@ -25,5 +25,41 @@ usart2  |  <center>k210,语音模块
 usart3  |  <center>sim800
 usart4  |  <center>gps
 
-## 模块接线：
+## 模块接线
+
+超声波模块：
+
+PE2--->Trig
+
+PE3<---Echo
+
+语音识别模块：
+
+PA2--->RXD
+
+TTS（语音合成模块）<---TXD
+
+K210模块：
+
+PA3<---TXD
+
+SIM800模块：
+
+B10--->RXD
+
+B11<---TXD
+
+GPS模块：
+
+PC11<---TXD
+
+## GPS定位数据格式
+
+无效地址：$GNRMC,hhmmss.sss,V,,,,,,,xxxxxx,,,X*xx
+
+有效地址：$GPRMC,hhmmss.sss,A,ddmm.mmmm,N,dddmm.mmmm,E,x.x,xxx.x,xxxxxx,x.x,X,X*xx
+
+
+
+
 

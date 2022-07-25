@@ -42,8 +42,9 @@ sbit SRD4 = P1 ^ 4;
   */
 void  main(void)
 {
+	char time_count = 0;
 	uint8 idata nAsrRes;
-	char cmd=0;
+	char cmd = 0;
 	uint8 i = 0;
 	P1M0 = 0xFF;
 	P1M1 = 0x00;
@@ -56,7 +57,11 @@ void  main(void)
 	PrintCom("<G>我是小布，很高兴为您服务");
 	while(1)
 	{
-		cmd=(char)UARTReceiveByte();
+		cmd = (char)UARTReceiveByte();
+		
+		PrintCom(RX_BUF);
+		memset(RX_BUF,0,0);
+		
 		switch(cmd)
 		{
 			case '1':

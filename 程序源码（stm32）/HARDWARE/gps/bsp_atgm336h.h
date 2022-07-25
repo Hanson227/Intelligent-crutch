@@ -5,7 +5,7 @@ extern char gps_data[128];
 
 void errorLog(int num);
 void parseGpsBuffer(void);
-void GPS_data_Buff(void);
+void pushGPSdata(void);
 
 #endif /*__BSP_ATGM336H_H*/
 

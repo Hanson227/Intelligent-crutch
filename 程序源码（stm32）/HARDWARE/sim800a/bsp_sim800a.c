@@ -95,6 +95,87 @@ char SIM800C_SendCmd(char *cmd, int timeout)
 }
 
  /**
+  * @brief  
+  * @param  
+  * @retval 
+  */
+char SIM800C_CMGS(int timeout,char *call_cmd)
+{
+	SIM800C_RxCounter=0;                           //800C接收数据量变量清零                        
+	memset(SIM800C_RX_BUF,0,SIM800C_RXBUFF_SIZE);  //清空800C接收缓冲区 
+	SIM800C_printf("%s\r\n",call_cmd); 
+	while(timeout--){                              //等待超时时间到0
+		delay_ms(1000);                             //延时1s
+		if(strstr(SIM800C_RX_BUF,">"))            //如果接收到OK表示指令成功
+			break;       						   //主动跳出while循环
+		printf("%d ",timeout);                  //串口输出现在的超时时间
+	}
+	printf("\r\n");                             //串口输出信息
+	if(timeout<=0)return 1;                        //如果timeout<=0，说明超时时间到了，也没能收到OK，返回1
+	else return 0;	
+}
+
+
+
+ /**
+  * @brief  
+  * @param  
+  * @retval 
+  */
+char SIM800C_Note_Edit(char *call_cmd)
+{
+	printf("等待设置字符集... ...\r\n");
+	if(SIM800C_SendCmd("AT+CSCS=\"GSM\"",10)){
+		printf("设置字符集失败\r\n");
+		return 1;
+	}else{
+		printf("设置字符集成功\r\n");
+		printf(SIM800C_RX_BUF);
+		printf("等待设置文本模式... ...\r\n");
+		
+		if(SIM800C_SendCmd("AT+CMGF=1",10)){
+			printf("设置文本模式失败\r\n");
+			return 2;
+		}else{
+			printf("设置文本模式成功\r\n");
+			printf(SIM800C_RX_BUF);
+			printf("等待设置联系人... ...\r\n");
+			if(SIM800C_CMGS(10,call_cmd)){
+				printf("设置联系人失败\r\n");
+				return 2;
+			}else{
+				printf("设置联系人成功\r\n");
+				printf(SIM800C_RX_BUF);
+				return 0;
+			}
+		}
+	}	
+}
+
+char SIM800C_Note_Send(int timeout)
+{
+	SIM800C_RxCounter=0;//800C接收数据量变量清零                        
+	memset(SIM800C_RX_BUF,0,SIM800C_RXBUFF_SIZE);//清空800C接收缓冲区 
+	USART_SendData(USART3, 0x1a);
+	
+	while(timeout--)
+	{
+		delay_ms(1000);//延时1s
+		//printf(SIM800C_RX_BUF);
+		if(strstr(SIM800C_RX_BUF,"+CMGS:"))//如果接收到 +CREG:
+			break;//主动跳出while循环
+		printf("%d ",timeout);  
+	}
+	printf("\r\n");                                       //串口输出信息
+	if(timeout<=0)return 1;                                  //如果timeout<=0，说明超时时间到了，也没能收到+CSQ:，返回1
+	else{
+		printf("发送短信成功");
+		return 0;
+	}
+}
+
+
+ /**
   * @brief  CREG指令，查询注册上网络
   * @param  timeout：超时时间（1s的倍数）
   * @retval 0：正确  
@@ -250,11 +331,6 @@ char SIM800C_TCPClose(int timeout)
 char SIM800C_Connect_IoTServer(void)
 {
 	char i;                         //定义一个变量，用于for循环
-	
-//	SIM800C_GPIO_Init();            //控制800C的IO初始化
-//	if(SIM800C_Power()){            //控制800C开机或重启,如果返回1，说明开机重启失败，准备重启
-//		return 1;                   //返回1
-//	}
 
 	printf("请等待注册上网络... ...\r\n");        //串口输出信息
 	if(SIM800C_CREG(10)){                            //等待注册上网络，超时单位1s，超时时间10s

@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   LDCHIP                                                            07/20/2022 22:17:23 PAGE 1   
+C51 COMPILER V9.60.0.0   LDCHIP                                                            07/21/2022 22:29:53 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE LDCHIP
@@ -62,7 +62,7 @@ line level    source
   52   1        LD_ReadReg(0x06);
   53   1        LD_WriteReg(0x17, 0x35);
   54   1        delay(10);
-C51 COMPILER V9.60.0.0   LDCHIP                                                            07/20/2022 22:17:23 PAGE 2   
+C51 COMPILER V9.60.0.0   LDCHIP                                                            07/21/2022 22:29:53 PAGE 2   
 
   55   1        LD_ReadReg(0x06);
   56   1      
@@ -126,7 +126,7 @@ line level    source
  114   1        LD_WriteReg(0x29,0) ;
  115   1        LD_WriteReg(0x02,0) ;
  116   1        if((ucRegVal & 0x10) &&
-C51 COMPILER V9.60.0.0   LDCHIP                                                            07/20/2022 22:17:23 PAGE 3   
+C51 COMPILER V9.60.0.0   LDCHIP                                                            07/21/2022 22:29:53 PAGE 3   
 
  117   1            LD_ReadReg(0xb2)==0x21 &&
  118   1            LD_ReadReg(0xbf)==0x35)                   /*识别成功*/
@@ -190,7 +190,7 @@ line level    source
  176   2          {
  177   3            LD_Reset();                       //      LD3320芯片内部出现不正常，立即重启LD3320芯片
  178   3            delay(50);                        //      并从初始化开始重新ASR识别流程
-C51 COMPILER V9.60.0.0   LDCHIP                                                            07/20/2022 22:17:23 PAGE 4   
+C51 COMPILER V9.60.0.0   LDCHIP                                                            07/21/2022 22:29:53 PAGE 4   
 
  179   3            continue;
  180   3          }
@@ -254,7 +254,7 @@ line level    source
  238   2        }
  239   1      
  240   1        LD_WriteReg(0x1C, 0x0b); //配置麦克风做为输入信号
-C51 COMPILER V9.60.0.0   LDCHIP                                                            07/20/2022 22:17:23 PAGE 5   
+C51 COMPILER V9.60.0.0   LDCHIP                                                            07/21/2022 22:29:53 PAGE 5   
 
  241   1      
  242   1      
@@ -318,7 +318,7 @@ line level    source
  300   2          LD_WriteReg(0xc1, pCode[k] );
  301   2          LD_WriteReg(0xc3, 0 );
  302   2          LD_WriteReg(0x08, 0x04);
-C51 COMPILER V9.60.0.0   LDCHIP                                                            07/20/2022 22:17:23 PAGE 6   
+C51 COMPILER V9.60.0.0   LDCHIP                                                            07/21/2022 22:29:53 PAGE 6   
 
  303   2          delay(1);
  304   2          LD_WriteReg(0x08, 0x00);

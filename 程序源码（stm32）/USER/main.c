@@ -19,6 +19,7 @@
 #include "./sim800a/bsp_sim800a.h"
 #include "./hcsr04/bsp_hcsr04.h"
 #include "./gps/bsp_atgm336h.h"
+#include "./adxl345/bsp_adxl345.h"
 
 #if 0
  /**
@@ -35,12 +36,53 @@ int main(void)
 	Uart4_Init(9600);
 	TIM4_Init(300,7200);//TIM4初始化，定时时间300*7200*1000/72000000 = 30ms	
 	delay_init(84);//延时函数初始化，84M
-	//beep_init()//蜂鸣器初始化
 	sr04_init();//初始化超声波模块
 	IoT_Parameter_Init();//初始化云IoT平台MQTT服务器的参数
+	Init_ADXL345();
+	
+	if(Single_Read_ADXL345(0X00)==0xe5)	
+	{
+		delay_ms(5);
+	}
+	else
+	{
+		delay_ms(3);
+	}
 	
 	while(1)
 	{
+		parseGpsBuffer();//解析gps数据
+		pushGPSdata();//发送数据处理换算
+		ReadData();//后期优化，定时数据处理
+		delay_ms(1000);
+		
+		
+		
+		
+		/*-------------------------------------------------------------*/
+		/*          跌倒求助功能，向紧急联系人发送求助和位置坐标         */
+		/*-------------------------------------------------------------*/
+		if(temp_X<-THRESHOLD||temp_X>THRESHOLD||
+			temp_Y<-THRESHOLD||temp_Y>THRESHOLD||
+			temp_Z<-THRESHOLD||temp_Z>THRESHOLD)
+		{
+			if(Save_Data.isParseData)
+			{
+				SIM800C_Note_Edit(EMERGENCY_CALL_CMD);
+				SIM800C_printf("help me!\r\n%s",gps_data);
+				SIM800C_Note_Send(30);
+			}
+			else
+			{
+				SIM800C_Note_Edit(EMERGENCY_CALL_CMD);
+				SIM800C_printf("help me!");
+				SIM800C_Note_Send(30);
+			}
+		}
+		
+		
+		
+		
 		/*-------------------------------------------------------------*/
 		/*   串口发送数据，语音模块接收识别，提示前方障碍物，无需联网     */
 		/*-------------------------------------------------------------*/
@@ -57,6 +99,7 @@ int main(void)
 		
 		
 		
+		
 		if(Connect_flag==1)//联网成功
 		{
 			/*-------------------------------------------------------------*/
@@ -64,12 +107,18 @@ int main(void)
 			/*-------------------------------------------------------------*/
 			if(SubcribePack_flag==1)//如果订阅成功
 			{
-				parseGpsBuffer();//解析gps数据
-				delay_ms(5000);//后期改成定时器定时发送
+				
+				
+				delay_ms(1000);//后期改成定时器定时发送
 				if(Save_Data.isParseData)//如果解析成功
 				{
-					printf(Save_Data.GPS_Buffer);
-					MQTT_PublishQs0(P_TOPIC_NAME,Save_Data.GPS_Buffer,strlen(Save_Data.GPS_Buffer)); //发送消息报文
+					
+					printf(gps_data);
+					MQTT_PublishQs0(P_TOPIC_NAME,gps_data,strlen(gps_data)); //发送消息报文
+				}
+				else
+				{
+					MQTT_PingREQ();
 				}
 			}
 			
@@ -214,7 +263,7 @@ int main(void)
 #endif 
 
 
-#if 1
+#if 0
  /**
   * @brief  超声波测试函数
   * @param  无
@@ -292,14 +341,44 @@ int main(void)
 
 #endif
 
-#if 0
 
-int main(void)
+
+#if 1
+ /**
+  * @brief  ADXL345模块测试
+  * @param  无
+  * @retval int
+  */
+int main()
 {
-	delay_init(84);//延时函数初始化，84M
+	delay_init(84);
 	debug_uart_init(115200);
-	printf("蜂鸣器模块测试");
-	buzzer();
+	Usart3_Init(115200);//USART3功能初始化，波特率115200
+	Init_ADXL345();
+	printf("ADXL345模块测试\r\n");
+	if(Single_Read_ADXL345(0X00)==0xe5)	
+	{
+		delay_ms(5);
+	}
+	else
+	{
+		delay_ms(3);
+	}
+	while(1)
+	{
+		
+		ReadData();
+		delay_ms(1000);
+		
+		if(temp_X<-THRESHOLD||temp_X>THRESHOLD||
+			temp_Y<-THRESHOLD||temp_Y>THRESHOLD||
+			temp_Z<-THRESHOLD||temp_Z>THRESHOLD)
+		{
+			SIM800C_Note_Edit(EMERGENCY_CALL_CMD);
+			SIM800C_printf("help me!");
+			SIM800C_Note_Send(30);
+		}
+	}
 }
 
 #endif

@@ -3,114 +3,70 @@
 <pre>
 <h1>礦ision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: μVision V5.25.2.0
-Copyright (C) 2018 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: 。。 Hanson, 。。, LIC=WHYH9-4DAIA-56NQ2-93AM3-QK6DV-BQB1R
+IDE-Version: μVision V5.24.2.0
+Copyright (C) 2017 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: 陈保池 无言以对, 仲恺农业工程学院, LIC=21E4T-R5MG6-FW52N-YF9LU-EMB3U-7794A
  
 Tool Versions:
-Toolchain:       MDK-ARM Plus  Version: 5.25.2.0
-Toolchain Path:  D:\Keil5\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.06 update 6 (build 750)
-Assembler:       Armasm.exe V5.06 update 6 (build 750)
-Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
-Library Manager: ArmAr.exe V5.06 update 6 (build 750)
-Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
-CPU DLL:         SARMCM3.DLL V5.25.2.0
-Dialog DLL:      DCM.DLL V1.17.1.0
+Toolchain:       MDK-ARM Plus  Version: 5.24.1
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 5 (build 528)
+Assembler:       Armasm.exe V5.06 update 5 (build 528)
+Linker/Locator:  ArmLink.exe V5.06 update 5 (build 528)
+Library Manager: ArmAr.exe V5.06 update 5 (build 528)
+Hex Converter:   FromElf.exe V5.06 update 5 (build 528)
+CPU DLL:         SARMCM3.DLL V5.24.1
+Dialog DLL:      DCM.DLL V1.16.0.0
 Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.1.0
-Dialog DLL:      TCM.DLL V1.35.1.0
+Dialog DLL:      TCM.DLL V1.32.0.0
  
 <h2>Project:</h2>
-D:\仲恺\实验室\项目\智能拐杖\intelligent-crutch\物体分类模块\STM32测试用程序\demo1\demo.uvprojx
-Project File Date:  05/21/2022
+D:\BaiduNetdiskDownload\智能拐杖\intelligent-crutch\物体分类模块\STM32测试用程序\demo1\demo.uvprojx
+Project File Date:  07/26/2022
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil5\ARM\ARMCC\Bin'
-Rebuild target 'demo'
-assembling startup_stm32f40_41xxx.s...
-compiling main.c...
-compiling misc.c...
-compiling stm32f4xx_exti.c...
-compiling stm32f4xx_syscfg.c...
-compiling stm32f4xx_gpio.c...
-compiling system_stm32f4xx.c...
-compiling stm32f4xx_usart.c...
-compiling stm32f4xx_rcc.c...
-compiling stm32f4xx_tim.c...
-linking...
-Program Size: Code=2136 RO-data=424 RW-data=32 ZI-data=1648  
-".\Objects\demo.axf" - 0 Error(s), 0 Warning(s).
+*** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'demo'
+Error instantiating RTE components
+Error #540: 'Keil::Device:StdPeriph Drivers:EXTI:1.3.0' component is not available for target 'demo'
+Error #540: 'Keil::Device:StdPeriph Drivers:Framework:1.3.1' component is not available for target 'demo'
+Error #540: 'Keil::Device:StdPeriph Drivers:GPIO:1.3.0' component is not available for target 'demo'
+Error #540: 'Keil::Device:StdPeriph Drivers:RCC:1.3.0' component is not available for target 'demo'
+Error #540: 'Keil::Device:StdPeriph Drivers:SYSCFG:1.3.0' component is not available for target 'demo'
+Error #540: 'Keil::Device:StdPeriph Drivers:TIM:1.3.0' component is not available for target 'demo'
+Error #540: 'Keil::Device:StdPeriph Drivers:USART:1.3.0' component is not available for target 'demo'
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: ARM
-                http://www.keil.com/pack/ARM.CMSIS.5.3.0.pack
-                ARM.CMSIS.5.3.0
-                CMSIS (Cortex Microcontroller Software Interface Standard)
-   * Component: CORE Version: 5.1.1
+                http://www.keil.com/pack/ARM.CMSIS.5.8.0.pack
+                ARM.CMSIS.5.8.0
+                CMSIS (Common Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.5.0
 
 Package Vendor: Keil
-                http://www.keil.com/pack/Keil.STM32F4xx_DFP.1.0.8.pack
-                Keil.STM32F4xx_DFP.1.0.8
+                http://www.keil.com/pack/Keil.STM32F4xx_DFP.2.16.0.pack
+                Keil.STM32F4xx_DFP.2.16.0
                 STMicroelectronics STM32F4 Series Device Support, Drivers and Examples
-   * Component: Startup Version: 1.3.1
-   * Component: EXTI Version: 1.3.0
-   * Component: Framework Version: 1.3.1
-   * Component: GPIO Version: 1.3.0
-   * Component: RCC Version: 1.3.0
-   * Component: SYSCFG Version: 1.3.0
-   * Component: TIM Version: 1.3.0
-   * Component: USART Version: 1.3.0
+   * Component: Startup Version: 2.6.3
 
 <h2>Collection of Component include folders:</h2>
-  .\RTE\Device\STM32F407VE
   .\RTE\_demo
-  D:\Keil5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include
-  D:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include
-  D:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\StdPeriph_Driver\inc
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.8.0\CMSIS\Core\Include
+  C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
 
-   * Component: ARM::CMSIS:CORE:5.1.1
+   * Component: Keil::Device:Startup:2.6.3
+      Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
+      Source file:   MDK\Device\Source\ARM\STM32F40xxx_41xxx_OPT.s
+      Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
+      Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f407xx.s
+      Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c
 
-   * Component: Keil::Device:Startup:1.3.1
-      Source file:   Device\Source\ARM\STM32F40xxx_41xxx_OPT.s
-      Include file:  Device\Include\stm32f4xx.h
-      Include file:  RTE_Driver\Config\RTE_Device.h
-      Source file:   Device\Source\ARM\startup_stm32f40_41xxx.s
-      Source file:   Device\Source\ARM\STM32F4xx_OTP.s
-      Source file:   Device\Source\system_stm32f4xx.c
-
-   * Component: Keil::Device:StdPeriph Drivers:EXTI:1.3.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f4xx_exti.c
-      Include file:  Device\StdPeriph_Driver\inc\stm32f4xx_exti.h
-
-   * Component: Keil::Device:StdPeriph Drivers:Framework:1.3.1
-      Source file:   Device\StdPeriph_Driver\templates\stm32f4xx_it.c
-      Source file:   Device\StdPeriph_Driver\src\misc.c
-      Include file:  Device\StdPeriph_Driver\templates\stm32f4xx_it.h
-      Source file:   Device\StdPeriph_Driver\templates\stm32f4xx_conf.h
-
-   * Component: Keil::Device:StdPeriph Drivers:GPIO:1.3.0
-      Include file:  Device\StdPeriph_Driver\inc\stm32f4xx_gpio.h
-      Source file:   Device\StdPeriph_Driver\src\stm32f4xx_gpio.c
-
-   * Component: Keil::Device:StdPeriph Drivers:RCC:1.3.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f4xx_rcc.c
-      Include file:  Device\StdPeriph_Driver\inc\stm32f4xx_rcc.h
-
-   * Component: Keil::Device:StdPeriph Drivers:SYSCFG:1.3.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f4xx_syscfg.c
-      Include file:  Device\StdPeriph_Driver\inc\stm32f4xx_syscfg.h
-
-   * Component: Keil::Device:StdPeriph Drivers:TIM:1.3.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f4xx_tim.c
-      Include file:  Device\StdPeriph_Driver\inc\stm32f4xx_tim.h
-
-   * Component: Keil::Device:StdPeriph Drivers:USART:1.3.0
-      Include file:  Device\StdPeriph_Driver\inc\stm32f4xx_usart.h
-      Source file:   Device\StdPeriph_Driver\src\stm32f4xx_usart.c
-Build Time Elapsed:  00:00:02
+   * Component: ARM::CMSIS:CORE:5.5.0
+Target not created.
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

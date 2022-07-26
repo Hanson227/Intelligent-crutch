@@ -343,7 +343,7 @@ int main(void)
 
 
 
-#if 1
+#if 0
  /**
   * @brief  ADXL345Ä£¿é²âÊÔ
   * @param  ÎÞ
@@ -382,6 +382,21 @@ int main()
 }
 
 #endif
+
+#if 1
+
+int main(void)
+{
+	Usart2_Init(9600);
+	
+	while(1)
+	{
+		
+	}
+}
+
+
+#endif 
 
 /*********************************************END OF FILE**********************/
 

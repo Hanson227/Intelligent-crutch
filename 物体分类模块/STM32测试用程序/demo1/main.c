@@ -113,7 +113,7 @@ void usart2_init(uint32_t baud)
 {
 	
 	//打开PA硬件时钟	
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
 	
 	
 
@@ -121,7 +121,7 @@ void usart2_init(uint32_t baud)
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
 
 	//配置PA9和PA10为复用功能模式
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5|GPIO_Pin_6;		//第5 6根引脚
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_3;		//第5 6根引脚
 	GPIO_InitStructure.GPIO_Mode= GPIO_Mode_AF;	//多功能模式
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;	//推挽输出，增加输出电流能力。
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;//高速响应
@@ -131,8 +131,8 @@ void usart2_init(uint32_t baud)
 
 
 	//将PA9和PA10引脚连接到串口1的硬件
-	GPIO_PinAFConfig(GPIOD,GPIO_PinSource5,GPIO_AF_USART2);
-	GPIO_PinAFConfig(GPIOD,GPIO_PinSource6,GPIO_AF_USART2);	
+	GPIO_PinAFConfig(GPIOA,GPIO_PinSource2,GPIO_AF_USART2);
+	GPIO_PinAFConfig(GPIOA,GPIO_PinSource3,GPIO_AF_USART2);	
 	
 	
 	

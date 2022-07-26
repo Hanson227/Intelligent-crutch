@@ -17,19 +17,26 @@ Library Manager: ArmAr.exe V5.06 update 6 (build 750)
 Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
 CPU DLL:         SARMCM3.DLL V5.25.2.0
 Dialog DLL:      DCM.DLL V1.17.1.0
-Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.1.0
+Target DLL:      UL2CM3.DLL V1.160.12.0
 Dialog DLL:      TCM.DLL V1.35.1.0
  
 <h2>Project:</h2>
 D:\仲恺\实验室\项目\智能拐杖\intelligent-crutch\物体分类模块\STM32测试用程序\demo1\demo.uvprojx
-Project File Date:  05/21/2022
+Project File Date:  07/26/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil5\ARM\ARMCC\Bin'
-Build target 'demo'
+Rebuild target 'demo'
+assembling startup_stm32f40_41xxx.s...
 compiling main.c...
+compiling misc.c...
+compiling stm32f4xx_exti.c...
+compiling system_stm32f4xx.c...
+compiling stm32f4xx_rcc.c...
+compiling stm32f4xx_gpio.c...
+compiling stm32f4xx_usart.c...
 linking...
-Program Size: Code=2132 RO-data=424 RW-data=32 ZI-data=1648  
+Program Size: Code=2136 RO-data=424 RW-data=32 ZI-data=1648  
 ".\Objects\demo.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
@@ -49,8 +56,6 @@ Package Vendor: Keil
    * Component: Framework Version: 1.3.1
    * Component: GPIO Version: 1.3.0
    * Component: RCC Version: 1.3.0
-   * Component: SYSCFG Version: 1.3.0
-   * Component: TIM Version: 1.3.0
    * Component: USART Version: 1.3.0
 
 <h2>Collection of Component include folders:</h2>
@@ -66,41 +71,33 @@ Package Vendor: Keil
 
    * Component: Keil::Device:Startup:1.3.1
       Source file:   Device\Source\ARM\STM32F40xxx_41xxx_OPT.s
-      Source file:   Device\Source\ARM\startup_stm32f40_41xxx.s
-      Source file:   Device\Source\ARM\STM32F4xx_OTP.s
-      Include file:  Device\Include\stm32f4xx.h
       Include file:  RTE_Driver\Config\RTE_Device.h
+      Source file:   Device\Source\ARM\startup_stm32f40_41xxx.s
       Source file:   Device\Source\system_stm32f4xx.c
+      Include file:  Device\Include\stm32f4xx.h
+      Source file:   Device\Source\ARM\STM32F4xx_OTP.s
 
    * Component: Keil::Device:StdPeriph Drivers:EXTI:1.3.0
-      Include file:  Device\StdPeriph_Driver\inc\stm32f4xx_exti.h
       Source file:   Device\StdPeriph_Driver\src\stm32f4xx_exti.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f4xx_exti.h
 
    * Component: Keil::Device:StdPeriph Drivers:Framework:1.3.1
       Source file:   Device\StdPeriph_Driver\src\misc.c
       Source file:   Device\StdPeriph_Driver\templates\stm32f4xx_conf.h
-      Include file:  Device\StdPeriph_Driver\templates\stm32f4xx_it.h
       Source file:   Device\StdPeriph_Driver\templates\stm32f4xx_it.c
+      Include file:  Device\StdPeriph_Driver\templates\stm32f4xx_it.h
 
    * Component: Keil::Device:StdPeriph Drivers:GPIO:1.3.0
-      Include file:  Device\StdPeriph_Driver\inc\stm32f4xx_gpio.h
       Source file:   Device\StdPeriph_Driver\src\stm32f4xx_gpio.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f4xx_gpio.h
 
    * Component: Keil::Device:StdPeriph Drivers:RCC:1.3.0
-      Include file:  Device\StdPeriph_Driver\inc\stm32f4xx_rcc.h
       Source file:   Device\StdPeriph_Driver\src\stm32f4xx_rcc.c
-
-   * Component: Keil::Device:StdPeriph Drivers:SYSCFG:1.3.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f4xx_syscfg.c
-      Include file:  Device\StdPeriph_Driver\inc\stm32f4xx_syscfg.h
-
-   * Component: Keil::Device:StdPeriph Drivers:TIM:1.3.0
-      Include file:  Device\StdPeriph_Driver\inc\stm32f4xx_tim.h
-      Source file:   Device\StdPeriph_Driver\src\stm32f4xx_tim.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f4xx_rcc.h
 
    * Component: Keil::Device:StdPeriph Drivers:USART:1.3.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f4xx_usart.c
       Include file:  Device\StdPeriph_Driver\inc\stm32f4xx_usart.h
+      Source file:   Device\StdPeriph_Driver\src\stm32f4xx_usart.c
 Build Time Elapsed:  00:00:01
 </pre>
 </body>

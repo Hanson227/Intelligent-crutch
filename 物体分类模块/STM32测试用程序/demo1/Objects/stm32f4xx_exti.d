@@ -14,7 +14,5 @@
 .\objects\stm32f4xx_exti.o: D:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\StdPeriph_Driver\inc\stm32f4xx_gpio.h
 .\objects\stm32f4xx_exti.o: D:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include\stm32f4xx.h
 .\objects\stm32f4xx_exti.o: D:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\StdPeriph_Driver\inc\stm32f4xx_rcc.h
-.\objects\stm32f4xx_exti.o: D:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\StdPeriph_Driver\inc\stm32f4xx_syscfg.h
-.\objects\stm32f4xx_exti.o: D:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\StdPeriph_Driver\inc\stm32f4xx_tim.h
 .\objects\stm32f4xx_exti.o: D:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\StdPeriph_Driver\inc\stm32f4xx_usart.h
 .\objects\stm32f4xx_exti.o: D:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\StdPeriph_Driver\inc\misc.h

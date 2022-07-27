@@ -167,10 +167,9 @@ int main(void)
 {
 	
 	usart1_init(115200);
-	usart2_init(115200);
+	usart2_init(9600);
 	
-	printf("ok123");
-
+	printf("123123");
 	while(1)
 	{
 		

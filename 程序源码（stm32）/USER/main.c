@@ -16,12 +16,13 @@
 #include "./uart4/uart4.h"
 #include "./mqtt/mqtt.h"
 #include "./timer/timer4.h"
+#include "./timer/timer6.h"
 #include "./sim800a/bsp_sim800a.h"
 #include "./hcsr04/bsp_hcsr04.h"
 #include "./gps/bsp_atgm336h.h"
 #include "./adxl345/bsp_adxl345.h"
 
-#if 0
+#if 1
  /**
   * @brief  主函数
   * @param  无
@@ -29,34 +30,20 @@
   */
 int main(void)
 {
-	uint32_t a=0;
 	debug_uart_init(115200);//USART1功能初始化，波特率115200
 	Usart2_Init(9600);	
 	Usart3_Init(115200);//USART3功能初始化，波特率115200
 	Uart4_Init(9600);
-	TIM4_Init(300,7200);//TIM4初始化，定时时间300*7200*1000/72000000 = 30ms	
+	TIM4_Init(300,7200);//TIM4初始化，定时时间300*7200*1000/72000000 = 30ms
+	TIM6_ENABLE_2S();	
 	delay_init(84);//延时函数初始化，84M
 	sr04_init();//初始化超声波模块
 	IoT_Parameter_Init();//初始化云IoT平台MQTT服务器的参数
 	Init_ADXL345();
 	
-	if(Single_Read_ADXL345(0X00)==0xe5)	
-	{
-		delay_ms(5);
-	}
-	else
-	{
-		delay_ms(3);
-	}
-	
 	while(1)
-	{
-		parseGpsBuffer();//解析gps数据
-		pushGPSdata();//发送数据处理换算
-		ReadData();//后期优化，定时数据处理
-		delay_ms(1000);
-		
-		
+	{		
+	
 		
 		
 		/*-------------------------------------------------------------*/
@@ -68,62 +55,34 @@ int main(void)
 		{
 			if(Save_Data.isParseData)
 			{
-				SIM800C_Note_Edit(EMERGENCY_CALL_CMD);
-				SIM800C_printf("help me!\r\n%s",gps_data);
-				SIM800C_Note_Send(30);
+				SIM800A_Note_Edit(EMERGENCY_CALL_CMD);
+				SIM800A_printf("help me!\r\n%s",gps_data);
+				SIM800A_Note_Send(30);
 			}
 			else
 			{
-				SIM800C_Note_Edit(EMERGENCY_CALL_CMD);
-				SIM800C_printf("help me!");
-				SIM800C_Note_Send(30);
+				SIM800A_Note_Edit(EMERGENCY_CALL_CMD);
+				SIM800A_printf("help me!");
+				SIM800A_Note_Send(30);
 			}
 		}
 		
-		
-		
+
 		
 		/*-------------------------------------------------------------*/
 		/*   串口发送数据，语音模块接收识别，提示前方障碍物，无需联网     */
 		/*-------------------------------------------------------------*/
-		a=sr04_get_distance();
-		if(a>0)
+		sr04_get_distance();
+		if(distance>0)
 		{
-			if(a>=20&&a<=3000)
+			if(distance>=20&&distance<=3000)
 			{
 				u2_printf("3");
 			}
 		}
 		
-		
-		
-		
-		
-		
 		if(Connect_flag==1)//联网成功
-		{
-			/*-------------------------------------------------------------*/
-			/*             处理GPD数据，加载到发送缓冲区数据                */
-			/*-------------------------------------------------------------*/
-			if(SubcribePack_flag==1)//如果订阅成功
-			{
-				
-				
-				delay_ms(1000);//后期改成定时器定时发送
-				if(Save_Data.isParseData)//如果解析成功
-				{
-					
-					printf(gps_data);
-					MQTT_PublishQs0(P_TOPIC_NAME,gps_data,strlen(gps_data)); //发送消息报文
-				}
-				else
-				{
-					MQTT_PingREQ();
-				}
-			}
-			
-			
-			
+		{		
 			
 			
 			
@@ -151,9 +110,6 @@ int main(void)
 				else
 					printf("数据：0x%x\r\n",MQTT_TxDataOutPtr[2]);
 			}//处理发送缓冲区数据的else if分支结尾
-		
-			
-
 
 
 			
@@ -210,7 +166,7 @@ int main(void)
 				//我们进入else if，接着判断
 				else if((MQTT_RxDataOutPtr[1]==10)&&(MQTT_RxDataOutPtr[2]==0x0D)){
 					MQTT_RxDataOutPtr[12] = '\0';//加入字符串结束符
-					if(strstr(SIM800C_RX_BUF,"CLOSED")){//如果搜索到了CLOSED，表示连接断开了						
+					if(strstr(SIM800A_RX_BUF,"CLOSED")){//如果搜索到了CLOSED，表示连接断开了						
 						Connect_flag = 0;//连接状态置0，表示断开，需要重连服务器
 					}			
 				}
@@ -219,7 +175,7 @@ int main(void)
 				else if((MQTT_RxDataOutPtr[1]==15)&&(MQTT_RxDataOutPtr[1]==0x0D)){
 					MQTT_RxDataOutPtr[17] = '\0';                   //加入字符串结束符
 					printf("GPRS断开\r\n"); 		                //串口输出信息
-					if(strstr(SIM800C_RX_BUF,"+PDP: DEACT")){       //如果搜索到+PDP: DEACT，表示GPRS断开了						
+					if(strstr(SIM800A_RX_BUF,"+PDP: DEACT")){       //如果搜索到+PDP: DEACT，表示GPRS断开了						
 						Connect_flag = 0;                           //连接状态置0，表示断开，需要重连服务器
 					}			
 				}	
@@ -232,7 +188,6 @@ int main(void)
 		
 		
 		
-		
 		/*--------------------------------------------------------------------*/
 		/*      Connect_flag=0同服务器断开了连接,我们要重启连接服务器         */
 		/*--------------------------------------------------------------------*/
@@ -241,19 +196,19 @@ int main(void)
 			printf("需要连接服务器\r\n");//串口输出信息
 			
 			 
-			SIM800C_RxCounter=0;//800C接收数据量变量清零
+			SIM800A_RxCounter=0;//800C接收数据量变量清零
 			//清空800C接收缓冲区                        
-			memset(SIM800C_RX_BUF,0,SIM800C_RXBUFF_SIZE);     
+			memset(SIM800A_RX_BUF,0,SIM800A_RXBUFF_SIZE);     
 			
 			/*如果800C连接云服务器函数返回0，表示正确，进入if*/
-			if(SIM800C_Connect_IoTServer()==0)
+			if(SIM800A_Connect_IoTServer()==0)
 			{   			 
 				printf("建立TCP连接成功\r\n");//串口输出信息
 				u2_printf("4");////串口发送数据，语音模块接收识别，提示网络连接成功
 				Connect_flag = 1;//置1，表示连接成功	
-				SIM800C_RxCounter=0;//800C接收数据量变量清零    
+				SIM800A_RxCounter=0;//800C接收数据量变量清零    
 				//清空800C接收缓冲区                    
-				memset(SIM800C_RX_BUF,0,SIM800C_RXBUFF_SIZE); 
+				memset(SIM800A_RX_BUF,0,SIM800A_RXBUFF_SIZE); 
 				MQTT_Buff_Init();//初始化缓冲区                    
 			}				
 		}
@@ -374,16 +329,16 @@ int main()
 			temp_Y<-THRESHOLD||temp_Y>THRESHOLD||
 			temp_Z<-THRESHOLD||temp_Z>THRESHOLD)
 		{
-			SIM800C_Note_Edit(EMERGENCY_CALL_CMD);
-			SIM800C_printf("help me!");
-			SIM800C_Note_Send(30);
+			SIM800A_Note_Edit(EMERGENCY_CALL_CMD);
+			SIM800A_printf("help me!");
+			SIM800A_Note_Send(30);
 		}
 	}
 }
 
 #endif
 
-#if 1
+#if 0
 
 int main(void)
 {

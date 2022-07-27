@@ -13,9 +13,7 @@
 #include "./uart4/uart4.h"
 #include "stdlib.h"
 
-
-
-
+char gps_data[128];
 
  /**
   * @brief  错误检测函数
@@ -45,7 +43,7 @@ void parseGpsBuffer(void)
 	{
 		Save_Data.isGetData = false;
 		//printf("**************\r\n");
-		//printf(Save_Data.GPS_Buffer);
+		printf(Save_Data.GPS_Buffer);
 		for (i = 0 ; i <= 6 ; i++)
 		{
 			if (i == 0)
@@ -88,7 +86,11 @@ void parseGpsBuffer(void)
 	}
 }
 
-char gps_data[128];
+ /**
+  * @brief  发送数据生成
+  * @param  无
+  * @retval 无
+  */
 void pushGPSdata(void)
 {
 	int num_temp = 0;
@@ -166,7 +168,7 @@ void pushGPSdata(void)
 		memcpy(&gps_data[len],Save_Data.UTCTime,strlen(Save_Data.UTCTime));
 		len += strlen(Save_Data.UTCTime);
 		
-		memcpy(gps_data,",null",strlen(",null"));
+		memcpy(&gps_data[len],",null",strlen(",null"));
 		len += strlen(",null");
 	}
 }

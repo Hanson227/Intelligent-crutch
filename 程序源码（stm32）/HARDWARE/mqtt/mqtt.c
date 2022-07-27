@@ -98,8 +98,8 @@ void IoT_Parameter_Init(void)
 	Passward_len = strlen(Passward);                     //计算密码的长度
 	
 	memset(ServerIP,0,128);  
-	sprintf(ServerIP,"%s","3E76RFZM92.iotcloud.tencentdevices.com");              //构建服务器域名
-	ServerPort = 1883;                                   //服务器端口号6002
+	sprintf(ServerIP,"%s","t.yoyolife.fun");             //构建服务器域名
+	ServerPort = 1883;                                   //服务器端口号1883
 	
 	printf("服 务 器：%s:%d\r\n",ServerIP,ServerPort); //串口输出调试信息
 	printf("客户端ID：%s\r\n",ClientID);               //串口输出调试信息

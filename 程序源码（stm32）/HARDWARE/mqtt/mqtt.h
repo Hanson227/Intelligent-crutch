@@ -12,14 +12,14 @@
 
 #define  MQTT_TxData(x)       u3_TxData(x)                                  //串口3负责数据发送
 
-#define  PRODUCTID            "3E76RFZM92Demo;12010126;7fc8e;1665072000"                                  //产品ID
+#define  PRODUCTID            "c40129efae872aabd1113ed8245c49f4"                                  //产品ID
 #define  PRODUCTID_LEN        strlen(PRODUCTID)                             //产品ID长度
-#define  DEVICEID             "3E76RFZM92Demo"                                        //设备ID  
+#define  DEVICEID             "iot"                                        	//设备ID  
 #define  DEVICEID_LEN         strlen(DEVICEID)                              //设备ID长度
-#define  AUTHENTICATION       "9b6e861a1519c35d4bd8577fe9d4e7c0e64b019bc468e30b1fc01a66c85bb121;hmacsha256"                                      //鉴权信息  
+#define  AUTHENTICATION       "123123"                                      //鉴权信息  
 #define  AUTHENTICATION_LEN    strlen(AUTHENTICATION)                       //鉴权信息长度
-#define  S_TOPIC_NAME         "3E76RFZM92/Demo/app_topic"                                   //需要订阅的主题  
-#define  P_TOPIC_NAME         "3E76RFZM92/Demo/kfb_topic"                                  //需要发布的主题  
+#define  S_TOPIC_NAME         "/iot/1620/pub/123"                                   //需要订阅的主题  
+#define  P_TOPIC_NAME         "/iot/1620/sub/123"                                  //需要发布的主题  
 
 extern unsigned char  MQTT_RxDataBuf[R_NUM][RBUFF_UNIT];       //外部变量声明，数据的接收缓冲区,所有服务器发来的数据，存放在该缓冲区,缓冲区第一个字节存放数据长度
 extern unsigned char *MQTT_RxDataInPtr;                        //外部变量声明，指向缓冲区存放数据的位置

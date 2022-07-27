@@ -29,11 +29,15 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_it.h"
+#include "usart.h"
 #include "./usart2/usart2.h"  
 #include "./usart3/usart3.h"
 #include "./uart4/uart4.h"
 #include "./mqtt/mqtt.h"
 #include "./timer/timer4.h"
+#include "./timer/timer6.h"
+#include "./gps/bsp_atgm336h.h"
+#include "./adxl345/bsp_adxl345.h"
 
 /** @addtogroup Template_Project
   * @{
@@ -268,12 +272,39 @@ void TIM4_IRQHandler(void)
 		if(MQTT_RxDataInPtr==MQTT_RxDataEndPtr)                       //如果指针到缓冲区尾部了
 			MQTT_RxDataInPtr = MQTT_RxDataBuf[0];                     //指针归位到缓冲区开头
 		Usart3_RxCounter = 0;                                         //串口2接收数据量变量清零
-		TIM_SetCounter(TIM3, 0);                                      //清零定时器6计数器，重新计时ping包发送时间
 		TIM_Cmd(TIM4, DISABLE);                        				  //关闭TIM4定时器
 		TIM_SetCounter(TIM4, 0);                        			  //清零定时器4计数器
 		TIM_ClearITPendingBit(TIM4, TIM_IT_Update);     			  //清除TIM4溢出中断标志 	
 	}
 }
 
+ /**
+  * @brief  定时器6中断服务函数 
+  * @param  无
+  * @retval 无
+  */
+void TIM6_DAC_IRQHandler(void)
+{
+	if(TIM_GetITStatus(TIM6, TIM_IT_Update) != RESET){   //如果TIM_IT_Update置位，表示TIM6溢出中断，进入if	
+		parseGpsBuffer();//解析gps数据
+		pushGPSdata();//发送数据处理换算
+		ReadData();//后期优化，定时数据处理
+		printf("Tim6");
+		if(SubcribePack_flag==1)//如果订阅成功
+		{
+			if(Save_Data.isParseData)//如果解析成功
+			{
+				
+				printf(gps_data);
+				MQTT_PublishQs0(P_TOPIC_NAME,gps_data,strlen(gps_data)); //发送消息报文
+			}
+			else
+			{
+				MQTT_PingREQ();
+			}
+		}
+		TIM_ClearITPendingBit(TIM6, TIM_IT_Update);      //清除TIM6溢出中断标志 	
+	}
+}
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

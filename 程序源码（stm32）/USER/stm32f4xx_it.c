@@ -185,8 +185,12 @@ void SysTick_Handler(void)
 void USART2_IRQHandler(void)                	//串口1中断服务程序
 {
 	if(USART_GetITStatus( USART2, USART_IT_RXNE ) != RESET)
-	{				
-		USART_SendData( USART2, USART_ReceiveData( USART2 ));
+	{		
+		switch(USART_ReceiveData( USART2 ))
+		{
+			case 'z':USART_SendData(USART2,'1');break;
+			case 'L':USART_SendData(USART2,'2');break;
+		}
 	}	
 } 
 

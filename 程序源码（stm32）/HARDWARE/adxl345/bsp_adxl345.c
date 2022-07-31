@@ -14,11 +14,11 @@
 
 
 #define SDA_RCC		  	RCC_APB2Periph_GPIOA
-#define SDA_GPIO		  GPIOA
+#define SDA_GPIO		GPIOA
 #define SDA_GPIO_PIN	GPIO_Pin_5
 
-#define SCL_RCC			  RCC_APB2Periph_GPIOA   //时钟号
-#define SCL_GPIO		  GPIOA                  //端口号
+#define SCL_RCC			RCC_APB2Periph_GPIOA   //时钟号
+#define SCL_GPIO		GPIOA                  //端口号
 #define SCL_GPIO_PIN	GPIO_Pin_4             //引脚号
 
 #define SCL_OUT() SCL_Set_Output()                       //设置时钟线为输出模式
@@ -41,7 +41,7 @@ unsigned char err;
 double temp_X,temp_Y,temp_Z;
 
  /**
-  * @brief  时钟信号输出
+  * @brief  时钟信号输出初始化
   * @param  无
   * @retval 无
   */
@@ -56,7 +56,7 @@ void SCL_Set_Output(void)
 }	
 
  /**
-  * @brief  数据信号输出
+  * @brief  数据信号输出初始化
   * @param  无
   * @retval 无
   */
@@ -71,7 +71,7 @@ void SDA_Set_Output(void)
 }	
 
  /**
-  * @brief  数据信号输入
+  * @brief  数据信号输入初始化
   * @param  无
   * @retval 无
   */
@@ -239,8 +239,8 @@ void Single_Write_ADXL345(uchar REG_Address,uchar REG_data)
 {
     ADXL345_Start();                  //起始信号
     ADXL345_SendByte(SlaveAddress);   //发送设备地址+写信号
-    ADXL345_SendByte(REG_Address);    //内部寄存器地址，请参考中文pdf22页 
-    ADXL345_SendByte(REG_data);       //内部寄存器数据，请参考中文pdf22页 
+    ADXL345_SendByte(REG_Address);    //内部寄存器地址 
+    ADXL345_SendByte(REG_data);       //内部寄存器数据
     ADXL345_Stop();                   //发送停止信号
 }
 
@@ -299,12 +299,12 @@ void Multiple_Read_ADXL345(void)
 void Init_ADXL345(void)
 {                       
 	Single_Write_ADXL345(0x31,0x0B);   //测量范围,正负16g，13位模式
-	Single_Write_ADXL345(0x2C,0x08);   //速率设定为25 参考pdf13页
-	Single_Write_ADXL345(0x2D,0x08);   //选择电源模式   参考pdf24页    //参考14页表7进行修改
+	Single_Write_ADXL345(0x2C,0x08);   //速率设定为25
+	Single_Write_ADXL345(0x2D,0x08);   //选择电源模式
 	Single_Write_ADXL345(0x2E,0x80);   //使能 DATA_READY 中断
-	Single_Write_ADXL345(0x1E,0x00);   //X 偏移量 根据测试传感器的状态写入pdf29页
-	Single_Write_ADXL345(0x1F,0x00);   //Y 偏移量 根据测试传感器的状态写入pdf29页
-	Single_Write_ADXL345(0x20,0x05);   //Z 偏移量 根据测试传感器的状态写入pdf29页
+	Single_Write_ADXL345(0x1E,0x00);   //X 偏移量
+	Single_Write_ADXL345(0x1F,0x00);   //Y 偏移量
+	Single_Write_ADXL345(0x20,0x05);   //Z 偏移量
 	if(Single_Read_ADXL345(0X00)==0xe5)	
 	{
 		delay_ms(5);
@@ -326,13 +326,13 @@ void ReadData(void)
 	Multiple_Read_ADXL345();       	//连续读出数据，存储在BUF中
 	dis_data=(BUF[1]<<8)+BUF[0];  //合成数据   
 	
-	temp_X=(double)dis_data*3.9;  //计算数据和显示,查考ADXL345快速入门第4页
+	temp_X=(double)dis_data*3.9;  //计算数据和显示
 	dis_data=(BUF[3]<<8)+BUF[2];  //合成数据   
 	
-	temp_Y=(double)dis_data*3.9;  //计算数据和显示,查考ADXL345快速入门第4页
+	temp_Y=(double)dis_data*3.9;  //计算数据和显示
 	dis_data=(BUF[5]<<8)+BUF[4];    //合成数据   
 	
-	temp_Z=(double)dis_data*3.9;  //计算数据和显示,查考ADXL345快速入门第4页
+	temp_Z=(double)dis_data*3.9;  //计算数据和显示
 	
 	if(temp_X>200000.0)
 			temp_X-=255586.5;

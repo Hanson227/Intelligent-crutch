@@ -48,6 +48,7 @@ void sr04_init(void)//配置PE2为触发信号引脚，PE3为回想信号引脚
 char sr04_get_distance(void)
 {
 	uint32_t t=0;
+	distance = 0;
 	//PE2持续最少10us的高电平时间
 	PEout(2)=1;
 	delay_us(20);

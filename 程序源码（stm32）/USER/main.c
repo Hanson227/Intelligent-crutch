@@ -75,7 +75,7 @@ int main(void)
 		sr04_get_distance();
 		if(distance>0)
 		{
-			if(distance>=20&&distance<=3000)
+			if(distance>=20&&distance<=2000)
 			{
 				u2_printf("3");
 			}
@@ -226,7 +226,6 @@ int main(void)
   */
 int main(void)
 {	
-	uint32_t a=0;
 	//串口1波特率:115200bps
 	delay_init(84);//延时函数初始化，84M
 	debug_uart_init(115200);	
@@ -234,17 +233,16 @@ int main(void)
 	sr04_init();//初始化超声波模块
 	printf("超声波模块测试");
 	while(1)
-	{
-		
-		a=sr04_get_distance();
-		if(a>0)
+	{	
+		sr04_get_distance();
+		if(distance>0)
 		{
-			if(a>=20&&a<=3000)
+			if(distance>=20&&distance<=3000)
 			{
 				u2_printf("3");//串口发送数据，语音模块接收识别
 			}
 		}
-		printf("%d cm\r\n",a/10);
+		printf("%d cm\r\n",distance/10);
 		delay_ms(1000);
 	}
 }

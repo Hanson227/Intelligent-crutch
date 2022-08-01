@@ -12,14 +12,7 @@
   */
 
 #include "config.h"
-/************************************************************************************/
-//	nAsrStatus 用来在main主程序中表示程序运行的状态，不是LD3320芯片内部的状态寄存器
-//	LD_ASR_NONE:		表示没有在作ASR识别
-//	LD_ASR_RUNING：		表示LD3320正在作ASR识别中
-//	LD_ASR_FOUNDOK:		表示一次识别流程结束后，有一个识别结果
-//	LD_ASR_FOUNDZERO:	表示一次识别流程结束后，没有识别结果
-//	LD_ASR_ERROR:		表示一次识别流程中LD3320芯片内部出现不正确的状态
-/***********************************************************************************/
+
 uint8 idata nAsrStatus = 0;
 void MCU_init();
 void ProcessInt0(); //识别处理函数
@@ -59,22 +52,19 @@ void  main(void)
 	{
 		cmd = (char)UARTReceiveByte();
 		
-		PrintCom(RX_BUF);
-		memset(RX_BUF,0,0);
-		
 		switch(cmd)
 		{
 			case '1':
 				PrintCom("<G>前方斑马线");
-				delay(20000);
+				delay(10000);
 				break;
 			case '2':
-				PrintCom("<G>");
-				delay(20000);
+				PrintCom("<G>前方楼梯");
+				delay(10000);
 				break;
 			case '3':
 				PrintCom("<G>前方有障碍物");
-				delay(20000);
+				delay(10000);
 				break;
 			default:
 				break;
@@ -106,8 +96,8 @@ void  main(void)
 			nAsrStatus = LD_ASR_NONE;
 			break;
 		}
-		}// switch
-	}// while
+		}
+	}
 
 }
 

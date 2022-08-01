@@ -426,6 +426,11 @@
               <FilePath>..\HARDWARE\timer\timer4.c</FilePath>
             </File>
             <File>
+              <FileName>timer6.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\timer\timer6.c</FilePath>
+            </File>
+            <File>
               <FileName>bsp_hcsr04.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\hcsr04\bsp_hcsr04.c</FilePath>

@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              07/21/2022 22:50:09 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              07/31/2022 21:20:19 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -62,7 +62,7 @@ line level    source
   52   1              Led_test();
   53   1              MCU_init();
   54   1              LD_Reset();
-C51 COMPILER V9.60.0.0   MAIN                                                              07/21/2022 22:50:09 PAGE 2   
+C51 COMPILER V9.60.0.0   MAIN                                                              07/31/2022 21:20:19 PAGE 2   
 
   55   1              UartIni(); /*串口初始化*/
   56   1              nAsrStatus = LD_ASR_NONE;               //      初始状态：没有在作ASR
@@ -71,228 +71,225 @@ line level    source
   59   1              {
   60   2                      cmd = (char)UARTReceiveByte();
   61   2                      
-  62   2                      PrintCom(RX_BUF);
-  63   2                      memset(RX_BUF,0,0);
-  64   2                      
-  65   2                      switch(cmd)
-  66   2                      {
-  67   3                              case '1':
-  68   3                                      PrintCom("<G>前方斑马线");
-  69   3                                      delay(20000);
-  70   3                                      break;
-  71   3                              case '2':
-  72   3                                      PrintCom("<G>");
-  73   3                                      delay(20000);
-  74   3                                      break;
-  75   3                              case '3':
-  76   3                                      PrintCom("<G>前方有障碍物");
-  77   3                                      delay(20000);
-  78   3                                      break;
-  79   3                              default:
-  80   3                                      break;
-  81   3                      }
-  82   2                      switch(nAsrStatus)
-  83   2                      {
-  84   3                      case LD_ASR_RUNING:
-  85   3                      case LD_ASR_ERROR:
-  86   3                              break;
-  87   3                      case LD_ASR_NONE:
-  88   3                      {
-  89   4                              nAsrStatus = LD_ASR_RUNING;
-  90   4                              if (RunASR() == 0)      /*      启动一次ASR识别流程：ASR初始化，ASR添加关键词语，启动ASR运算*/
-  91   4                              {
-  92   5                                      nAsrStatus = LD_ASR_ERROR;
-  93   5                              }
-  94   4                              break;
-  95   4                      }
-  96   3                      case LD_ASR_FOUNDOK: /* 一次ASR识别流程结束，去取ASR识别结果*/
-  97   3                      {
-  98   4                              nAsrRes = LD_GetResult();               /*获取结果*/
-  99   4                              User_handle(nAsrRes);//用户执行函数
- 100   4                              nAsrStatus = LD_ASR_NONE;
- 101   4                              break;
- 102   4                      }
- 103   3                      case LD_ASR_FOUNDZERO:
- 104   3                      default:
- 105   3                      {
- 106   4                              nAsrStatus = LD_ASR_NONE;
- 107   4                              break;
- 108   4                      }
- 109   3                      }// switch
- 110   2              }// while
- 111   1      
- 112   1      }
- 113          
- 114           /**
- 115            * @brief  板载LED灯测试
- 116            * @param  无
-C51 COMPILER V9.60.0.0   MAIN                                                              07/21/2022 22:50:09 PAGE 3   
+  62   2                      switch(cmd)
+  63   2                      {
+  64   3                              case '1':
+  65   3                                      PrintCom("<G>前方斑马线");
+  66   3                                      delay(10000);
+  67   3                                      break;
+  68   3                              case '2':
+  69   3                                      PrintCom("<G>前方楼梯");
+  70   3                                      delay(10000);
+  71   3                                      break;
+  72   3                              case '3':
+  73   3                                      PrintCom("<G>前方有障碍物");
+  74   3                                      delay(10000);
+  75   3                                      break;
+  76   3                              default:
+  77   3                                      break;
+  78   3                      }
+  79   2                      switch(nAsrStatus)
+  80   2                      {
+  81   3                      case LD_ASR_RUNING:
+  82   3                      case LD_ASR_ERROR:
+  83   3                              break;
+  84   3                      case LD_ASR_NONE:
+  85   3                      {
+  86   4                              nAsrStatus = LD_ASR_RUNING;
+  87   4                              if (RunASR() == 0)      /*      启动一次ASR识别流程：ASR初始化，ASR添加关键词语，启动ASR运算*/
+  88   4                              {
+  89   5                                      nAsrStatus = LD_ASR_ERROR;
+  90   5                              }
+  91   4                              break;
+  92   4                      }
+  93   3                      case LD_ASR_FOUNDOK: /* 一次ASR识别流程结束，去取ASR识别结果*/
+  94   3                      {
+  95   4                              nAsrRes = LD_GetResult();               /*获取结果*/
+  96   4                              User_handle(nAsrRes);//用户执行函数
+  97   4                              nAsrStatus = LD_ASR_NONE;
+  98   4                              break;
+  99   4                      }
+ 100   3                      case LD_ASR_FOUNDZERO:
+ 101   3                      default:
+ 102   3                      {
+ 103   4                              nAsrStatus = LD_ASR_NONE;
+ 104   4                              break;
+ 105   4                      }
+ 106   3                      }// switch
+ 107   2              }// while
+ 108   1      
+ 109   1      }
+ 110          
+ 111           /**
+ 112            * @brief  板载LED灯测试
+ 113            * @param  无
+ 114            * @retval 无
+ 115            */
+ 116          void Led_test(void)
+C51 COMPILER V9.60.0.0   MAIN                                                              07/31/2022 21:20:19 PAGE 3   
 
- 117            * @retval 无
- 118            */
- 119          void Led_test(void)
- 120          {
- 121   1              LED = ~ LED;
- 122   1              Delay200ms();
- 123   1              LED = ~ LED;
- 124   1              Delay200ms();
- 125   1              LED = ~ LED;
- 126   1              Delay200ms();
- 127   1              LED = ~ LED;
- 128   1              Delay200ms();
- 129   1              LED = ~ LED;
- 130   1              Delay200ms();
- 131   1              LED = ~ LED;
- 132   1      }
- 133          
- 134           /**
- 135            * @brief  单片机初始化
- 136            * @param  无
- 137            * @retval 无
- 138            */
- 139          void MCU_init()
- 140          {
- 141   1              P0 = 0xff;
- 142   1              P1 = 0x00;
- 143   1              P2 = 0xff;
- 144   1              P3 = 0xff;
- 145   1              P4 = 0xff;
- 146   1      
- 147   1      
- 148   1              AUXR &= 0x7F;           //定时器时钟12T模式
- 149   1              TMOD |= 0x01;           //设置定时器模式
- 150   1              TL0 = 0x00;             //设置定时初值
- 151   1              TH0 = 0x28;             //设置定时初值
- 152   1              TF0 = 0;                //清除TF0标志
- 153   1              TR0 = 1;                //定时器0开始计时
- 154   1              ET0 = 1;
- 155   1      
- 156   1              LD_MODE = 0;            //      设置MD管脚为低，并行模式读写
- 157   1              IE0 = 1;
- 158   1              EX0 = 1;
- 159   1              EA = 1;
- 160   1              WDT_CONTR = 0x3D;
- 161   1      }
- 162          
- 163           /**
- 164            * @brief  延时函数
- 165            * @param  无
- 166            * @retval 无
- 167            */
- 168          void Delay200us()               //@22.1184MHz
- 169          {
- 170   1              unsigned char i, j;
- 171   1              _nop_();
- 172   1              _nop_();
- 173   1              i = 5;
- 174   1              j = 73;
- 175   1              do
- 176   1              {
- 177   2                      while (--j);
- 178   2              }
-C51 COMPILER V9.60.0.0   MAIN                                                              07/21/2022 22:50:09 PAGE 4   
+ 117          {
+ 118   1              LED = ~ LED;
+ 119   1              Delay200ms();
+ 120   1              LED = ~ LED;
+ 121   1              Delay200ms();
+ 122   1              LED = ~ LED;
+ 123   1              Delay200ms();
+ 124   1              LED = ~ LED;
+ 125   1              Delay200ms();
+ 126   1              LED = ~ LED;
+ 127   1              Delay200ms();
+ 128   1              LED = ~ LED;
+ 129   1      }
+ 130          
+ 131           /**
+ 132            * @brief  单片机初始化
+ 133            * @param  无
+ 134            * @retval 无
+ 135            */
+ 136          void MCU_init()
+ 137          {
+ 138   1              P0 = 0xff;
+ 139   1              P1 = 0x00;
+ 140   1              P2 = 0xff;
+ 141   1              P3 = 0xff;
+ 142   1              P4 = 0xff;
+ 143   1      
+ 144   1      
+ 145   1              AUXR &= 0x7F;           //定时器时钟12T模式
+ 146   1              TMOD |= 0x01;           //设置定时器模式
+ 147   1              TL0 = 0x00;             //设置定时初值
+ 148   1              TH0 = 0x28;             //设置定时初值
+ 149   1              TF0 = 0;                //清除TF0标志
+ 150   1              TR0 = 1;                //定时器0开始计时
+ 151   1              ET0 = 1;
+ 152   1      
+ 153   1              LD_MODE = 0;            //      设置MD管脚为低，并行模式读写
+ 154   1              IE0 = 1;
+ 155   1              EX0 = 1;
+ 156   1              EA = 1;
+ 157   1              WDT_CONTR = 0x3D;
+ 158   1      }
+ 159          
+ 160           /**
+ 161            * @brief  延时函数
+ 162            * @param  无
+ 163            * @retval 无
+ 164            */
+ 165          void Delay200us()               //@22.1184MHz
+ 166          {
+ 167   1              unsigned char i, j;
+ 168   1              _nop_();
+ 169   1              _nop_();
+ 170   1              i = 5;
+ 171   1              j = 73;
+ 172   1              do
+ 173   1              {
+ 174   2                      while (--j);
+ 175   2              }
+ 176   1              while (--i);
+ 177   1      }
+ 178          
+C51 COMPILER V9.60.0.0   MAIN                                                              07/31/2022 21:20:19 PAGE 4   
 
- 179   1              while (--i);
- 180   1      }
- 181          
- 182           /**
- 183            * @brief  延时函数
- 184            * @param  uldata：单位200us
- 185            * @retval 无
- 186            */
- 187          void  delay(unsigned long uldata)
- 188          {
- 189   1              unsigned int j  =  0;
- 190   1              unsigned int g  =  0;
- 191   1              while(uldata--)
- 192   1                      Delay200us();
- 193   1      }
- 194          
- 195           /**
- 196            * @brief  延时函数
- 197            * @param  无
- 198            * @retval 无
- 199            */
- 200          void Delay200ms()               //@22.1184MHz
- 201          {
- 202   1              unsigned char i, j, k;
- 203   1      
- 204   1              i = 17;
- 205   1              j = 208;
- 206   1              k = 27;
- 207   1              do
- 208   1              {
- 209   2                      do
- 210   2                      {
- 211   3                              while (--k);
- 212   3                      }
- 213   2                      while (--j);
- 214   2              }
- 215   1              while (--i);
- 216   1      }
- 217          
- 218           /**
- 219            * @brief  中断处理函数
- 220            * @param  无
- 221            * @retval 无
- 222            */
- 223          void ExtInt0Handler(void) interrupt 0
- 224          {
- 225   1              ProcessInt0();
- 226   1      }
- 227          
- 228           /**
- 229            * @brief  用户执行函数，识别成功后，执行动作可在此进行修改
- 230            * @param  无
- 231            * @retval 无
- 232            */
- 233          void    User_handle(uint8 dat)
- 234          {
- 235   1              switch(dat)
- 236   1              {
- 237   2              case CODE_1:            /*命令“”*/
- 238   2                      SRD1 = 1;
- 239   2                      PrintCom("<G>找小布有什么事吗\r\n");
- 240   2                      break;
-C51 COMPILER V9.60.0.0   MAIN                                                              07/21/2022 22:50:09 PAGE 5   
+ 179           /**
+ 180            * @brief  延时函数
+ 181            * @param  uldata：单位200us
+ 182            * @retval 无
+ 183            */
+ 184          void  delay(unsigned long uldata)
+ 185          {
+ 186   1              unsigned int j  =  0;
+ 187   1              unsigned int g  =  0;
+ 188   1              while(uldata--)
+ 189   1                      Delay200us();
+ 190   1      }
+ 191          
+ 192           /**
+ 193            * @brief  延时函数
+ 194            * @param  无
+ 195            * @retval 无
+ 196            */
+ 197          void Delay200ms()               //@22.1184MHz
+ 198          {
+ 199   1              unsigned char i, j, k;
+ 200   1      
+ 201   1              i = 17;
+ 202   1              j = 208;
+ 203   1              k = 27;
+ 204   1              do
+ 205   1              {
+ 206   2                      do
+ 207   2                      {
+ 208   3                              while (--k);
+ 209   3                      }
+ 210   2                      while (--j);
+ 211   2              }
+ 212   1              while (--i);
+ 213   1      }
+ 214          
+ 215           /**
+ 216            * @brief  中断处理函数
+ 217            * @param  无
+ 218            * @retval 无
+ 219            */
+ 220          void ExtInt0Handler(void) interrupt 0
+ 221          {
+ 222   1              ProcessInt0();
+ 223   1      }
+ 224          
+ 225           /**
+ 226            * @brief  用户执行函数，识别成功后，执行动作可在此进行修改
+ 227            * @param  无
+ 228            * @retval 无
+ 229            */
+ 230          void    User_handle(uint8 dat)
+ 231          {
+ 232   1              switch(dat)
+ 233   1              {
+ 234   2              case CODE_1:            /*命令“”*/
+ 235   2                      SRD1 = 1;
+ 236   2                      PrintCom("<G>找小布有什么事吗\r\n");
+ 237   2                      break;
+ 238   2              case CODE_2:            /*命令“”*/
+ 239   2                      SRD1 = 0;
+ 240   2                      PrintCom("<G>在的\r\n");
+C51 COMPILER V9.60.0.0   MAIN                                                              07/31/2022 21:20:19 PAGE 5   
 
- 241   2              case CODE_2:            /*命令“”*/
- 242   2                      SRD1 = 0;
- 243   2                      PrintCom("<G>在的\r\n");
- 244   2                      break;
- 245   2              case CODE_3:            /*命令“”*/
- 246   2                      SRD2 = 1;
- 247   2                      PrintCom("<G>我在\r\n");
- 248   2                      break;
- 249   2              case CODE_4:            /*命令“”*/
- 250   2                      SRD2 = 0;
- 251   2                      PrintCom("<G>小布在的\r\n");
- 252   2                      break;
- 253   2              case CODE_5:            /*命令“”*/
- 254   2                      SRD3 = 1;
- 255   2                      PrintCom("<G>现在是下午一点\r\n");
- 256   2                      break;
- 257   2              default:/*text.....*/
- 258   2                      break;
- 259   2              }
- 260   1      }
- 261          
- 262           /**
- 263            * @brief  定时器中断函数
- 264            * @param  无
- 265            * @retval 无
- 266            */
- 267          void tm0_isr() interrupt 1
- 268          {
- 269   1              TL0 = 0x00;             //设置定时初值
- 270   1              TH0 = 0x28;             //设置定时初值
- 271   1              WDT_CONTR = 0x3D;
- 272   1      }
+ 241   2                      break;
+ 242   2              case CODE_3:            /*命令“”*/
+ 243   2                      SRD2 = 1;
+ 244   2                      PrintCom("<G>我在\r\n");
+ 245   2                      break;
+ 246   2              case CODE_4:            /*命令“”*/
+ 247   2                      SRD2 = 0;
+ 248   2                      PrintCom("<G>小布在的\r\n");
+ 249   2                      break;
+ 250   2              case CODE_5:            /*命令“”*/
+ 251   2                      SRD3 = 1;
+ 252   2                      PrintCom("<G>现在是下午一点\r\n");
+ 253   2                      break;
+ 254   2              default:/*text.....*/
+ 255   2                      break;
+ 256   2              }
+ 257   1      }
+ 258          
+ 259           /**
+ 260            * @brief  定时器中断函数
+ 261            * @param  无
+ 262            * @retval 无
+ 263            */
+ 264          void tm0_isr() interrupt 1
+ 265          {
+ 266   1              TL0 = 0x00;             //设置定时初值
+ 267   1              TH0 = 0x28;             //设置定时初值
+ 268   1              WDT_CONTR = 0x3D;
+ 269   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    453    ----
-   CONSTANT SIZE    =    138    ----
+   CODE SIZE        =    428    ----
+   CONSTANT SIZE    =    146    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =      1      11

@@ -5,7 +5,7 @@ model = "model-8762.awnn.mud"
 labels = ['Left', 'Zebra']
 
 
-#开启串口
+#Open Serial
 ser = serial.Serial("/dev/ttyS1",9600)
 ser.setDTR(False)
 ser.setRTS(False)
@@ -24,9 +24,9 @@ def main():
         out = nn.F.softmax(out)
         msg = "{:.2f}: {}".format(out.max(), labels[out.argmax()])
         display.show(img.draw_string(2, 2, msg, scale = 1.2, color = (255, 0, 0), thickness = 2))
-        if out.argmax()==0 and out.max>=0.8:
+        if out.argmax()==1 and out.max()>=0.8:
             ser.write(b'zebra')
-        elif out.argmax()==1 and out.max>=0.8:
+        if out.argmax()==0 and out.max()>=0.8:
             ser.write(b'Left')
 
 

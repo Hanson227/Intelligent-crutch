@@ -1,11 +1,15 @@
-from maix import nn, camera, display, image
+from maix import nn, camera, display, image,camera, mjpg, utils
 import serial 
 
 
 model = "model-6285.awnn.mud"
 labels = ['Zebra', 'Left']
 
-ser = serial.Serial("/dev/ttyS1",115200)
+queue = mjpg.Queue(maxsize=8)
+mjpg.MjpgServerThread(
+    "0.0.0.0", 18811, mjpg.BytesImageHandlerFactory(q=queue)).start()
+
+ser = serial.Serial("/dev/ttyS1",9600)
 ser.setDTR(False)
 ser.setRTS(False)
 
@@ -18,6 +22,9 @@ def main():
 
     while True:
         img = camera.capture()
+        jpg = utils.rgb2jpg(img.convert("RGB").tobytes(), img.width, img.height)
+        queue.put(mjpg.BytesImage(jpg))
+        img = camera.capture()
         out = m.forward(img)
         out = nn.F.softmax(out)
         msg = "{:.2f}: {}".format(out.max(), labels[out.argmax()])
@@ -26,6 +33,7 @@ def main():
             ser.write(b'zebra')
         else:
             ser.write(b'Left')
+
 
 if __name__ == "__main__":
     try:

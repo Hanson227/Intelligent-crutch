@@ -12,7 +12,7 @@
 #include "stm32f4xx.h"
 #include "./timer/timer4.h"
 
-
+char P_cmd = 0;
 
  /**
   * @brief  配置嵌套向量中断控制器NVIC

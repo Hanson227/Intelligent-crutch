@@ -4,7 +4,9 @@
 #include "stm32f4xx.h"
 #include "stdio.h"
 #include "stdarg.h"	     
-#include "string.h"     
+#include "string.h"  
+
+extern char P_cmd;
 
 /*缓冲区大小宏定义和变量声明*/
 #define USART2_TXBUFF_SIZE   1024   		   //定义串口2 发送缓冲区大小 1024字节

@@ -38,6 +38,7 @@
 #include "./timer/timer6.h"
 #include "./gps/bsp_atgm336h.h"
 #include "./adxl345/bsp_adxl345.h"
+#include "./hcsr04/bsp_hcsr04.h"
 
 /** @addtogroup Template_Project
   * @{
@@ -188,8 +189,8 @@ void USART2_IRQHandler(void)                	//串口1中断服务程序
 	{		
 		switch(USART_ReceiveData( USART2 ))
 		{
-			case 'z':USART_SendData(USART2,'1');break;
-			case 'L':USART_SendData(USART2,'2');break;
+			case 'z':P_cmd = 1;break;
+			case 'L':P_cmd = 2;break;
 		}
 	}	
 } 
@@ -308,6 +309,20 @@ void TIM6_DAC_IRQHandler(void)
 			}
 		}
 		TIM_ClearITPendingBit(TIM6, TIM_IT_Update);      //清除TIM6溢出中断标志 	
+	}
+	
+	
+	switch(P_cmd)
+	{
+		case 1:u2_printf("1");P_cmd = 0;break;
+		case 2:u2_printf("2");P_cmd = 0;break;
+	}
+	if(distance>0)
+	{
+		if(distance>=20&&distance<=2000)
+		{
+			u2_printf("3");
+		}
 	}
 }
 

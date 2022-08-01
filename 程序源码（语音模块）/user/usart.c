@@ -4,6 +4,7 @@ uint32_t baud=9600;           //UART baudrate
 
 uint8_t RX_BUF[50];
 uint8_t NUM_1=0;
+uint8_t DAT = 0;
 
  /**
   * @brief  串口初始化,STC10L08XE 单片机串口初始化函数
@@ -40,18 +41,18 @@ void UARTSendByte(uint8_t DAT)
   * @param  无
   * @retval 返回一个字节
   */
-//
-uint8_t UARTReceiveByte(void)
-{
-	uint8_t DAT;
-	ES  =  0;
-	RI=0;
-	DAT = SBUF;
-	while(RI==0);
-	RI=0;
-	ES = 1;
-	return DAT;
-}
+
+//uint8_t UARTReceiveByte(void)
+//{
+//	uint8_t DAT;
+//	ES  =  0;
+//	RI=0;
+//	DAT = SBUF;
+//	while(RI==0);
+//	RI=0;
+//	ES = 1;
+//	return DAT;
+//}
 
  /**
   * @brief  串口发送字符串数据
@@ -79,7 +80,10 @@ void Uart_Isr(void) interrupt 4 using 1
 			RX_BUF[NUM_1]=SBUF;
 			NUM_1++;
 			if(NUM_1>=49)
+			{
+				memset(RX_BUF,0,50);
 				NUM_1=0;
+			}
 			if(NUM_1>=3)
 			{
 				if(RX_BUF[NUM_1]==0xF8&&RX_BUF[NUM_1-1]==0xF8&&RX_BUF[NUM_1-2]==0xF8)

@@ -28,6 +28,10 @@ sbit SRD2 = P1 ^ 6;
 sbit SRD3 = P1 ^ 5;
 sbit SRD4 = P1 ^ 4;
 
+char P_cmd_arr[20] = {0};
+
+uint8 P_cmd_num = 100;
+
  /**
   * @brief  主函数	程序入口
   * @param  无
@@ -50,21 +54,21 @@ void  main(void)
 	PrintCom("<G>我是小布，很高兴为您服务");
 	while(1)
 	{
-		cmd = (char)UARTReceiveByte();
-		
-		switch(cmd)
+//		cmd = (char)UARTReceiveByte();
+//		
+		switch(RX_BUF[NUM_1])
 		{
 			case '1':
-				PrintCom("<G>前方斑马线");
-				delay(10000);
+				memset(P_cmd_arr,0,20);
+				memcpy(P_cmd_arr,"<G>前方斑马线",strlen("<G>前方斑马线"));
 				break;
 			case '2':
-				PrintCom("<G>前方楼梯");
-				delay(10000);
+				memset(P_cmd_arr,0,20);
+				memcpy(P_cmd_arr,"<G>前方楼梯",strlen("<G>前方楼梯"));
 				break;
 			case '3':
-				PrintCom("<G>前方有障碍物");
-				delay(10000);
+				memset(P_cmd_arr,0,20);
+				memcpy(P_cmd_arr,"<G>前方有障碍物",strlen("<G>前方有障碍物"));
 				break;
 			default:
 				break;
@@ -256,7 +260,14 @@ void 	User_handle(uint8 dat)
   */
 void tm0_isr() interrupt 1
 {
-	TL0 = 0x00;		//设置定时初值
+	TL0 = 0x00;		//设置定时初值,差不多40ms
 	TH0 = 0x28;		//设置定时初值
 	WDT_CONTR = 0x3D;
+	P_cmd_num--;
+	if(P_cmd_num==0)
+	{
+		PrintCom(P_cmd_arr);
+		memset(P_cmd_arr,0,20);
+		P_cmd_num = 100;
+	}
 }

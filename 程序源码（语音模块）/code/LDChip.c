@@ -5,9 +5,6 @@
   * @version V1.0
   * @date    2022-xx-xx
   * @brief   LD模块应用函数接口
-  *			 CPU: STC11L08XE
-  *      	 晶振：22.1184MHZ
-  *		     波特率：9600 bit/S
   ******************************************************************************
   */
   
@@ -268,11 +265,9 @@ uint8 LD_AsrAddFixed()
   {
 	    "\0", \
     	"ni hao xiao bu", \
-		"nin hao xiao bu", \
 		"xiao bu xiao bu", \
-		"xiao bu", \
-		"xian zai ji dian"
-  };	/*添加关键词，用户修改*/
+		"xiao bu", \	
+  };/*添加关键词，用户修改*/
   uint8 code pCode[DATE_A] =
   {
     CODE_CMD,\

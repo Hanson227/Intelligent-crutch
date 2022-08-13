@@ -49,3 +49,4 @@
 .\objects\stm32f4xx_it.o: ..\HARDWARE\./gps/bsp_atgm336h.h
 .\objects\stm32f4xx_it.o: ..\HARDWARE\./adxl345/bsp_adxl345.h
 .\objects\stm32f4xx_it.o: ..\HARDWARE\./hcsr04/bsp_hcsr04.h
+.\objects\stm32f4xx_it.o: ..\HARDWARE\./key/bsp_key.h

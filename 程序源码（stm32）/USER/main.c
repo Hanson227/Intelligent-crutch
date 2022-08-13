@@ -17,12 +17,14 @@
 #include "./mqtt/mqtt.h"
 #include "./timer/timer4.h"
 #include "./timer/timer6.h"
+#include "./key/bsp_key.h"
 #include "./sim800a/bsp_sim800a.h"
 #include "./hcsr04/bsp_hcsr04.h"
 #include "./gps/bsp_atgm336h.h"
 #include "./adxl345/bsp_adxl345.h"
 
 #if 1
+
  /**
   * @brief  主函数
   * @param  无
@@ -35,24 +37,28 @@ int main(void)
 	Usart3_Init(115200);//USART3功能初始化，波特率115200
 	Uart4_Init(9600);
 	TIM4_Init(300,7200);//TIM4初始化，定时时间300*7200*1000/72000000 = 30ms
-	TIM6_ENABLE_2S();	
+	TIM6_ENABLE_2S();//TIM6使能2s中断
 	delay_init(84);//延时函数初始化，84M
 	sr04_init();//初始化超声波模块
 	IoT_Parameter_Init();//初始化云IoT平台MQTT服务器的参数
-	Init_ADXL345();
+	Init_ADXL345();//加速度传感器初始化
+	KEY_Init();
 	
 	while(1)
 	{		
-	
-		
+
+
 		
 		/*-------------------------------------------------------------*/
 		/*          跌倒求助功能，向紧急联系人发送求助和位置坐标         */
 		/*-------------------------------------------------------------*/
-		if(temp_X<-THRESHOLD||temp_X>THRESHOLD||
-			temp_Y<-THRESHOLD||temp_Y>THRESHOLD||
-			temp_Z<-THRESHOLD||temp_Z>THRESHOLD)
+		printf("h:%d",help_time);
+
+		if(help_time>5)
 		{
+
+			printf("报警！");
+			u2_printf("5");
 			if(Save_Data.isParseData)
 			{
 				SIM800A_Note_Edit(EMERGENCY_CALL_CMD);
@@ -65,7 +71,10 @@ int main(void)
 				SIM800A_printf("help me!");
 				SIM800A_Note_Send(30);
 			}
+			help_flag = 0;
+			help_time = 0;
 		}
+
 		
 
 		
@@ -213,39 +222,40 @@ int main(void)
 
 
 #if 0
+
  /**
-  * @brief  超声波测试函数
+  * @brief  超声波模块调试函数
   * @param  无
   * @retval int
   */
 int main(void)
 {	
-	//串口1波特率:115200bps
 	delay_init(84);//延时函数初始化，84M
-	debug_uart_init(115200);	
-	Usart2_Init(9600);
+	debug_uart_init(115200);//获取前方障碍物距离	
+	Usart2_Init(9600);//USART2初始化，用于向语音识别模块的STC单片机发送数据
 	sr04_init();//初始化超声波模块
-	printf("超声波模块测试");
+	printf("超声波模块测试\r\n");
 	while(1)
 	{	
-		sr04_get_distance();
+		sr04_get_distance();//获取前方障碍物距离
 		if(distance>0)
 		{
-			if(distance>=20&&distance<=3000)
+			if(distance>=20&&distance<=1000)//如果20mm-1000mm范围内有物体
 			{
-				u2_printf("3");//串口发送数据，语音模块接收识别
+				u2_printf("3");//串口发送命令3，语音模块接收识别，提示前方有障碍物
 			}
 		}
-		printf("%d cm\r\n",distance/10);
-		delay_ms(1000);
+		printf("%d cm\r\n",distance/10);//调试串口数据输出
+		delay_ms(1000);//延时一秒
 	}
 }
 
 #endif
 
 #if 0
+
  /**
-  * @brief  GPS测试函数
+  * @brief  GPS定位模块调试函数
   * @param  无
   * @retval int
   */
@@ -270,8 +280,9 @@ int main(void)
 #endif
 
 #if 0
+
  /**
-  * @brief  语音测试函数
+  * @brief  语音模块调试函数
   * @param  无
   * @retval int
   */
@@ -291,8 +302,9 @@ int main(void)
 
 
 #if 0
+
  /**
-  * @brief  ADXL345模块测试
+  * @brief  ADXL345模块调试函数
   * @param  无
   * @retval int
   */
@@ -317,14 +329,7 @@ int main()
 		ReadData();
 		delay_ms(1000);
 		
-		if(temp_X<-THRESHOLD||temp_X>THRESHOLD||
-			temp_Y<-THRESHOLD||temp_Y>THRESHOLD||
-			temp_Z<-THRESHOLD||temp_Z>THRESHOLD)
-		{
-			SIM800A_Note_Edit(EMERGENCY_CALL_CMD);
-			SIM800A_printf("help me!");
-			SIM800A_Note_Send(30);
-		}
+		printf("x=%lf,y=%lf,z=%lf\r\n",temp_X,temp_Y,temp_Z);
 	}
 }
 
@@ -332,18 +337,22 @@ int main()
 
 #if 0
 
-int main(void)
+int main()
 {
-	Usart2_Init(9600);
-	
+	int key;
+	debug_uart_init(115200);
+	KEY_Init();
+	printf("按键测试\r\n");
+	delay_init(84);//延时函数初始化，84M
 	while(1)
 	{
-		
+		key = KEY_Scan(0);
+		if(!KEY0)
+		printf("%d",key);
 	}
 }
 
-
-#endif 
+#endif
 
 /*********************************************END OF FILE**********************/
 

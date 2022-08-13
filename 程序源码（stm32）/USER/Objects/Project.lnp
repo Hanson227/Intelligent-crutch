@@ -12,6 +12,7 @@
 ".\objects\bsp_adxl345.o"
 ".\objects\bsp_sim800a.o"
 ".\objects\bsp_atgm336h.o"
+".\objects\bsp_key.o"
 ".\objects\sys.o"
 ".\objects\delay.o"
 ".\objects\usart.o"

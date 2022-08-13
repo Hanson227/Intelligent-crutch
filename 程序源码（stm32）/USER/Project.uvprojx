@@ -450,6 +450,11 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\gps\bsp_atgm336h.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\key\bsp_key.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

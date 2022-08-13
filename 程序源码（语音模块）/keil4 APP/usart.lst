@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   USART                                                             08/01/2022 23:31:28 PAGE 1   
+C51 COMPILER V9.60.0.0   USART                                                             08/11/2022 15:59:12 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE USART
@@ -8,101 +8,94 @@ COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\user\usart.c OPTIMIZE(8,SPEED
 
 line level    source
 
-   1          #include "config.h"
-   2          #define FOSC 22118400L      //System frequency
-   3          uint32_t baud=9600;           //UART baudrate
-   4          
-   5          uint8_t RX_BUF[50];
-   6          uint8_t NUM_1=0;
-   7          uint8_t DAT = 0;
-   8          
-   9           /**
-  10            * @brief  串口初始化,STC10L08XE 单片机串口初始化函数
-  11            * @param  无
-  12            * @retval 无
-  13            */
-  14          void UartIni(void)
-  15          {
-  16   1          SCON = 0x50;            //8-bit variable UART
-  17   1          TMOD = 0x20;            //Set Timer1 as 8-bit auto reload mode
-  18   1          TH1 = TL1 = -(FOSC/12/32/baud); //Set auto-reload vaule
-  19   1          TR1 = 1;                //Timer1 start run
-  20   1          ES = 1;                 //Enable UART interrupt
-  21   1          EA = 1;                 //Open master interrupt switch
-  22   1      }
-  23          
-  24           /**
-  25            * @brief  串口发送一字节数据
-  26            * @param  DAT:带发送的数据
-  27            * @retval 无
-  28            */
-  29          void UARTSendByte(uint8_t DAT)
-  30          {
-  31   1              ES  =  0;
-  32   1              TI=0;
-  33   1              SBUF = DAT;
-  34   1              while(TI==0);
-  35   1              TI=0;
-  36   1              ES = 1;
-  37   1      }
-  38          
-  39           /**
-  40            * @brief  串口接收函数
-  41            * @param  无
-  42            * @retval 返回一个字节
-  43            */
-  44          
-  45          //uint8_t UARTReceiveByte(void)
-  46          //{
-  47          //      uint8_t DAT;
-  48          //      ES  =  0;
-  49          //      RI=0;
-  50          //      DAT = SBUF;
-  51          //      while(RI==0);
-  52          //      RI=0;
-  53          //      ES = 1;
-  54          //      return DAT;
-C51 COMPILER V9.60.0.0   USART                                                             08/01/2022 23:31:28 PAGE 2   
+   1          /**
+   2            ******************************************************************************
+   3            * @file    usart.c
+   4            * @author  chen
+   5            * @version V1.0
+   6            * @date    2022-07-11
+   7            * @brief   串口中断
+   8            ******************************************************************************
+   9            */
+  10            
+  11          #include "config.h"
+  12          #define FOSC 22118400L      //System frequency
+  13          uint32_t baud=9600;           //UART baudrate
+  14          
+  15          uint8_t RX_BUF[20];
+  16          uint8_t NUM_1=0;
+  17          uint8_t DAT = 0;
+  18          
+  19           /**
+  20            * @brief  串口初始化,STC10L08XE 单片机串口初始化函数
+  21            * @param  无
+  22            * @retval 无
+  23            */
+  24          void UartIni(void)
+  25          {
+  26   1          SCON = 0x50;            //8-bit variable UART
+  27   1          TMOD = 0x20;            //Set Timer1 as 8-bit auto reload mode
+  28   1          TH1 = TL1 = -(FOSC/12/32/baud); //Set auto-reload vaule
+  29   1          TR1 = 1;                //Timer1 start run
+  30   1          ES = 1;                 //Enable UART interrupt
+  31   1          EA = 1;                 //Open master interrupt switch
+  32   1      }
+  33          
+  34           /**
+  35            * @brief  串口发送一字节数据
+  36            * @param  DAT:带发送的数据
+  37            * @retval 无
+  38            */
+  39          void UARTSendByte(uint8_t DAT)
+  40          {
+  41   1              ES  =  0;
+  42   1              TI=0;
+  43   1              SBUF = DAT;
+  44   1              while(TI==0);
+  45   1              TI=0;
+  46   1              ES = 1;
+  47   1      }
+  48          
+  49          
+  50           /**
+  51            * @brief  串口发送字符串数据
+  52            * @param  *DAT：字符串指针
+  53            * @retval 无
+  54            */
+C51 COMPILER V9.60.0.0   USART                                                             08/11/2022 15:59:12 PAGE 2   
 
-  55          //}
-  56          
-  57           /**
-  58            * @brief  串口发送字符串数据
-  59            * @param  *DAT：字符串指针
-  60            * @retval 无
-  61            */
-  62          void PrintCom(uint8_t *DAT)
-  63          {
-  64   1              while(*DAT)
-  65   1              {
-  66   2                      UARTSendByte(*DAT++);
-  67   2              }       
-  68   1      }
-  69          
-  70           /**
-  71            * @brief  串口中断函数
-  72            * @param  无
-  73            * @retval 无
-  74            */
-  75          void Uart_Isr(void) interrupt 4 using 1
-  76          {
-  77   1          if (RI)
-  78   1          {
-  79   2                              RI=0;
-  80   2                              RX_BUF[NUM_1]=SBUF;
-  81   2                              NUM_1++;
-  82   2                              if(NUM_1>=49)
-  83   2                              {
-  84   3                                      memset(RX_BUF,0,50);
-  85   3                                      NUM_1=0;
-  86   3                              }
-  87   2                              if(NUM_1>=3)
-  88   2                              {
-  89   3                                      if(RX_BUF[NUM_1]==0xF8&&RX_BUF[NUM_1-1]==0xF8&&RX_BUF[NUM_1-2]==0xF8)
-  90   3                                              IAP_CONTR=0x60;         
-  91   3                              }               
-  92   2                      }
-  93   1      }
+  55          void PrintCom(uint8_t *DAT)
+  56          {
+  57   1              while(*DAT)
+  58   1              {
+  59   2                      UARTSendByte(*DAT++);
+  60   2              }       
+  61   1      }
+  62          
+  63           /**
+  64            * @brief  串口中断函数
+  65            * @param  无
+  66            * @retval 无
+  67            */
+  68          void Uart_Isr(void) interrupt 4 using 1
+  69          {
+  70   1          if (RI)
+  71   1          {
+  72   2                              RI=0;
+  73   2                              RX_BUF[NUM_1]=SBUF;
+  74   2                              NUM_1++;
+  75   2                              if(NUM_1>=49)
+  76   2                              {
+  77   3                                      memset(RX_BUF,0,50);
+  78   3                                      NUM_1=0;
+  79   3                              }
+  80   2                              if(NUM_1>=3)
+  81   2                              {
+  82   3                                      if(RX_BUF[NUM_1]==0xF8&&RX_BUF[NUM_1-1]==0xF8&&RX_BUF[NUM_1-2]==0xF8)
+  83   3                                              IAP_CONTR=0x60;         
+  84   3                              }               
+  85   2                      }
+  86   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
@@ -110,7 +103,7 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     54       3
+   DATA SIZE        =     24       3
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

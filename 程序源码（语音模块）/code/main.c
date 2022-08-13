@@ -3,7 +3,7 @@
   * @file    main.c
   * @author  chen
   * @version V1.0
-  * @date    2022-xx-xx
+  * @date    2022-07-11
   * @brief   主函数
   *			 CPU: STC11L08XE
   *      	 晶振：22.1184MHZ
@@ -28,7 +28,7 @@ sbit SRD2 = P1 ^ 6;
 sbit SRD3 = P1 ^ 5;
 sbit SRD4 = P1 ^ 4;
 
-char P_cmd_arr[20] = {0};
+char P_cmd_arr[50] = {0};
 
 uint8 P_cmd_num = 100;
 
@@ -54,8 +54,6 @@ void  main(void)
 	PrintCom("<G>我是小布，很高兴为您服务");
 	while(1)
 	{
-//		cmd = (char)UARTReceiveByte();
-//		
 		switch(RX_BUF[NUM_1])
 		{
 			case '1':
@@ -69,6 +67,10 @@ void  main(void)
 			case '3':
 				memset(P_cmd_arr,0,20);
 				memcpy(P_cmd_arr,"<G>前方有障碍物",strlen("<G>前方有障碍物"));
+				break;
+			case '4':
+				memset(P_cmd_arr,0,20);
+				memcpy(P_cmd_arr,"<G>检测到您已摔倒，按下按键取消",strlen("<G>检测到您已摔倒，按下按键取消"));
 				break;
 			default:
 				break;
@@ -224,13 +226,13 @@ void ExtInt0Handler(void) interrupt 0
   * @param  无
   * @retval 无
   */
-void 	User_handle(uint8 dat)
+void User_handle(uint8 dat)
 {
 	switch(dat)
 	{
 	case CODE_1:	 	/*命令“”*/
 		SRD1 = 1;
-		PrintCom("<G>找小布有什么事吗\r\n");
+		PrintCom("<G>小布在的\r\n");
 		break;
 	case CODE_2:	 	/*命令“”*/
 		SRD1 = 0;
@@ -239,14 +241,6 @@ void 	User_handle(uint8 dat)
 	case CODE_3:		/*命令“”*/
 		SRD2 = 1;
 		PrintCom("<G>我在\r\n");
-		break;
-	case CODE_4:		/*命令“”*/
-		SRD2 = 0;
-		PrintCom("<G>小布在的\r\n");
-		break;
-	case CODE_5:		/*命令“”*/
-		SRD3 = 1;
-		PrintCom("<G>现在是下午一点\r\n");
 		break;
 	default:/*text.....*/
 		break;

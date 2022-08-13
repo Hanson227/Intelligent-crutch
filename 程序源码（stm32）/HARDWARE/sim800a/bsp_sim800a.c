@@ -38,9 +38,11 @@ char SIM800A_SendCmd(char *cmd, int timeout)
 }
 
  /**
-  * @brief  
-  * @param  
-  * @retval 
+  * @brief  设置联系人
+  * @param  timeout：超时时间（100ms的倍数）
+			call_cmd：联系人设置AT指令段
+  * @retval 0：正确
+			其他：错误
   */
 char SIM800A_CMGS(int timeout,char *call_cmd)
 {
@@ -61,9 +63,10 @@ char SIM800A_CMGS(int timeout,char *call_cmd)
 
 
  /**
-  * @brief  
-  * @param  
-  * @retval 
+  * @brief  短信编辑
+  * @param  call_cmd：联系人设置AT指令段
+  * @retval 0：正确
+			其他：错误
   */
 char SIM800A_Note_Edit(char *call_cmd)
 {
@@ -85,7 +88,7 @@ char SIM800A_Note_Edit(char *call_cmd)
 			printf("等待设置联系人... ...\r\n");
 			if(SIM800A_CMGS(10,call_cmd)){
 				printf("设置联系人失败\r\n");
-				return 2;
+				return 3;
 			}else{
 				printf("设置联系人成功\r\n");
 				printf(SIM800A_RX_BUF);
@@ -95,6 +98,12 @@ char SIM800A_Note_Edit(char *call_cmd)
 	}	
 }
 
+ /**
+  * @brief  短信发送命令
+  * @param  timeout：超时时间（100ms的倍数）
+  * @retval 0：正确
+			其他：错误
+  */
 char SIM800A_Note_Send(int timeout)
 {
 	SIM800A_RxCounter=0;//800C接收数据量变量清零                        

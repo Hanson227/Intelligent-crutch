@@ -11,8 +11,7 @@
 #include "sys.h"
 #include "usart.h"	
 
-
-/*加入以下代码,支持printf函数,而不需要选择use MicroLIB*/  
+ 
 #if 1
 #pragma import(__use_no_semihosting)             
 //标准库需要的支持函数                 
@@ -135,9 +134,5 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
   } 
 } 
 #endif	
-
-
-
-
 
 /*********************************************END OF FILE**********************/

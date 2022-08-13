@@ -4,10 +4,11 @@
 #define uint unsigned int
 #define uchar unsigned char
 	
-#define THRESHOLD 7500.0 //Ë¤µ¹¼ì²âµÄãÐÖµ
+#define THRESHOLD 4000.0 //Ë¤µ¹¼ì²âµÄãÐÖµ
 	
 extern double temp_X,temp_Y,temp_Z;
-
+extern uint32_t help_time;
+extern unsigned char help_flag;
 
 void SCL_Set_Output(void);
 void SDA_Set_Output(void);

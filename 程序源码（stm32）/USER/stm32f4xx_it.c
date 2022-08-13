@@ -39,6 +39,7 @@
 #include "./gps/bsp_atgm336h.h"
 #include "./adxl345/bsp_adxl345.h"
 #include "./hcsr04/bsp_hcsr04.h"
+#include "./key/bsp_key.h"
 
 /** @addtogroup Template_Project
   * @{
@@ -311,18 +312,44 @@ void TIM6_DAC_IRQHandler(void)
 		TIM_ClearITPendingBit(TIM6, TIM_IT_Update);      //清除TIM6溢出中断标志 	
 	}
 	
-	
+	//路面检测
 	switch(P_cmd)
 	{
 		case 1:u2_printf("1");P_cmd = 0;break;
 		case 2:u2_printf("2");P_cmd = 0;break;
 	}
+	
+	//距离检测
 	if(distance>0)
 	{
 		if(distance>=20&&distance<=2000)
 		{
 			u2_printf("3");
 		}
+	}
+	
+	//摔倒检测
+	if(help_flag>0)
+	{
+		help_time++;
+	}
+	if(KEY0)//如果没有按键按下
+	{
+					
+	}			
+	else
+	{
+		printf("按键");
+		help_flag = 0;
+		help_time = 0;
+	}
+	if(temp_X<-THRESHOLD||temp_X>THRESHOLD||
+		temp_Y<-THRESHOLD||temp_Y>THRESHOLD||
+		temp_Z<-THRESHOLD||temp_Z>THRESHOLD)
+	{
+		help_flag = 1;
+		u2_printf("4");
+		printf("摔倒！");		
 	}
 }
 

@@ -37,8 +37,10 @@
 
 unsigned char BUF[8];                        //接收数据缓存区      	
 unsigned char ge,shi,bai,qian,wan;           //显示变量
-unsigned char err;
-double temp_X,temp_Y,temp_Z;
+unsigned char err;							 //错误编码变量
+double temp_X,temp_Y,temp_Z;				 //三轴加速度
+uint32_t help_time = 0;				 		 //摔倒时间计时
+unsigned char help_flag = 0;				 //摔倒判断
 
  /**
   * @brief  时钟信号输出初始化
@@ -136,10 +138,10 @@ void ADXL345_SendACK(uchar ack)
     {
       SET_SDA();
     }
-    SET_SCL();//SCL = 1;                    //拉高时钟线
-    delay_us(2);//Delay5us();                 //延时
-    CLE_SCL();//SCL = 0;                    //拉低时钟线
-    delay_us(5);//Delay5us();                 //延时
+    SET_SCL();			                    //拉高时钟线
+    delay_us(2);                 			//延时
+    CLE_SCL();			                    //拉低时钟线
+    delay_us(5);			               	//延时
 }
 
  /**
@@ -151,10 +153,10 @@ uchar ADXL345_RecvACK(void)
 {
     SDA_INT();
     SCL_OUT();
-    SET_SCL();//SCL = 1;                    //拉高时钟线
-    delay_us(2);//Delay5us();                 //延时
+    SET_SCL();				                 //拉高时钟线
+    delay_us(2);				             //延时
     SET_SCL();
-    if(SDA_VAL()== Bit_SET)   //CY = SDA;   //读应答信号
+    if(SDA_VAL()== Bit_SET)					 //读应答信号
     {
       err = 1;
     }
@@ -163,8 +165,8 @@ uchar ADXL345_RecvACK(void)
       err = 0;
     }
  
-    CLE_SCL() ;//SCL = 0;                    //拉低时钟线
-    delay_us(5);//    Delay5us();                 //延时
+    CLE_SCL() ;			                    //拉低时钟线
+    delay_us(5);			                //延时
     SDA_OUT();
     return err;
 }
@@ -179,18 +181,18 @@ void ADXL345_SendByte(unsigned char dat)
     unsigned char i;
     SCL_OUT();
     SDA_OUT();
-    for (i=0; i<8; i++)         //8位计数器
+    for (i=0; i<8; i++)         				//8位计数器
     {
-        delay_us(5);             //延时
-        if(dat&0x80)  //SDA = CY;               //送数据口     
+        delay_us(5);             				//延时
+        if(dat&0x80)  			             	//送数据口     
         {SET_SDA();}
         else
         {CLE_SDA();}       
-        delay_us(5);             //延时
-        SET_SCL();//SCL = 1;                //拉高时钟线
-        delay_us(5);             //延时
-        CLE_SCL();//SCL = 0;                //拉低时钟线
-        dat <<= 1;              //移出数据的最高位
+        delay_us(5);             				//延时
+        SET_SCL();				                //拉高时钟线
+        delay_us(5);  					       	//延时
+        CLE_SCL();				                //拉低时钟线
+        dat <<= 1;              				//移出数据的最高位
     }
     ADXL345_RecvACK();
 }
@@ -208,13 +210,13 @@ unsigned char ADXL345_RecvByte(void)
     SDA_INT();
     SCL_OUT();
 
-    for (i=0; i<8; i++)         //8位计数器
+    for (i=0; i<8; i++)         				//8位计数器
     {
         dat <<= 1;
-        delay_us(5);            //延时
+        delay_us(5);            				//延时
         SET_SCL();
 
-			if(SDA_VAL()== Bit_SET)   //CY = SDA;                   //读应答信号
+			if(SDA_VAL()== Bit_SET)         	//读应答信号
 			{
 				Mid = 1;
 			}
@@ -224,7 +226,7 @@ unsigned char ADXL345_RecvByte(void)
 			}
         if(Mid) dat++;
         delay_us(5);     
-        CLE_SCL();//SCL = 0;                //拉低时钟线
+        CLE_SCL();			                	//拉低时钟线
     }
     return dat;
 }

@@ -1,0 +1,20 @@
+<view class="all">
+    <form bindsubmit="formSubmit">
+    <!--提交表单数据-->
+        <label>安全半径（m）:
+            <input style="border:2px solid #000;" name="banjing"></input>
+        </label>
+        <view style="height: 5px;"></view>
+        <button class="button" form-type="submit">
+            <text class="zi">设置完成</text>
+        </button>
+    </form>
+    <view style="height: 5px;"></view>
+    <view wx:for="{{distance}}" wx:key="index">
+        <view>中心点到当前的步行距离为{{item}}米</view>
+
+    </view>
+    <button class="white" bindtap="Remide">
+    <text class="z">空白</text>
+    </button>
+</view>

@@ -315,16 +315,17 @@ void TIM6_DAC_IRQHandler(void)
 	//路面检测
 	switch(P_cmd)
 	{
-		case 1:u2_printf("1");P_cmd = 0;break;
-		case 2:u2_printf("2");P_cmd = 0;break;
+		case 1:u2_printf("11111");P_cmd = 0;break;
+		case 2:u2_printf("22222");P_cmd = 0;break;
 	}
 	
+	sr04_get_distance();//获取前方障碍物距离
 	//距离检测
 	if(distance>0)
 	{
-		if(distance>=20&&distance<=2000)
+		if(distance>=400&&distance<=1000)
 		{
-			u2_printf("3");
+			u2_printf("33333");
 		}
 	}
 	
@@ -333,22 +334,20 @@ void TIM6_DAC_IRQHandler(void)
 	{
 		help_time++;
 	}
-	if(KEY0)//如果没有按键按下
-	{
-					
-	}			
-	else
-	{
-		printf("按键");
-		help_flag = 0;
-		help_time = 0;
-	}
-	if(temp_X<-THRESHOLD||temp_X>THRESHOLD||
-		temp_Y<-THRESHOLD||temp_Y>THRESHOLD||
-		temp_Z<-THRESHOLD||temp_Z>THRESHOLD)
+//	if(KEY0)//如果没有按键按下
+//	{
+//					
+//	}			
+//	else
+//	{
+//		printf("按键");
+//		help_flag = 0;
+//		help_time = 0;
+//	}
+	if(temp_X<550	)
 	{
 		help_flag = 1;
-		u2_printf("4");
+		u2_printf("4444444444");
 		printf("摔倒！");		
 	}
 }

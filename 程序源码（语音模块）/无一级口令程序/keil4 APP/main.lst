@@ -1,0 +1,485 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              08/19/2022 12:50:00 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN ..\obj\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\code\main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\code;..\user) DEBUG OB
+                    -JECTEXTEND PRINT(.\main.lst) OBJECT(..\obj\main.obj)
+
+line level    source
+
+   1          /**
+   2            ******************************************************************************
+   3            * @file    main.c
+   4            * @author  chen
+   5            * @version V1.0
+   6            * @date    2022-xx-xx
+   7            * @brief   主函数
+   8            *                      CPU: STC11L08XE
+   9            *              晶振：22.1184MHZ
+  10            *                  波特率：9600 bit/S
+  11            ******************************************************************************
+  12            */
+  13          
+  14          #include "config.h"
+  15          /************************************************************************************/
+  16          //      nAsrStatus 用来在main主程序中表示程序运行的状态，不是LD3320芯片内部的状态寄存器
+  17          //      LD_ASR_NONE:            表示没有在作ASR识别
+  18          //      LD_ASR_RUNING：         表示LD3320正在作ASR识别中
+  19          //      LD_ASR_FOUNDOK:         表示一次识别流程结束后，有一个识别结果
+  20          //      LD_ASR_FOUNDZERO:       表示一次识别流程结束后，没有识别结果
+  21          //      LD_ASR_ERROR:           表示一次识别流程中LD3320芯片内部出现不正确的状态
+  22          /***********************************************************************************/
+  23          uint8 idata nAsrStatus = 0;
+  24          void MCU_init();
+  25          void ProcessInt0(); //识别处理函数
+  26          void delay(unsigned long uldata);
+  27          void User_handle(uint8 dat);//用户执行操作函数
+  28          void Delay200ms();
+  29          void Led_test(void);//单片机工作指示
+  30          uint8_t G0_flag = DISABLE; //运行标志，ENABLE:运行。DISABLE:禁止运行
+  31          sbit LED = P4 ^ 2; //信号指示灯
+  32          
+  33          sbit SRD1 = P1 ^ 7;
+  34          sbit SRD2 = P1 ^ 6;
+  35          sbit SRD3 = P1 ^ 5;
+  36          sbit SRD4 = P1 ^ 4;
+  37          
+  38           /**
+  39            * @brief  主函数      程序入口
+  40            * @param  无
+  41            * @retval 无
+  42            */
+  43          void  main(void)
+  44          {
+  45   1              uint8 idata nAsrRes;
+  46   1              uint8 i = 0;
+  47   1              P1M0 = 0xFF;
+  48   1              P1M1 = 0x00;
+  49   1              SRD1 = SRD2 = SRD3 = SRD4 = 0;
+  50   1              Led_test();
+  51   1              MCU_init();
+  52   1              LD_Reset();
+  53   1              UartIni(); /*串口初始化*/
+  54   1              nAsrStatus = LD_ASR_NONE;               //      初始状态：没有在作ASR
+C51 COMPILER V9.60.0.0   MAIN                                                              08/19/2022 12:50:00 PAGE 2   
+
+  55   1              PrintCom("<G>我是小布，很高兴为您服务");
+  56   1              while(1)
+  57   1              {
+  58   2                      switch(RX_BUF[NUM_1])
+  59   2                      {
+  60   3                              case '1':
+  61   3                                      USART_PrintCom("<G>前方斑马线");
+  62   3                                      break;
+  63   3                              case '2':
+  64   3                                      USART_PrintCom("<G>前方楼梯");
+  65   3                                      break;
+  66   3                              case '3':
+  67   3                                      USART_PrintCom("<G>前方有障碍物");
+  68   3                                      break;
+  69   3                              case '4':
+  70   3                                      USART_PrintCom("<G>检测到您已摔倒");
+  71   3                                      break;
+  72   3                              case '5':
+  73   3                                      USART_PrintCom("<G>已为您报警");
+  74   3                                      break;
+  75   3                              case '6':
+  76   3                                      USART_PrintCom("<G>网络连接成功");
+  77   3                                      break;
+  78   3                              default:
+  79   3                                      break;
+  80   3                      }
+  81   2                      switch(nAsrStatus)
+  82   2                      {
+  83   3                      case LD_ASR_RUNING:
+  84   3                      case LD_ASR_ERROR:
+  85   3                              break;
+  86   3                      case LD_ASR_NONE:
+  87   3                      {
+  88   4                              nAsrStatus = LD_ASR_RUNING;
+  89   4                              if (RunASR() == 0)      /*      启动一次ASR识别流程：ASR初始化，ASR添加关键词语，启动ASR运算*/
+  90   4                              {
+  91   5                                      nAsrStatus = LD_ASR_ERROR;
+  92   5                              }
+  93   4                              break;
+  94   4                      }
+  95   3                      case LD_ASR_FOUNDOK: /* 一次ASR识别流程结束，去取ASR识别结果*/
+  96   3                      {
+  97   4                              nAsrRes = LD_GetResult();               /*获取结果*/
+  98   4                              User_handle(nAsrRes);//用户执行函数
+  99   4                              nAsrStatus = LD_ASR_NONE;
+ 100   4                              break;
+ 101   4                      }
+ 102   3                      case LD_ASR_FOUNDZERO:
+ 103   3                      default:
+ 104   3                      {
+ 105   4                              nAsrStatus = LD_ASR_NONE;
+ 106   4                              break;
+ 107   4                      }
+ 108   3                      }// switch
+ 109   2              }// while
+ 110   1      
+ 111   1      }
+ 112          
+ 113           /**
+ 114            * @brief  板载LED灯测试
+ 115            * @param  无
+ 116            * @retval 无
+C51 COMPILER V9.60.0.0   MAIN                                                              08/19/2022 12:50:00 PAGE 3   
+
+ 117            */
+ 118          void Led_test(void)
+ 119          {
+ 120   1              LED = ~ LED;
+ 121   1              Delay200ms();
+ 122   1              LED = ~ LED;
+ 123   1              Delay200ms();
+ 124   1              LED = ~ LED;
+ 125   1              Delay200ms();
+ 126   1              LED = ~ LED;
+ 127   1              Delay200ms();
+ 128   1              LED = ~ LED;
+ 129   1              Delay200ms();
+ 130   1              LED = ~ LED;
+ 131   1      }
+ 132          
+ 133           /**
+ 134            * @brief  单片机初始化
+ 135            * @param  无
+ 136            * @retval 无
+ 137            */
+ 138          void MCU_init()
+ 139          {
+ 140   1              P0 = 0xff;
+ 141   1              P1 = 0x00;
+ 142   1              P2 = 0xff;
+ 143   1              P3 = 0xff;
+ 144   1              P4 = 0xff;
+ 145   1      
+ 146   1      
+ 147   1              AUXR &= 0x7F;           //定时器时钟12T模式
+ 148   1              TMOD |= 0x01;           //设置定时器模式
+ 149   1              TL0 = 0x00;             //设置定时初值
+ 150   1              TH0 = 0x28;             //设置定时初值
+ 151   1              TF0 = 0;                //清除TF0标志
+ 152   1              TR0 = 1;                //定时器0开始计时
+ 153   1              ET0 = 1;
+ 154   1      
+ 155   1              LD_MODE = 0;            //      设置MD管脚为低，并行模式读写
+ 156   1              IE0 = 1;
+ 157   1              EX0 = 1;
+ 158   1              EA = 1;
+ 159   1              WDT_CONTR = 0x3D;
+ 160   1      }
+ 161          
+ 162           /**
+ 163            * @brief  延时函数
+ 164            * @param  无
+ 165            * @retval 无
+ 166            */
+ 167          void Delay200us()               //@22.1184MHz
+ 168          {
+ 169   1              unsigned char i, j;
+ 170   1              _nop_();
+ 171   1              _nop_();
+ 172   1              i = 5;
+ 173   1              j = 73;
+ 174   1              do
+ 175   1              {
+ 176   2                      while (--j);
+ 177   2              }
+ 178   1              while (--i);
+C51 COMPILER V9.60.0.0   MAIN                                                              08/19/2022 12:50:00 PAGE 4   
+
+ 179   1      }
+ 180          
+ 181           /**
+ 182            * @brief  延时函数
+ 183            * @param  uldata：单位200us
+ 184            * @retval 无
+ 185            */
+ 186          void  delay(unsigned long uldata)
+ 187          {
+ 188   1              unsigned int j  =  0;
+ 189   1              unsigned int g  =  0;
+ 190   1              while(uldata--)
+ 191   1                      Delay200us();
+ 192   1      }
+ 193          
+ 194           /**
+ 195            * @brief  延时函数
+ 196            * @param  无
+ 197            * @retval 无
+ 198            */
+ 199          void Delay200ms()               //@22.1184MHz
+ 200          {
+ 201   1              unsigned char i, j, k;
+ 202   1      
+ 203   1              i = 17;
+ 204   1              j = 208;
+ 205   1              k = 27;
+ 206   1              do
+ 207   1              {
+ 208   2                      do
+ 209   2                      {
+ 210   3                              while (--k);
+ 211   3                      }
+ 212   2                      while (--j);
+ 213   2              }
+ 214   1              while (--i);
+ 215   1      }
+ 216          
+ 217           /**
+ 218            * @brief  中断处理函数
+ 219            * @param  无
+ 220            * @retval 无
+ 221            */
+ 222          void ExtInt0Handler(void) interrupt 0
+ 223          {
+ 224   1              ProcessInt0();
+ 225   1      }
+ 226          
+ 227           /**
+ 228            * @brief  用户执行函数，识别成功后，执行动作可在此进行修改
+ 229            * @param  无
+ 230            * @retval 无
+ 231            */
+ 232          void    User_handle(uint8 dat)
+ 233          {
+ 234   1              switch(dat)
+ 235   1              {
+ 236   2              case CODE_1:            /*命令“”*/
+ 237   2                      SRD1 = 1;
+ 238   2                      PrintCom("<G>我在\r\n");
+ 239   2                      break;
+ 240   2              case CODE_2:            /*命令“”*/
+C51 COMPILER V9.60.0.0   MAIN                                                              08/19/2022 12:50:00 PAGE 5   
+
+ 241   2                      SRD1 = 0;
+ 242   2                      PrintCom("<G>我在\r\n");
+ 243   2                      break;
+ 244   2              case CODE_3:            /*命令“”*/
+ 245   2                      SRD2 = 1;
+ 246   2                      PrintCom("<G>我在\r\n");
+ 247   2                      break;
+ 248   2              case CODE_4:            /*命令“”*/
+ 249   2                      SRD2 = 0;
+ 250   2                      PrintCom("");
+ 251   2                      break;
+ 252   2              case CODE_5:            /*命令“”*/
+ 253   2                      SRD3 = 1;
+ 254   2                      PrintCom("");
+ 255   2                      break;
+ 256   2              case CODE_6:            /*命令“”*/
+ 257   2                      
+ 258   2                      PrintCom("");
+ 259   2                      break;
+ 260   2              case CODE_7:            /*命令“”*/
+ 261   2                      
+ 262   2                      PrintCom("");
+ 263   2                      break;
+ 264   2              case CODE_8:            /*命令“”*/
+ 265   2                      
+ 266   2                      PrintCom("");
+ 267   2                      break;
+ 268   2              case CODE_9:            /*命令“”*/
+ 269   2                      
+ 270   2                      PrintCom("");
+ 271   2                      break;
+ 272   2              case CODE_10:           /*命令“”*/
+ 273   2                      
+ 274   2                      PrintCom("");
+ 275   2                      break;
+ 276   2              case CODE_11:           /*命令“.....”*/
+ 277   2      
+ 278   2                      PrintCom("");
+ 279   2                      break;
+ 280   2              case CODE_12:           /*命令“.....”*/
+ 281   2      
+ 282   2                      PrintCom("");
+ 283   2                      break;
+ 284   2              case CODE_13:           /*命令“.....”*/
+ 285   2      
+ 286   2                      PrintCom("");
+ 287   2                      break;
+ 288   2              case CODE_14:           /*命令“.....”*/
+ 289   2      
+ 290   2                      PrintCom("");
+ 291   2                      break;
+ 292   2              case CODE_15:           /*命令“.....”*/
+ 293   2      
+ 294   2                      PrintCom("");
+ 295   2                      break;
+ 296   2              case CODE_16:           /*命令“.....”*/
+ 297   2      
+ 298   2                      PrintCom("");
+ 299   2                      break;
+ 300   2              case CODE_17:           /*命令“.....”*/
+ 301   2      
+ 302   2                      PrintCom("");
+C51 COMPILER V9.60.0.0   MAIN                                                              08/19/2022 12:50:00 PAGE 6   
+
+ 303   2                      break;
+ 304   2              case CODE_18:           /*命令“.....”*/
+ 305   2      
+ 306   2                      PrintCom("");
+ 307   2                      break;
+ 308   2              case CODE_19:           /*命令“.....”*/
+ 309   2      
+ 310   2                      PrintCom("");
+ 311   2                      break;
+ 312   2              case CODE_20:           /*命令“.....”*/
+ 313   2      
+ 314   2                      PrintCom("");
+ 315   2                      break;
+ 316   2              case CODE_21:           /*命令“.....”*/
+ 317   2      
+ 318   2                      PrintCom("");
+ 319   2                      break;
+ 320   2              case CODE_22:           /*命令“.....”*/
+ 321   2      
+ 322   2                      PrintCom("");
+ 323   2                      break;
+ 324   2              case CODE_23:           /*命令“.....”*/
+ 325   2      
+ 326   2                      PrintCom("");
+ 327   2                      break;
+ 328   2              case CODE_24:           /*命令“.....”*/
+ 329   2      
+ 330   2                      PrintCom("");
+ 331   2                      break;
+ 332   2              case CODE_25:           /*命令“.....”*/
+ 333   2      
+ 334   2                      PrintCom("");
+ 335   2                      break;
+ 336   2              case CODE_26:           /*命令“.....”*/
+ 337   2      
+ 338   2                      PrintCom("");
+ 339   2                      break;
+ 340   2              case CODE_27:           /*命令“.....”*/
+ 341   2      
+ 342   2                      PrintCom("");
+ 343   2                      break;
+ 344   2              case CODE_28:           /*命令“.....”*/
+ 345   2      
+ 346   2                      PrintCom("");
+ 347   2                      break;
+ 348   2              case CODE_29:           /*命令“.....”*/
+ 349   2      
+ 350   2                      PrintCom("");
+ 351   2                      break;
+ 352   2              case CODE_30:           /*命令“.....”*/
+ 353   2      
+ 354   2                      PrintCom("");
+ 355   2                      break;
+ 356   2              case CODE_31:           /*命令“.....”*/
+ 357   2      
+ 358   2                      PrintCom("");
+ 359   2                      break;
+ 360   2              case CODE_32:           /*命令“.....”*/
+ 361   2      
+ 362   2                      PrintCom("");
+ 363   2                      break;
+ 364   2              case CODE_33:           /*命令“.....”*/
+C51 COMPILER V9.60.0.0   MAIN                                                              08/19/2022 12:50:00 PAGE 7   
+
+ 365   2      
+ 366   2                      PrintCom("");
+ 367   2                      break;
+ 368   2              case CODE_34:           /*命令“.....”*/
+ 369   2      
+ 370   2                      PrintCom("");
+ 371   2                      break;
+ 372   2              case CODE_35:           /*命令“.....”*/
+ 373   2      
+ 374   2                      PrintCom("");
+ 375   2                      break;
+ 376   2              case CODE_36:           /*命令“.....”*/
+ 377   2      
+ 378   2                      PrintCom("");
+ 379   2                      break;
+ 380   2              case CODE_37:           /*命令“.....”*/
+ 381   2      
+ 382   2                      PrintCom("");
+ 383   2                      break;
+ 384   2              case CODE_38:           /*命令“.....”*/
+ 385   2      
+ 386   2                      PrintCom("");
+ 387   2                      break;
+ 388   2              case CODE_39:           /*命令“.....”*/
+ 389   2      
+ 390   2                      PrintCom("");
+ 391   2                      break;
+ 392   2              case CODE_40:           /*命令“.....”*/
+ 393   2      
+ 394   2                      PrintCom("");
+ 395   2                      break;
+ 396   2              case CODE_41:           /*命令“.....”*/
+ 397   2      
+ 398   2                      PrintCom("");
+ 399   2                      break;
+ 400   2              case CODE_42:           /*命令“.....”*/
+ 401   2      
+ 402   2                      PrintCom("");
+ 403   2                      break;
+ 404   2              case CODE_43:           /*命令“.....”*/
+ 405   2      
+ 406   2                      PrintCom("");
+ 407   2                      break;
+ 408   2              case CODE_44:           /*命令“.....”*/
+ 409   2      
+ 410   2                      PrintCom("");
+ 411   2                      break;
+ 412   2              case CODE_45:           /*命令“.....”*/
+ 413   2      
+ 414   2                      PrintCom("");
+ 415   2                      break;
+ 416   2              case CODE_46:           /*命令“.....”*/
+ 417   2      
+ 418   2                      PrintCom("");
+ 419   2                      break;
+ 420   2              case CODE_47:           /*命令“.....”*/
+ 421   2      
+ 422   2                      PrintCom("");
+ 423   2                      break;
+ 424   2              case CODE_48:           /*命令“.....”*/
+ 425   2      
+ 426   2                      PrintCom("");
+C51 COMPILER V9.60.0.0   MAIN                                                              08/19/2022 12:50:00 PAGE 8   
+
+ 427   2                      break;
+ 428   2              case CODE_49:           /*命令“.....”*/
+ 429   2      
+ 430   2                      PrintCom("");
+ 431   2                      break;
+ 432   2              default:/*text.....*/
+ 433   2                      break;
+ 434   2              }
+ 435   1      }
+ 436          
+ 437           /**
+ 438            * @brief  定时器中断函数
+ 439            * @param  无
+ 440            * @retval 无
+ 441            */
+ 442          void tm0_isr() interrupt 1
+ 443          {
+ 444   1              TL0 = 0x00;             //设置定时初值
+ 445   1              TH0 = 0x28;             //设置定时初值
+ 446   1              WDT_CONTR = 0x3D;
+ 447   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    577    ----
+   CONSTANT SIZE    =    129    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1       9
+   IDATA SIZE       =      1       1
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

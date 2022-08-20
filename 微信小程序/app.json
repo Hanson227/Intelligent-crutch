@@ -1,0 +1,47 @@
+{
+    "pages": [
+        "pages/logs/logs",
+        "pages/overlay/overlay",
+        "pages/text/text",
+        "pages/index/index",
+        "pages/t"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "Weixin",
+        "navigationBarTextStyle": "black"
+    },
+    "style": "v2",
+    "sitemapLocation": "sitemap.json",
+    "permission": {
+        "scope.userLocation": {
+            "desc": "为了更好的服务体验，我们希望获取你的位置"
+        }
+    },
+    "plugins": {
+        "chooseLocation": {
+            "version": "1.0.9",
+            "provider": "wx76a9a06e5b4e693e"
+        }
+    },
+    "tabBar": {
+        "color": "black",
+        "selectedColor": "#3875FF",
+        "backgroundColor": "#FFF",
+        "list": [
+            {
+                "pagePath": "pages/logs/logs",
+                "text": "定位",
+                "iconPath": "/static/images/tabs/dingwei.png",
+                "selectedIconPath": "static/images/tabs/dingweichoose.png"
+            },
+            {
+                "pagePath": "pages/overlay/overlay",
+                "text": "地理围栏",
+                "iconPath": "/static/images/tabs/weilan.png",
+                "selectedIconPath": "static/images/tabs/weilanchoose.png"
+            }
+        ]
+    }
+}

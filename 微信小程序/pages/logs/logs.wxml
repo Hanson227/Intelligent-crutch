@@ -1,0 +1,24 @@
+<!--logs.wxml-->
+<!--地图容器-->
+<map id="myMap"
+    subkey="CU6BZ-KCQ6D-7Q74Q-PRZ7L-WGCBZ-4MFG4"
+    markers="{{markers}}"
+    style="width:100%;height:600px;"
+    longitude="{{poi.longitude}}"
+    latitude="{{poi.latitude}}" 
+    scale='16' 
+    show-location='true'>
+</map>
+
+<!--form表单-->
+<form bindsubmit="formSubmit">
+<!--提交表单按钮-->
+    <button class="btn" form-type="submit">
+    <text class="zi">定位更新</text>
+    </button>
+</form>
+<view>当前位置为：{{markers[0].title}}</view>
+<!--
+<view class="container log-list">
+  <map id="myMap" class="maMap" subkey="CU6BZ-KCQ6D-7Q74Q-PRZ7L-WGCBZ-4MFG4"/>
+</view>-->

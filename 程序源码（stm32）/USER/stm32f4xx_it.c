@@ -313,10 +313,13 @@ void TIM6_DAC_IRQHandler(void)
 	}
 	
 	//路面检测
-	switch(P_cmd)
+	if(distance>=20&&distance<=400)
 	{
-		case 1:u2_printf("11111");P_cmd = 0;break;
-		case 2:u2_printf("22222");P_cmd = 0;break;
+		switch(P_cmd)
+		{
+			case 1:u2_printf("11111");P_cmd = 0;break;
+			case 2:u2_printf("22222");P_cmd = 0;break;
+		}
 	}
 	
 	sr04_get_distance();//获取前方障碍物距离

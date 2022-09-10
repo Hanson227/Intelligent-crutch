@@ -291,11 +291,17 @@ void TIM4_IRQHandler(void)
   */
 void TIM6_DAC_IRQHandler(void)
 {
-	if(TIM_GetITStatus(TIM6, TIM_IT_Update) != RESET){   //如果TIM_IT_Update置位，表示TIM6溢出中断，进入if	
+//	if(TIM_GetITStatus(TIM6, TIM_IT_Update) != RESET){   //如果TIM_IT_Update置位，表示TIM6溢出中断，进入if	
+
+//		TIM_ClearITPendingBit(TIM6, TIM_IT_Update);      //清除TIM6溢出中断标志 	
+//	}
+//	
+
+	if(TIM_GetITStatus(TIM6, TIM_IT_Update) != RESET){                //如果TIM_IT_Update置位，表示TIM4溢出中断，进入if	
+		printf("\r\nTim6中断起始-----------------\r\n");
 		parseGpsBuffer();//解析gps数据
 		pushGPSdata();//发送数据处理换算
 		ReadData();//后期优化，定时数据处理
-		printf("Tim6");
 		if(SubcribePack_flag==1)//如果订阅成功
 		{
 			if(Save_Data.isParseData)//如果解析成功
@@ -309,49 +315,63 @@ void TIM6_DAC_IRQHandler(void)
 				MQTT_PingREQ();
 			}
 		}
-		TIM_ClearITPendingBit(TIM6, TIM_IT_Update);      //清除TIM6溢出中断标志 	
-	}
-	
-	//路面检测
-	if(distance>=20&&distance<=400)
-	{
-		switch(P_cmd)
+		
+		//	//路面检测
+		if(distance>=20&&distance<=400)
 		{
-			case 1:u2_printf("11111");P_cmd = 0;break;
-			case 2:u2_printf("22222");P_cmd = 0;break;
+			switch(P_cmd)
+			{
+				case 1:u2_printf("11111");P_cmd = 0;break;
+				case 2:u2_printf("22222");P_cmd = 0;break;
+			}
 		}
-	}
 	
-	sr04_get_distance();//获取前方障碍物距离
-	//距离检测
-	if(distance>0)
-	{
-		if(distance>=400&&distance<=1000)
+	
+		//距离检测
+		if(distance>0)
 		{
-			u2_printf("33333");
+			if(distance>=400&&distance<=1000)
+			{
+				u2_printf("33333");
+			}
 		}
-	}
-	
-	//摔倒检测
-	if(help_flag>0)
-	{
-		help_time++;
-	}
-//	if(KEY0)//如果没有按键按下
-//	{
-//					
-//	}			
-//	else
-//	{
-//		printf("按键");
-//		help_flag = 0;
-//		help_time = 0;
-//	}
-	if(temp_X<550	)
-	{
-		help_flag = 1;
-		u2_printf("4444444444");
-		printf("摔倒！");		
+		
+		//摔倒检测
+		if(help_flag>0)
+		{
+			help_time++;
+		}
+		if(help_flag==1)
+		{
+			if(KEY0)//如果没有按键按下
+			{
+							
+			}			
+			else
+			{
+				printf("按键");
+				help_flag = 0;
+				help_time = 0;
+			}
+		}
+		
+		printf("刷新状态：%lf\r\n",temp_X);
+		if(temp_X!=255586.5)
+		{
+			if(temp_X<550||temp_X>10000	)
+			{
+				
+				help_flag = 1;
+				u2_printf("4444444444");
+				printf("摔倒！");		
+			}
+		}
+		else
+		{
+			printf("加速度模块未连接\r\n");
+		}
+		printf("Tim6中断结束-----------------\r\n");
+		TIM_ClearITPendingBit(TIM6, TIM_IT_Update);     			  //清除TIM4溢出中断标志 	
 	}
 }
 

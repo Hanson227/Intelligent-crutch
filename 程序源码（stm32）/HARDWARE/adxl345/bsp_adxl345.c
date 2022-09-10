@@ -336,12 +336,12 @@ void ReadData(void)
 	
 	temp_Z=(double)dis_data*3.9;  //计算数据和显示
 	
-	if(temp_X>200000.0)
-			temp_X-=255586.5;
-	if(temp_Y>200000.0)
-			temp_Y-=255586.5;
-	if(temp_Z>200000.0)
-			temp_Z-=255586.5;
+//	if(temp_X>200000.0)
+//			temp_X-=255586.5;
+//	if(temp_Y>200000.0)
+//			temp_Y-=255586.5;
+//	if(temp_Z>200000.0)
+//			temp_Z-=255586.5;
 }
 
 

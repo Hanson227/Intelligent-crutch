@@ -47,33 +47,34 @@ int main(void)
 	while(1)
 	{		
 
-
+		distance = sr04_get_distance();//获取前方障碍物距离
+		printf("刷新距离：%d\r\n",distance);
 		
 		/*-------------------------------------------------------------*/
-		/*          跌倒求助功能，向紧急联系人发送求助和位置坐标         */
+		/*          跌倒求助功能，向紧急联系人发送求助和位置坐标         *///$$$$$$$$$修改功能：小程序报警代替短信发送
 		/*-------------------------------------------------------------*/
 		//printf("h:%d",help_time);
 
-		if(help_time>5)
-		{
+//		if(help_time>5)
+//		{
 
-			printf("报警！");
-			u2_printf("5555555555");
-			if(Save_Data.isParseData)
-			{
-				SIM800A_Note_Edit(EMERGENCY_CALL_CMD);
-				SIM800A_printf("help me!\r\n%s",gps_data);
-				SIM800A_Note_Send(30);
-			}
-			else
-			{
-				SIM800A_Note_Edit(EMERGENCY_CALL_CMD);
-				SIM800A_printf("help me!");
-				SIM800A_Note_Send(30);
-			}
-			help_flag = 0;
-			help_time = 0;
-		}
+//			printf("报警！");
+//			u2_printf("5555555555");
+//			if(Save_Data.isParseData)
+//			{
+//				SIM800A_Note_Edit(EMERGENCY_CALL_CMD);
+//				SIM800A_printf("help me!\r\n%s",gps_data);
+//				SIM800A_Note_Send(30);
+//			}
+//			else
+//			{
+//				SIM800A_Note_Edit(EMERGENCY_CALL_CMD);
+//				SIM800A_printf("help me!");
+//				SIM800A_Note_Send(30);
+//			}
+//			help_flag = 0;
+//			help_time = 0;
+//		}
 
 		
 

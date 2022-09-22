@@ -11,7 +11,7 @@
 #include "./hcsr04/bsp_hcsr04.h"
 #include "delay.h"
 
-uint32_t distance=0;
+int distance=0;
 
  /**
   * @brief  超声波模块引脚初始化
@@ -45,10 +45,50 @@ void sr04_init(void)//配置PE2为触发信号引脚，PE3为回想信号引脚
   * @param  无
   * @retval 所测距离，单位cm
   */
-char sr04_get_distance(void)
+//char sr04_get_distance(void)
+//{
+//	uint32_t t=0;
+//	distance = 0;
+//	//PE2持续最少10us的高电平时间
+//	PEout(2)=1;
+//	delay_us(20);
+//	PEout(2)=0;
+//	
+//	//回响信号判断高电平
+//	
+//	while(PEin(3)==0)
+//	{
+//			//超时处理
+//		t++;
+//		delay_us(1);
+//		if(t>=1000000)
+//		{
+//			return 1;//超时就退出循环并返回错误码
+//		}
+//	}
+//	
+//	//记录高电平的时间
+//	
+//	while(PEin(3)==1)
+//	{
+//		distance++;
+//		delay_us(9);//9微秒为3mm的距离，为精度范围因此为一个循环
+//		while(distance>=1000000)
+//		{
+//			return 2;//如果超时就返回-2
+//		}
+//		
+//	}
+//	
+//	distance=distance/2;
+//	distance=distance*3;
+//	return 0;
+//}
+
+int sr04_get_distance(void)
 {
 	uint32_t t=0;
-	distance = 0;
+	uint32_t d=0;
 	//PE2持续最少10us的高电平时间
 	PEout(2)=1;
 	delay_us(20);
@@ -63,7 +103,7 @@ char sr04_get_distance(void)
 		delay_us(1);
 		if(t>=1000000)
 		{
-			return 1;//超时就退出循环并返回错误码
+			return -1;//超时就退出循环并返回错误码
 		}
 	}
 	
@@ -71,19 +111,17 @@ char sr04_get_distance(void)
 	
 	while(PEin(3)==1)
 	{
-		distance++;
+		d++;
 		delay_us(9);//9微秒为3mm的距离，为精度范围因此为一个循环
-		while(distance>=1000000)
+		while(d>=1000000)
 		{
-			return 2;//如果超时就返回-2
+			return -2;//如果超时就返回-2
 		}
 		
 	}
 	
-	distance=distance/2;
-	distance=distance*3;
-	return 0;
+	d=d/2;
+	return d*3;
 }
-
 
 /*********************************************END OF FILE**********************/

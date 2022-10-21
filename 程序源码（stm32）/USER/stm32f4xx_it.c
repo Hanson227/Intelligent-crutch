@@ -308,6 +308,7 @@ void TIM6_DAC_IRQHandler(void)
 			{
 				
 				printf(gps_data);
+				
 				MQTT_PublishQs0(P_TOPIC_NAME,gps_data,strlen(gps_data)); //发送消息报文
 			}
 			else

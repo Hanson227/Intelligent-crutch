@@ -53,28 +53,12 @@ int main(void)
 		/*-------------------------------------------------------------*/
 		/*          跌倒求助功能，向紧急联系人发送求助和位置坐标         *///$$$$$$$$$修改功能：小程序报警代替短信发送
 		/*-------------------------------------------------------------*/
-		//printf("h:%d",help_time);
+		printf("h:%d",help_time);
 
-//		if(help_time>5)
-//		{
-
-//			printf("报警！");
-//			u2_printf("5555555555");
-//			if(Save_Data.isParseData)
-//			{
-//				SIM800A_Note_Edit(EMERGENCY_CALL_CMD);
-//				SIM800A_printf("help me!\r\n%s",gps_data);
-//				SIM800A_Note_Send(30);
-//			}
-//			else
-//			{
-//				SIM800A_Note_Edit(EMERGENCY_CALL_CMD);
-//				SIM800A_printf("help me!");
-//				SIM800A_Note_Send(30);
-//			}
-//			help_flag = 0;
-//			help_time = 0;
-//		}
+		if(help_time>5)
+		{
+			MQTT_PublishQs0(P_TOPIC_NAME,gps_data,strlen(gps_data)); //发送消息报文
+		}
 
 		
 
